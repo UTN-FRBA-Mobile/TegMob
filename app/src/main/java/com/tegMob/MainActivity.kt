@@ -1,4 +1,4 @@
-package com.TegMob
+package com.tegMob
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

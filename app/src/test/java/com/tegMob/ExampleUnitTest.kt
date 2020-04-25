@@ -1,4 +1,4 @@
-package com.TegMob
+package com.tegMob
 
 import org.junit.Test
 
