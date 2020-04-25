@@ -8,7 +8,7 @@
 Emanuel Andrada
 
 ## Integrantes
-| Nombre y apel 2020 lido | Legajo |
+| Nombre y apellido | Legajo |
 | ---------------- | -------- |
 | Abuin, Julieta | 159.050-9 |
 | Novoa, Claudio Germán | 155.534-0 |
