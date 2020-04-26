@@ -27,7 +27,14 @@ class InitialFragment : Fragment() {
     }
 
     private fun onLogInPressed() {
-        listener?.showFragment(SignInFragment())
+        fragmentManager = supportFragmentManager
+
+        val signInFragment = SignInFragment()
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment, signInFragment)
+        fragmentTransaction.commit()
+
     }
 
 interface OnFragmentInteractionListener {
