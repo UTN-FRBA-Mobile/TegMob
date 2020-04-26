@@ -22,8 +22,7 @@ class InicioFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val button = view.findViewById<Button>(R.id.botonLogueo)
-        button.text = "Iniciar sesión"
+        val button = view.findViewById<Button>(R.id.logInButton)
         button.visibility = View.VISIBLE
     }
 

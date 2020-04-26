@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TegMob</string>
+    <string name="signIn">Iniciar sesión</string>
+    <string name="signUp">Registrarse</string>
 </resources>
