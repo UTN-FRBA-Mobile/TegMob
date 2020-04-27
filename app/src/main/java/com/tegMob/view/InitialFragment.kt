@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.tegMob.MainActivity
 import com.tegMob.R
+import com.tegMob.utils.FragmentUtil
 import kotlinx.android.synthetic.main.initial_fragment.*
+import kotlinx.android.synthetic.main.sign_in_fragment.*
 
 
 class InitialFragment : Fragment() {
@@ -27,14 +31,9 @@ class InitialFragment : Fragment() {
     }
 
     private fun onLogInPressed() {
-        fragmentManager = supportFragmentManager
-
-        val signInFragment = SignInFragment()
-
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment, signInFragment)
-        fragmentTransaction.commit()
-
+        activity!!.supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, SignInFragment())
+            .commit()
     }
 
 interface OnFragmentInteractionListener {

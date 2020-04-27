@@ -1,47 +1,36 @@
 package com.tegMob.view
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.tegMob.R
+import kotlinx.android.synthetic.main.sign_in_fragment.*
 
 class SignInFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
+    private var listener: InitialFragment.OnFragmentInteractionListener? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.support_simple_spinner_dropdown_item, container, false)
+        return inflater.inflate(R.layout.sign_in_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sigInText = view.findViewById<TextView>(R.id.signInText)
+        signInText.setText("Soy un login, mirenmeeee")
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-    interface OnFragmentInteractionListener {
-    }
-
-    companion object {
+   companion object {
         @JvmStatic
         fun newInstance() =
-            SignInFragment()
+            SignInFragment().apply {
+                arguments = Bundle()
+            }
     }
 }
