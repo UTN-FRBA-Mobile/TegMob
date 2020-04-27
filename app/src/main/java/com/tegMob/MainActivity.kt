@@ -13,10 +13,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, InitialFragment())
-            .commit()
+        FragmentUtil.loadFirstFragment(this)
+//        supportFragmentManager.beginTransaction()
+//            .add(R.id.fragment_container, InitialFragment())
+//            .commit()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
 
 }
