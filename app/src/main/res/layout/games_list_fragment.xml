@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/primaryColor"
+    tools:context="view.GamesListFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gamesRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:clipToPadding="false"
+        tools:orientation="vertical"
+        tools:listitem="@layout/list_item_game"
+        />
+
+</FrameLayout>

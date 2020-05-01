@@ -7,5 +7,7 @@
     <string name="myProfile">Mi perfil</string>
     <string name="newGame">Crear partida</string>
     <string name="joinGame">Unirse a una partida</string>
+    <string name="gameName">Nombre de la partida</string>
+    <string name="gameDescription">Descripción de la partida</string>
 
 </resources>
