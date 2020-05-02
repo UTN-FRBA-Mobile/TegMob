@@ -8,10 +8,10 @@ import com.tegMob.view.InitialFragment
 object FragmentUtil {
     private const val BACK_STACK_ROOT_TAG = "root_fragment"
 
-    fun loadFirstFragment(activity: FragmentActivity){
+    fun loadFirstFragment(initialFragment: Fragment, activity: FragmentActivity){
         activity.supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         activity.supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, InitialFragment())
+            .add(R.id.fragment_container, initialFragment)
             .addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
     }

@@ -13,5 +13,8 @@
     <string name="contrasenia">Contraseña</string>
     <string name="ingresar">Ingresar</string>
     <string name="teg">Teg</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="registro_de_usuario">Registro de usuario</string>
 
 </resources>

@@ -1,12 +1,12 @@
 package com.tegMob.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tegMob.R
-import com.tegMob.utils.FragmentUtil
 import kotlinx.android.synthetic.main.initial_fragment.*
 
 
@@ -27,20 +27,22 @@ class InitialFragment : Fragment() {
             //ir a pantalla principal del juego user logueado
         }
         signUpButton.setOnClickListener {
-            onSignUpPressed()
+            listener!!.onSignUpChoicePressed()
         }
     }
 
-    private fun onSignUpPressed() {
-
-        FragmentUtil.loadNextFragment(SignUpFragment(), activity!!)
-//        activity!!.supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_container, SignInFragment())
-//            .commit()
+    interface OnFragmentInteractionListener {
+        fun onSignUpChoicePressed()
     }
 
-    interface OnFragmentInteractionListener {
-    fun showFragment(fragment: Fragment)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        }
     }
 
     companion object {
