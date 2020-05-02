@@ -16,7 +16,8 @@
         android:layout_weight="50"
         android:src="@drawable/teg_logo1"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/username" />
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        android:contentDescription="@string/teg" />
 
     <Button
         android:id="@+id/logInButton"

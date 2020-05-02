@@ -12,5 +12,6 @@
     <string name="user_name">Nombre de usuario</string>
     <string name="contrasenia">Contraseña</string>
     <string name="ingresar">Ingresar</string>
+    <string name="teg">Teg</string>
 
 </resources>
