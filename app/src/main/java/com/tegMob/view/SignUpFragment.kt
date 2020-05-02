@@ -1,5 +1,6 @@
 package com.tegMob.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,15 @@ class SignUpFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun signUpFinalized()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+        }
     }
 
    companion object {

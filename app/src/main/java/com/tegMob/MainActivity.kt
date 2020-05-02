@@ -17,7 +17,11 @@ class MainActivity : AppCompatActivity(), InitialFragment.OnFragmentInteractionL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initialFragment = InitialFragment()
-        FragmentUtil.loadFirstFragment(initialFragment, this)
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, initialFragment)
+            .addToBackStack(FragmentUtil.BACK_STACK_ROOT_TAG)
+            .commit()
+       // FragmentUtil.loadFirstFragment(initialFragment, this)
     }
 
     override fun onBackPressed() {
@@ -27,13 +31,14 @@ class MainActivity : AppCompatActivity(), InitialFragment.OnFragmentInteractionL
 
     override fun onSignUpChoicePressed() {
         signUpFragment = SignUpFragment()
-        //supportFragmentManager.beginTransaction().add(R.id.fragment_container, signUpFragment).addToBackStack(null).commit()
         FragmentUtil.loadNextFragment(signUpFragment, this)
         }
 
     override fun signUpFinalized() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        supportFragmentManager.beginTransaction().show(initialFragment).commitNow()
+        supportFragmentManager.beginTransaction()
+            .show(initialFragment)
+            .commitNow()
     }
 
 }

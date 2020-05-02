@@ -6,7 +6,7 @@ import com.tegMob.view.InitialFragment
 
 
 object FragmentUtil {
-    private const val BACK_STACK_ROOT_TAG = "root_fragment"
+    const val BACK_STACK_ROOT_TAG = "root_fragment"
 
     fun loadFirstFragment(initialFragment: Fragment, activity: FragmentActivity){
         activity.supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
