@@ -9,5 +9,8 @@
     <string name="joinGame">Unirse a una partida</string>
     <string name="gameName">Nombre de la partida</string>
     <string name="gameDescription">Descripción de la partida</string>
+    <string name="user_name">Nombre de usuario</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="ingresar">Ingresar</string>
 
 </resources>

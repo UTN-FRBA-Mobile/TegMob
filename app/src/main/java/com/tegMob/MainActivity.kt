@@ -14,9 +14,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         FragmentUtil.loadFirstFragment(this)
-//        supportFragmentManager.beginTransaction()
-//            .add(R.id.fragment_container, InitialFragment())
-//            .commit()
     }
 
     override fun onBackPressed() {

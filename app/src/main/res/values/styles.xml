@@ -1,25 +1,3 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/primaryLightColor</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-    </style>
-
-<!--    &lt;!&ndash; Dark base activity theme &ndash;&gt;-->
-<!--    <style name="MyTheme"    parent="Theme.MaterialComponents.DayNight">-->
-<!--        <item name="colorPrimary">@color/primaryColor</item>-->
-<!--        <item name="colorPrimaryDark">@color/primaryDarkColor</item>-->
-<!--        <item name="colorAccent">@color/primaryLightColor</item>-->
-<!--        <item name="windowActionBar">false</item>-->
-<!--        <item name="windowNoTitle">true</item>-->
-<!--        <item name="android:windowDrawsSystemBarBackgrounds">false</item>-->
-<!--    </style>-->
-
 </resources>

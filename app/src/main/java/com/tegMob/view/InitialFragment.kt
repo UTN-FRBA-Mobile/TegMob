@@ -23,13 +23,17 @@ class InitialFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         logInButton.setOnClickListener {
-            onLogInPressed()
+            //ir al server a chequear si existe o mockear que siempre se loguee bien
+            //ir a pantalla principal del juego user logueado
+        }
+        signUpButton.setOnClickListener {
+            onSignUpPressed()
         }
     }
 
-    private fun onLogInPressed() {
+    private fun onSignUpPressed() {
 
-        FragmentUtil.loadNextFragment(SignInFragment(), activity!!)
+        FragmentUtil.loadNextFragment(SignUpFragment(), activity!!)
 //        activity!!.supportFragmentManager.beginTransaction()
 //            .replace(R.id.fragment_container, SignInFragment())
 //            .commit()
