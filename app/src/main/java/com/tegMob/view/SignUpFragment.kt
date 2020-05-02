@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.tegMob.R
-import com.tegMob.utils.FragmentUtil
+import com.tegMob.viewModel.SignUpViewModel
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 
 class SignUpFragment : Fragment() {

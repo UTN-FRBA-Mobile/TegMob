@@ -20,7 +20,9 @@ object FragmentUtil {
         activity.supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
-            .commit()
+            .setCustomAnimations(R.anim.fragment_push_enter, R.anim.fragment_push_exit,
+                R.anim.fragment_pop_enter, R.anim.fragment_pop_exit)
+        .commit()
     }
 
 }

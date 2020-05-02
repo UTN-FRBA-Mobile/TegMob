@@ -1,4 +1,4 @@
-package com.tegMob.view
+package com.tegMob.viewModel
 
 import androidx.lifecycle.ViewModel
 
