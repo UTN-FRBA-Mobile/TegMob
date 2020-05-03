@@ -16,5 +16,6 @@
     <string name="nombre">Nombre</string>
     <string name="apellido">Apellido</string>
     <string name="registro_de_usuario">Registro de usuario</string>
+    <string name="email">Email</string>
 
 </resources>
