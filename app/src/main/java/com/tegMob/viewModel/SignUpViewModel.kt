@@ -7,5 +7,5 @@ class SignUpViewModel : ViewModel() {
     var lastName : String = ""
     var email : String = ""
     var userNameSignUp : String = ""
-    var password : String = ""
+    var passwordSignUp : String = ""
 }

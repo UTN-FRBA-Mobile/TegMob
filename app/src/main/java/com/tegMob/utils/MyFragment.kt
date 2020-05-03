@@ -2,6 +2,7 @@ package com.tegMob.utils
 
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.tegMob.R
 import com.tegMob.view.GamesListFragment
@@ -9,7 +10,7 @@ import com.tegMob.view.InitialFragment
 import com.tegMob.view.LoggedUserMainFragment
 import com.tegMob.view.SignUpFragment
 
-abstract class MyFragment : Fragment(), View.OnClickListener{
+abstract class MyFragment : Fragment(), View.OnClickListener {
     var listener: OnFragmentInteractionListener? = null
 
     override fun onAttach(context: Context) {
@@ -28,24 +29,32 @@ abstract class MyFragment : Fragment(), View.OnClickListener{
 
     //all the apps button clicks behaviour
     override fun onClick(view: View?) {
-        when(view!!.id){
-            R.id.logInButton->{
-                listener?.showFragment(LoggedUserMainFragment())
+        when (view!!.id) {
+            R.id.logInButton -> {
+                if (completedFields()) {
+                    listener?.showFragment(LoggedUserMainFragment())
+                } else {
+                    Toast.makeText(context, "Please fill empty fields", Toast.LENGTH_SHORT).show()
+                }
             }
-            R.id.signUpButton->{
+            R.id.signUpButton -> {
                 listener?.showFragment(SignUpFragment())
             }
-            R.id.myProfileButton->{
+            R.id.myProfileButton -> {
                 //TODO
             }
-            R.id.joinGameButton->{
+            R.id.joinGameButton -> {
                 listener?.showFragment(GamesListFragment())
             }
-            R.id.newGameButton->{
+            R.id.newGameButton -> {
                 //TODO
             }
-            R.id.signUpButtonFinish ->{
-                listener?.showFragment(InitialFragment())
+            R.id.signUpButtonFinish -> {
+                if (completedFields()) {
+                    listener?.showFragment(InitialFragment())
+                } else {
+                    Toast.makeText(context, "Please fill empty fields", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -54,4 +63,7 @@ abstract class MyFragment : Fragment(), View.OnClickListener{
         fun showFragment(fragment: Fragment)
     }
 
+    open fun completedFields(): Boolean {
+        return true
+    }
 }

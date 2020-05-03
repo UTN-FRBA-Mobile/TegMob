@@ -1,9 +1,11 @@
 package com.tegMob.view
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
@@ -31,6 +33,12 @@ class InitialFragment : MyFragment() {
     private fun initButtons(){
         logInButton.setOnClickListener(this)
         signUpButton.setOnClickListener(this)
+    }
+
+    override fun completedFields(): Boolean {
+        return listOf<EditText>(username, password)
+            .map { f -> f.text.toString() }
+            .all { f -> f.isNotBlank() }
     }
 
     companion object {

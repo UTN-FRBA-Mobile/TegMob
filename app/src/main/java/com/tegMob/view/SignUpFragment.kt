@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tegMob.R
@@ -49,7 +50,13 @@ class SignUpFragment : MyFragment() {
         super.onPause()
     }
 
-   companion object {
+    override fun completedFields(): Boolean {
+        return listOf<EditText>(usernameSignUp, passwordSignUp, firstName, lastName, email)
+            .map { f -> f.text.toString() }
+            .all { f -> f.isNotBlank() }
+    }
+
+    companion object {
         @JvmStatic
         fun newInstance() =
             SignUpFragment().apply {
