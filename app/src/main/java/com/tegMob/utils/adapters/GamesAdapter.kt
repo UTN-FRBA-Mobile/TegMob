@@ -1,4 +1,4 @@
-package com.tegMob.adapters
+package com.tegMob.utils.adapters
 
 import android.view.LayoutInflater
 import android.view.View
