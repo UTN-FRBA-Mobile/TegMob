@@ -52,8 +52,8 @@ class SignUpFragment : MyFragment() {
 
     override fun completedFields(): Boolean {
         return listOf<EditText>(usernameSignUp, passwordSignUp, firstName, lastName, email)
-            .map { f -> f.text.toString() }
-            .all { f -> f.isNotBlank() }
+            .map { it.text.toString() }
+            .all { it.isNotBlank() }
     }
 
     companion object {

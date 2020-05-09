@@ -1,7 +1,6 @@
 package com.tegMob.view
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,8 +36,8 @@ class InitialFragment : MyFragment() {
 
     override fun completedFields(): Boolean {
         return listOf<EditText>(username, password)
-            .map { f -> f.text.toString() }
-            .all { f -> f.isNotBlank() }
+            .map { it.text.toString() }
+            .all { it.isNotBlank() }
     }
 
     companion object {
