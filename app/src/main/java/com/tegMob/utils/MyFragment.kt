@@ -53,6 +53,9 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(context, "Please fill empty fields", Toast.LENGTH_SHORT).show()
                 }
             }
+            R.id.info_button -> {
+                //TODO
+            }
         }
     }
 

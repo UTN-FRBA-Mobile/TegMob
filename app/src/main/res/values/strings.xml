@@ -19,5 +19,8 @@
     <string name="email">Email</string>
     <string name="table_name">Nombre de la mesa</string>
     <string name="players">Jugadores</string>
+    <string name="create_game">CREAR MESA</string>
+    <string name="start_game">Iniciar partida</string>
+    <string name="information">information</string>
 
 </resources>
