@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.MapFragment"
+    android:background="@drawable/mapa_480x800"
+    >
+
+   <!-- <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fullImage"
+        android:src="@drawable/mapa_480x800"
+        android:visibility="invisible"
+        />-->
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/frontLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MapFragment"
+        android:visibility="visible"
+        >
+    <!-- América del Sur -->
+    <ImageView
+        android:id="@+id/imageColombia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/colombia_lightblue"
+        android:visibility="visible"
+        />
+    <ImageView
+        android:id="@+id/imagePeru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/peru_lightblue"
+        android:contentDescription="Perú"
+        />
+    <ImageView
+        android:id="@+id/imageBrasil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/brasil_green"
+        android:contentDescription="Brasil"
+        />
+    <ImageView
+        android:id="@+id/imageChile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chile_black"
+        android:contentDescription="Chile"
+        />
+    <ImageView
+        android:id="@+id/imageArgentina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/argentina_green"
+        android:contentDescription="Argentina"
+        />
+    <ImageView
+        android:id="@+id/imageUruguay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/uruguay_red"
+        android:contentDescription="Uruguay"
+        />
+
+    <!-- África -->
+    <ImageView
+        android:id="@+id/imageSudafrica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sudafrica"
+        android:contentDescription="Sudafrica"
+        />
+    <ImageView
+        android:id="@+id/imageSahara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sahara"
+        android:contentDescription="Sahara"
+        />
+    <ImageView
+        android:id="@+id/imageEgipto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/egipto"
+        android:contentDescription="Egipto"
+        />
+    <ImageView
+        android:id="@+id/imageEtiopia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/etiopia"
+        android:contentDescription="Etiopía"
+        />
+    <ImageView
+        android:id="@+id/imageZaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/zaire"
+        android:contentDescription="Zaire"
+        />
+    <ImageView
+        android:id="@+id/imageZaireBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/zaire_fondo"
+        android:contentDescription="Zaire"
+        android:visibility="invisible"
+        />
+    </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>

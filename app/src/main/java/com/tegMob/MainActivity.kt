@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.tegMob.utils.MyFragment
 import com.tegMob.view.InitialFragment
+import com.tegMob.view.MapFragment
 import com.tegMob.view.SignUpFragment
 
 class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListener
@@ -18,9 +19,12 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
 
         supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, InitialFragment())
-            .addToBackStack(BACK_STACK_ROOT_TAG)
-            .commit()
+            .replace(R.id.container, MapFragment.newInstance())
+            .commitNow()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_container, InitialFragment())
+//            .addToBackStack(BACK_STACK_ROOT_TAG)
+//            .commit()
     }
 
     //fun for closing app after tapping back twice

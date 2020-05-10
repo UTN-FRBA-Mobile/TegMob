@@ -7,9 +7,9 @@
 
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="android:colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+<!--        <item name="android:textColorPrimary">@color/primaryTextColor</item>-->
         <item name="android:colorSecondary">@color/primaryLightColor</item>
-        <item name="android:background">@color/primaryDarkColor</item>
+<!--        <item name="android:background">@color/primaryDarkColor</item>-->
     </style>
 
 </resources>
