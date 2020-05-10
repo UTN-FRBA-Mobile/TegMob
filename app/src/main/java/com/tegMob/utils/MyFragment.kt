@@ -5,10 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.tegMob.R
-import com.tegMob.view.GamesListFragment
-import com.tegMob.view.InitialFragment
-import com.tegMob.view.LoggedUserMainFragment
-import com.tegMob.view.SignUpFragment
+import com.tegMob.view.*
 
 abstract class MyFragment : Fragment(), View.OnClickListener {
     var listener: OnFragmentInteractionListener? = null
@@ -47,7 +44,7 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
                 listener?.showFragment(GamesListFragment())
             }
             R.id.newGameButton -> {
-                //TODO
+                listener?.showFragment(CreateNewGameFragment())
             }
             R.id.signUpButtonFinish -> {
                 if (completedFields()) {
