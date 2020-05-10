@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
-                android:layout_marginStart="30"
+                android:layout_marginStart="30dp"
                 android:layout_marginEnd="15dp"
                 android:layout_toStartOf="@id/profileAvatar"
                 android:text="@string/playerName"
