@@ -107,14 +107,6 @@
         android:src="@drawable/zaire"
         android:contentDescription="Zaire"
         />
-    <ImageView
-        android:id="@+id/imageZaireBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/zaire_fondo"
-        android:contentDescription="Zaire"
-        android:visibility="invisible"
-        />
     </RelativeLayout>
 
 
