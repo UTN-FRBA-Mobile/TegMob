@@ -56,6 +56,14 @@ class SignUpFragment : MyFragment() {
             .all { it.isNotBlank() }
     }
 
+    override fun getPassedData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setDataToPass(): Bundle? {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =

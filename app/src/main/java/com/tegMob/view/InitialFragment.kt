@@ -40,11 +40,26 @@ class InitialFragment : MyFragment() {
             .all { it.isNotBlank() }
     }
 
+    override fun getPassedData() {
+        TODO()
+    }
+
+    override fun setDataToPass(): Bundle? {
+        val loginBundle = Bundle()
+
+        loginBundle.putString("user", username.text.toString())
+        loginBundle.putString("pass", password.text.toString())
+
+        return loginBundle
+
+
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =
             InitialFragment().apply {
-                arguments = Bundle()
+              arguments = Bundle()
             }
     }
 }

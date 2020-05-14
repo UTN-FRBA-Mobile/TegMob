@@ -29,6 +29,14 @@ class GamesListFragment : MyFragment() {
         return inflater.inflate(R.layout.games_list_fragment, container, false)
     }
 
+    override fun getPassedData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setDataToPass(): Bundle? {
+        TODO("Not yet implemented")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         gamesAdapter = GamesAdapter(

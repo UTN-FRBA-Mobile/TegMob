@@ -1,6 +1,7 @@
 package com.tegMob.utils
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -29,7 +30,9 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
         when (view!!.id) {
             R.id.logInButton -> {
                 if (completedFields()) {
-                    listener?.showFragment(LoggedUserMainFragment())
+                    val loggedUserOK = LoggedUserMainFragment()
+                    loggedUserOK.arguments = setDataToPass()
+                    listener?.showFragment(loggedUserOK)
                 } else {
                     Toast.makeText(context, "Please fill empty fields", Toast.LENGTH_SHORT).show()
                 }
@@ -41,6 +44,7 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
                 //TODO
             }
             R.id.joinGameButton -> {
+                setDataToPass()
                 listener?.showFragment(GamesListFragment())
             }
             R.id.newGameButton -> {
@@ -66,4 +70,8 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
     open fun completedFields(): Boolean {
         return true
     }
+
+    abstract fun getPassedData()
+    abstract fun setDataToPass() : Bundle?
+
 }

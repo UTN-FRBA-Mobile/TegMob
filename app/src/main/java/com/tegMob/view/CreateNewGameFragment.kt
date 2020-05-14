@@ -8,6 +8,7 @@ import com.tegMob.R
 import com.tegMob.utils.MyFragment
 
 class CreateNewGameFragment : MyFragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -15,5 +16,12 @@ class CreateNewGameFragment : MyFragment() {
         return inflater.inflate(R.layout.new_game_fragment, container, false)
     }
 
+    override fun getPassedData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setDataToPass(): Bundle? {
+        TODO("Not yet implemented")
+    }
 
 }

@@ -20,6 +20,7 @@ class LoggedUserMainFragment : MyFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButtons()
+        getPassedData()
     }
 
     private fun initButtons(){
@@ -34,5 +35,13 @@ class LoggedUserMainFragment : MyFragment() {
             InitialFragment().apply {
                 arguments = Bundle()
             }
+    }
+
+    override fun getPassedData() {
+       playerName.text = arguments?.getString("user")?: "player name not set"
+    }
+
+    override fun setDataToPass(): Bundle? {
+        TODO("Not yet implemented")
     }
 }
