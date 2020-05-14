@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             return
         }
         this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_LONG).show()
         Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 
