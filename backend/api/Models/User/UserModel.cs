@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace tegmobapi.Models.User
+namespace api.Models.User
 {
 	public class UserModel
 	{
@@ -13,5 +13,7 @@ namespace tegmobapi.Models.User
 		public string LastName { get; set; }
 
 		public string Username { get; set; }
+
+		public string Token { get; set; }
 	}
 }

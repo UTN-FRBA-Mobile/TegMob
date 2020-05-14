@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace tegmobapi.Models
+namespace api.Models
 {
-	public class Team
+	public class Match
 	{
 	}
 }
