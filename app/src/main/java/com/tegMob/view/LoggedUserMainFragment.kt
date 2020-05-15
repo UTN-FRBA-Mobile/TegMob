@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
+import com.tegMob.viewModel.LoggedUserMainViewModel
+import kotlinx.android.synthetic.main.initial_fragment.*
 import kotlinx.android.synthetic.main.logged_user_main_fragment.*
 
 class LoggedUserMainFragment : MyFragment() {
+
+    private lateinit var viewModel : LoggedUserMainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,14 +23,33 @@ class LoggedUserMainFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
         initButtons()
         getPassedData()
     }
 
     private fun initButtons(){
-        myProfileButton.setOnClickListener(this)
-        newGameButton.setOnClickListener(this)
-        joinGameButton.setOnClickListener(this)
+        myProfileButton.setOnClickListener{viewModel.myProfileButtonClick()}
+        newGameButton.setOnClickListener{viewModel.newGameButtonClick()}
+        joinGameButton.setOnClickListener{viewModel.joinGameButtonClick()}
+    }
+
+    override fun initViewModel() {
+        viewModel = LoggedUserMainViewModel()
+        context?.let { viewModel.init(this, listener, it) }
+        viewModel.username = arguments?.getString("user")?: "PlayerName error"
+        viewModel.userID = arguments?.getInt("userID") ?: -1
+
+        //TODO get player avatar
+
+        //TODO get player info
+    }
+
+    override fun getPassedData() {
+        playerName.text = viewModel.username
+
+        //TODO show player avatar
+        //TODO show other info ¿?
     }
 
     companion object {
@@ -35,13 +58,5 @@ class LoggedUserMainFragment : MyFragment() {
             InitialFragment().apply {
                 arguments = Bundle()
             }
-    }
-
-    override fun getPassedData() {
-       playerName.text = arguments?.getString("user")?: "player name not set"
-    }
-
-    override fun setDataToPass(): Bundle? {
-        TODO("Not yet implemented")
     }
 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.tegMob.R
 import com.tegMob.view.*
 
-abstract class MyFragment : Fragment(), View.OnClickListener {
+abstract class MyFragment : Fragment() {
     var listener: OnFragmentInteractionListener? = null
 
     override fun onAttach(context: Context) {
@@ -25,44 +25,6 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
         listener = null
     }
 
-    //all the apps button clicks behaviour
-    override fun onClick(view: View?) {
-        when (view!!.id) {
-            R.id.logInButton -> {
-                if (completedFields()) {
-                    val loggedUserOK = LoggedUserMainFragment()
-                    loggedUserOK.arguments = setDataToPass()
-                    listener?.showFragment(loggedUserOK)
-                } else {
-                    Toast.makeText(context, "Please fill empty fields", Toast.LENGTH_SHORT).show()
-                }
-            }
-            R.id.signUpButton -> {
-                listener?.showFragment(SignUpFragment())
-            }
-            R.id.myProfileButton -> {
-                //TODO
-            }
-            R.id.joinGameButton -> {
-                setDataToPass()
-                listener?.showFragment(GamesListFragment())
-            }
-            R.id.newGameButton -> {
-                listener?.showFragment(CreateNewGameFragment())
-            }
-            R.id.signUpButtonFinish -> {
-                if (completedFields()) {
-                    listener?.showFragment(InitialFragment())
-                } else {
-                    Toast.makeText(context, "Please fill empty fields", Toast.LENGTH_SHORT).show()
-                }
-            }
-            R.id.info_button -> {
-                //TODO
-            }
-        }
-    }
-
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
     }
@@ -72,6 +34,6 @@ abstract class MyFragment : Fragment(), View.OnClickListener {
     }
 
     abstract fun getPassedData()
-    abstract fun setDataToPass() : Bundle?
+    abstract fun initViewModel()
 
 }

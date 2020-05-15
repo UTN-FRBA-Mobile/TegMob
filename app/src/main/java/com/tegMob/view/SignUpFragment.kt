@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
+import com.tegMob.viewModel.LogInViewModel
 import kotlinx.android.synthetic.main.initial_fragment.*
 import com.tegMob.viewModel.SignUpViewModel
 import kotlinx.android.synthetic.main.sign_up_fragment.*
@@ -26,18 +27,23 @@ class SignUpFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(activity!!).get(SignUpViewModel::class.java)
+        initViewModel()
+        initButtons()
+    }
+
+    override fun initViewModel(){
+        viewModel = SignUpViewModel()
+        context?.let { viewModel.init(this, listener, it) }
 
         firstName.setText(viewModel.firstName)
         lastName.setText(viewModel.lastName)
         email.setText(viewModel.email)
         usernameSignUp.setText(viewModel.userNameSignUp)
 
-        initButtons()
     }
 
     private fun initButtons() {
-        signUpButtonFinish.setOnClickListener(this)
+        signUpButtonFinish.setOnClickListener{ viewModel.signUpFinishButton() }
     }
 
 
@@ -57,10 +63,6 @@ class SignUpFragment : MyFragment() {
     }
 
     override fun getPassedData() {
-        TODO("Not yet implemented")
-    }
-
-    override fun setDataToPass(): Bundle? {
         TODO("Not yet implemented")
     }
 

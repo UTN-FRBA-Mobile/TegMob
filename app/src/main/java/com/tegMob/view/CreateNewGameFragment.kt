@@ -20,8 +20,16 @@ class CreateNewGameFragment : MyFragment() {
         TODO("Not yet implemented")
     }
 
-    override fun setDataToPass(): Bundle? {
+    override fun initViewModel() {
         TODO("Not yet implemented")
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            CreateNewGameFragment().apply {
+                arguments = Bundle()
+            }
     }
 
 }

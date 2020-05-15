@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.lifecycle.ViewModelProvider
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.LogInViewModel
@@ -25,13 +24,24 @@ class InitialFragment : MyFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initButtons()
-        viewModel = ViewModelProvider(activity!!).get(LogInViewModel::class.java)
-        username.setText(viewModel.username)
+        initViewModel()
+        emptyFields()
+    }
+
+    override fun initViewModel(){
+        //viewModel = ViewModelProvider(activity!!).get(LogInViewModel::class.java)
+        viewModel = LogInViewModel()
+        context?.let { viewModel.init(this, listener, it) }
     }
 
     private fun initButtons(){
-        logInButton.setOnClickListener(this)
-        signUpButton.setOnClickListener(this)
+        logInButton.setOnClickListener{viewModel.loginButtonClick()}
+        signUpButton.setOnClickListener{viewModel.signUpButtonClick()}
+    }
+
+    private fun emptyFields(){
+        username.setText("")
+        password.setText("")
     }
 
     override fun completedFields(): Boolean {
@@ -41,18 +51,7 @@ class InitialFragment : MyFragment() {
     }
 
     override fun getPassedData() {
-        TODO()
-    }
-
-    override fun setDataToPass(): Bundle? {
-        val loginBundle = Bundle()
-
-        loginBundle.putString("user", username.text.toString())
-        loginBundle.putString("pass", password.text.toString())
-
-        return loginBundle
-
-
+        TODO("Not yet implemented")
     }
 
     companion object {

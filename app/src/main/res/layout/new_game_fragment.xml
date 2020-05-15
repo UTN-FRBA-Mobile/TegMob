@@ -4,7 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/primaryColor"
+    tools:context="view.CreateNewGameFragment"
+    >
 
     <ImageButton
         android:id="@+id/add_player"
@@ -72,6 +76,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/primaryButtonColor"
+        android:textColor="@android:color/white"
         android:text="@string/create_game"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent"
