@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/logoTeg"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="325dp"
         android:contentDescription="@string/teg"
         android:src="@drawable/teg_logo1"
         app:layout_constraintLeft_toLeftOf="parent"

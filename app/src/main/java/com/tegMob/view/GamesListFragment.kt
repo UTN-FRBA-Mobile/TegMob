@@ -13,13 +13,14 @@ import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyFragment
 import com.tegMob.utils.connectivity.Router
 import com.tegMob.utils.connectivity.TegService
+import com.tegMob.viewModel.GamesListViewModel
 import kotlinx.android.synthetic.main.games_list_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class GamesListFragment : MyFragment() {
-    private lateinit var gamesAdapter: GamesAdapter
+    private lateinit var viewModel : GamesListViewModel
 
 
     override fun onCreateView(
@@ -31,26 +32,25 @@ class GamesListFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        gamesAdapter = GamesAdapter(
-            RandomGames.gamesList,
-            listener
-        )
-        gamesList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = gamesAdapter
-        }
+        initViewModel()
+        getPassedData()
+        viewModel.loadDummyGameList()
+
     }
 
     override fun getPassedData() {
-        TODO("Not yet implemented")
+        viewModel.imageURI = arguments?.getString("imageURI").toString()
+        viewModel.userId = arguments?.getInt("userId")!!
+        viewModel.userName = arguments?.getString("user").toString()
     }
 
     override fun initViewModel() {
-        TODO("Not yet implemented")
-    }
+        viewModel = GamesListViewModel()
+        context?.let { viewModel.init(this, listener, it) }    }
 
 //    override fun onStart(){
 //        super.onStart()
+        //viewModel.
 //        gamesList.visibility = View.GONE
 //        progressBar.visibility = View.VISIBLE
 //
