@@ -2,6 +2,7 @@ package com.tegMob.utils
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModel
 
 abstract class MyViewModel () : ViewModel() {
@@ -21,5 +22,4 @@ abstract class MyViewModel () : ViewModel() {
     }
 
     abstract fun setDataToPass(): Bundle
-
 }
