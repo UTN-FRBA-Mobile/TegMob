@@ -22,27 +22,16 @@ import kotlinx.android.synthetic.main.map_fragment.view.*
 
 class MapFragment : Fragment() {
     //
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
+    //    override fun onCreate(savedInstanceState: Bundle?) {
+    //        super.onCreate(savedInstanceState)
+    //        arguments?.let {
+    //            param1 = it.getString(ARG_PARAM1)
+    //            param2 = it.getString(ARG_PARAM2)
+    //        }
+    //    }
     //color del mar: 37255155
     private val countryBackColors = mapOf<String, String>(
-        "174176169" to "Colombia",
-        "0247255" to "Perú",
-        "551115" to "Brasil",
-        "000" to "Chile",
-        "1387324" to "Argentina",
-        "25543189" to "Uruguay",
-        "132084" to "Sahara",
-        "25400" to "Egipto",
-        "2520255" to "Etiopía",
-        "2342550" to "Zaire",
-        "302540" to "Sudáfrica",
-        "971330" to "Madagascar"
+        "174176169" to "Colombia", "0247255" to "Perú", "551115" to "Brasil", "000" to "Chile", "1387324" to "Argentina", "25543189" to "Uruguay", "132084" to "Sahara", "25400" to "Egipto", "2520255" to "Etiopía", "2342550" to "Zaire", "302540" to "Sudáfrica", "971330" to "Madagascar"
     )
 
     private var chileColors = "pink"
@@ -55,11 +44,8 @@ class MapFragment : Fragment() {
     private var densityRelation: Float = 0F
     private val displayMetrics = DisplayMetrics()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-//        return inflater.inflate(R.layout.main_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        //        return inflater.inflate(R.layout.main_fragment, container, false)
         val view: View = inflater.inflate(R.layout.map_fragment, container, false)
         view.setOnTouchListener { v, event ->
             if (event.action == ACTION_DOWN) {
@@ -72,8 +58,10 @@ class MapFragment : Fragment() {
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         windowWidth = displayMetrics.widthPixels
         windowHeight = displayMetrics.heightPixels
+        //        windowWidth = mapaBack.layoutParams.width
+        //        windowHeight = mapaBack.layoutParams.height
         densityRelation = displayMetrics.density
-//        fullView=view
+        //        fullView=view
         bitMapFullView = loadBitmapFromView(view, windowWidth, windowHeight)
 
         return view
@@ -96,43 +84,44 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
+        var widthRelation: Float = windowWidth / 800F
+        var heightRelation: Float = windowHeight / 480F
+        var xRelation: Float = widthRelation
+        var yRelation: Float = heightRelation
 
-        val widthRelation: Float = windowWidth / 800F
-        val heightRelation: Float = windowHeight / 480F
-
+//        if (windowWidthHeightRelation > 1.8F) {
+//            widthRelation = windowWidth / 703F
+//            xRelation = windowWidth / 810F
+//        }
         //América del Sur
         //Tamaño de los países
-        imageColombia.layoutParams.width = (67 * widthRelation).toInt()
-        imageColombia.layoutParams.height = (50 * heightRelation).toInt()
-        imagePeru.layoutParams.width = (69 * widthRelation).toInt()
-        imagePeru.layoutParams.height = (46 * heightRelation).toInt()
-        imageBrasil.layoutParams.width = (102 * widthRelation).toInt()
-        imageBrasil.layoutParams.height = (89 * heightRelation).toInt()
-        imageChile.layoutParams.width = (23 * widthRelation).toInt()
-        imageChile.layoutParams.height = (87 * heightRelation).toInt()
-        imageArgentina.layoutParams.width = (50 * widthRelation).toInt()
-        imageArgentina.layoutParams.height = (91 * heightRelation).toInt()
-        imageUruguay.layoutParams.width = (52 * widthRelation).toInt()
-        imageUruguay.layoutParams.height = (44 * heightRelation).toInt()
+        imageColombia.layoutParams.width = (67F * widthRelation).toInt()   //67
+        imageColombia.layoutParams.height = (50F * heightRelation).toInt()
+        imagePeru.layoutParams.width = (69F * widthRelation).toInt()
+        imagePeru.layoutParams.height = (46F * heightRelation).toInt()
+        imageBrasil.layoutParams.width = (102F * widthRelation).toInt()
+        imageBrasil.layoutParams.height = (89F * heightRelation).toInt()
+        imageChile.layoutParams.width = (23F * widthRelation).toInt()
+        imageChile.layoutParams.height = (87F * heightRelation).toInt()
+        imageArgentina.layoutParams.width = (50F * widthRelation).toInt()
+        imageArgentina.layoutParams.height = (91F * heightRelation).toInt()
+        imageUruguay.layoutParams.width = (52F * widthRelation).toInt()
+        imageUruguay.layoutParams.height = (44F * heightRelation).toInt()
 
         //Ubicación de los países
-        imageColombia.x = 217F * widthRelation
-        imageColombia.y = 243F * heightRelation     //243
-        imagePeru.x = 224F * widthRelation
-        imagePeru.y = 282F * heightRelation
-        imageBrasil.x = 269F * widthRelation    //268
-        imageBrasil.y = 246F * heightRelation
-        imageChile.x = 238F * widthRelation     //238
-        imageChile.y = 321F * heightRelation
-        imageArgentina.x = 247F * widthRelation
-        imageArgentina.y = 321F * widthRelation
-        imageUruguay.x = 285F * widthRelation   //286
-        imageUruguay.y = 322F * widthRelation   //322
-
-//        imageChile.setOnClickListener {
-//            onCountryTouched(it as ImageView)
-//        }
-
+        imageColombia.x = 217F * xRelation      //217
+        imageColombia.y = 243F * yRelation     //243
+        imagePeru.x = 224F * xRelation
+        imagePeru.y = 282F * yRelation
+        imageBrasil.x = 269F * xRelation    //269
+        imageBrasil.y = 246F * yRelation
+        imageChile.x = 238F * xRelation     //238
+        imageChile.y = 321F * yRelation
+        imageArgentina.x = 247F * xRelation
+        imageArgentina.y = 321F * yRelation
+        imageUruguay.x = 285F * xRelation   //285
+        imageUruguay.y = 322F * yRelation   //322
 
         // África
         //Tamaño de los países
@@ -150,18 +139,18 @@ class MapFragment : Fragment() {
         imageMadagascar.layoutParams.height = (118 * heightRelation).toInt()
 
         //Ubicación de los países
-        imageSahara.x = 448F * widthRelation    //450
-        imageSahara.y = 294F * heightRelation
-        imageEgipto.x = 517F * widthRelation    //520
-        imageEgipto.y = 289F * heightRelation
-        imageEtiopia.x = 518 * widthRelation
-        imageEtiopia.y = 317F * heightRelation  //330
-        imageZaire.x = 464F * widthRelation
-        imageZaire.y = 340F * heightRelation
-        imageSudafrica.x = 537F * widthRelation
-        imageSudafrica.y = 364F * heightRelation
-        imageMadagascar.x = 618F * widthRelation
-        imageMadagascar.y = 317F * heightRelation
+        imageSahara.x = 448F * xRelation    //450
+        imageSahara.y = 294F * yRelation
+        imageEgipto.x = 517F * xRelation    //520
+        imageEgipto.y = 289F * yRelation
+        imageEtiopia.x = 518 * xRelation
+        imageEtiopia.y = 317F * yRelation  //330
+        imageZaire.x = 464F * xRelation
+        imageZaire.y = 340F * yRelation
+        imageSudafrica.x = 537F * xRelation
+        imageSudafrica.y = 364F * yRelation
+        imageMadagascar.x = 618F * xRelation
+        imageMadagascar.y = 317F * yRelation
 
     }
 
@@ -181,7 +170,8 @@ class MapFragment : Fragment() {
             AlertDialog.Builder(activity!!)
                 .setTitle("País: " + countryName)
                 .setPositiveButton("OK") { _, _ -> }
-                .create().show()
+                .create()
+                .show()
 
         if (countryName == "Chile") {
             when (chileColors) {
@@ -212,17 +202,12 @@ class MapFragment : Fragment() {
             }
 
         }
-//        AlertDialog.Builder(activity!!)
-//            .setTitle(redValue.toString()+blueValue.toString()+greenValue.toString())
-//            .setPositiveButton("OK") { _, _ -> }
-//            .create().show()
-
         return true
     }
 
-    private fun onCountryTouched(country: ImageView) {
-        country.setImageResource(R.drawable.chile_light_blue)
-    }
+//    private fun onCountryTouched(country: ImageView) {
+//        country.setImageResource(R.drawable.chile_light_blue)
+//    }
 
     companion object {
         @JvmStatic
