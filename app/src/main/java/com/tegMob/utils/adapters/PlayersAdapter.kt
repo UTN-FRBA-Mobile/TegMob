@@ -1,11 +1,13 @@
 package com.tegMob.utils.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.tegMob.R
 import com.tegMob.models.Player
 import kotlinx.android.synthetic.main.list_item_game.view.*
@@ -22,7 +24,6 @@ class PlayersAdapter(private var players: List<Player>) : RecyclerView.Adapter<P
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val playerUserName : TextView = itemView.playerUserName
-       // TODO val playerImage : ImageView = itemView.playerImage.setImageURI()
     }
 
     override fun getItemCount() = players.size
@@ -30,7 +31,9 @@ class PlayersAdapter(private var players: List<Player>) : RecyclerView.Adapter<P
     override fun onBindViewHolder(holder: PlayersAdapter.ViewHolder, position: Int) {
         val player = players[position]
         holder.playerUserName.text = player.username
-        //TODO set image of player
+        if (player.image != null) {
+            Picasso.get().load(Uri.parse(player.image)).into(holder.itemView.playerImage)
+        }
     }
 
 }
