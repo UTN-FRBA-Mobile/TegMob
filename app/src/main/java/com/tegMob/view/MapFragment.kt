@@ -105,7 +105,7 @@ class MapFragment : Fragment() {
         imageChile.layoutParams.width = (23F * widthRelation).toInt()
         imageChile.layoutParams.height = (87F * heightRelation).toInt()
         imageArgentina.layoutParams.width = (50F * widthRelation).toInt()
-        imageArgentina.layoutParams.height = (91F * heightRelation).toInt()
+        imageArgentina.layoutParams.height = (92F * heightRelation).toInt()
         imageUruguay.layoutParams.width = (52F * widthRelation).toInt()
         imageUruguay.layoutParams.height = (44F * heightRelation).toInt()
 
@@ -119,7 +119,7 @@ class MapFragment : Fragment() {
         imageChile.x = 238F * xRelation     //238
         imageChile.y = 321F * yRelation
         imageArgentina.x = 247F * xRelation
-        imageArgentina.y = 321F * yRelation
+        imageArgentina.y = 319F * yRelation
         imageUruguay.x = 285F * xRelation   //285
         imageUruguay.y = 322F * yRelation   //322
 
