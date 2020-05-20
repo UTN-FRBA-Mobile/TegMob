@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/primaryColor"
-    tools:context="view.CreateNewGameFragment"
-    >
+    android:orientation="vertical"
+    tools:context="view.CreateNewGameFragment">
 
     <ImageButton
         android:id="@+id/add_player"
         android:layout_width="50dp"
         android:layout_height="41dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="44dp"
+        android:layout_marginBottom="24dp"
         android:layout_weight="50"
         android:background="@drawable/plus"
         android:contentDescription="@string/teg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createGameButton" />
+        app:layout_constraintBottom_toTopOf="@+id/playersList"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tableNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -35,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/tableName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -48,10 +46,26 @@
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         app:layout_constraintEnd_toStartOf="@+id/createGameButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tableNameText" />
+
+    <TextView
+        android:id="@+id/tableNameTextFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/table_name"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.595" />
+
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/worldImage"
         android:layout_width="93dp"
         android:layout_height="46dp"
         android:layout_marginTop="40dp"
@@ -84,7 +98,7 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/tableName" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playersList"
@@ -105,10 +119,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"
         android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:tooltipText="Esperando jugadores"
         android:visibility="invisible"
-        android:tooltipText="Esperando jugadores"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/startGameButton"
@@ -116,13 +130,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="136dp"
         android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/primaryButtonColor"
         android:text="@string/start_game"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:visibility="invisible"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/primaryButtonColor" />
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

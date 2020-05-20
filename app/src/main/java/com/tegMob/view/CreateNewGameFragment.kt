@@ -26,7 +26,7 @@ class CreateNewGameFragment : MyFragment() {
     }
 
     override fun getPassedData() {
-        TODO("Not yet implemented")
+        viewModel.tableName = tableName.text.toString()
     }
 
     private fun initButtons() {
