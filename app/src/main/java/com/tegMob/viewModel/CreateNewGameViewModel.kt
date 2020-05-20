@@ -5,13 +5,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tegMob.models.Player
 import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import kotlinx.android.synthetic.main.new_game_fragment.*
 
 class CreateNewGameViewModel : MyViewModel() {
-    var tableName :String = ""
+    var tableName: String = ""
     private lateinit var playersAdapter: PlayersAdapter
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
@@ -57,6 +58,23 @@ class CreateNewGameViewModel : MyViewModel() {
         myFragment.createGameButton.visibility = View.GONE
         myFragment.tableName.visibility = View.GONE
         myFragment.tableNameText.visibility = View.INVISIBLE
+    }
+
+    private fun getFakePlayerFromServer(): Player {
+        return Player(1, "Machine", "Skynet", null)
+    }
+
+    fun addNewPlayer() {
+        if (playersAdapter.players.size < 5) {
+            playersAdapter = PlayersAdapter(playersAdapter.players.plus(getFakePlayerFromServer()))
+            myFragment.playersList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = playersAdapter
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            }
+        } else {
+            Toast.makeText(myContext, "El máximo es de 6 jugadores", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

@@ -31,6 +31,7 @@ class CreateNewGameFragment : MyFragment() {
 
     private fun initButtons() {
         createGameButton.setOnClickListener{viewModel.createNewGame()}
+        addPlayerButton.setOnClickListener{viewModel.addNewPlayer()}
     }
 
     override fun initViewModel() {

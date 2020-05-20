@@ -13,7 +13,7 @@ import com.tegMob.models.Player
 import kotlinx.android.synthetic.main.list_item_game.view.*
 import kotlinx.android.synthetic.main.list_item_player.view.*
 
-class PlayersAdapter(private var players: List<Player>) : RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
+class PlayersAdapter(var players: List<Player>) : RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersAdapter.ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
