@@ -24,5 +24,8 @@
     <string name="information">information</string>
     <string name="player_profile_picture">Player profile picture</string>
     <string name="delete_player">Eliminar</string>
+    <string name="game_search_query_hint">Buscar mesa</string>
+    <string name="game_list_title">Mesas disponibles</string>
+
 
 </resources>
