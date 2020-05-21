@@ -3,7 +3,7 @@
     <string name="signIn">Iniciar sesión</string>
     <string name="signUp">Registrarse</string>
     <string name="finish">FINALIZAR</string>
-    <string name="playerName">Nombre del Jugador</string>
+    <string name="playerName">Jugador</string>
     <string name="myProfile">Mi perfil</string>
     <string name="newGame">Crear partida</string>
     <string name="joinGame">Unirse a una partida</string>

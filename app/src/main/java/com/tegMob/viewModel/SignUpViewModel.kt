@@ -16,7 +16,7 @@ class SignUpViewModel : MyViewModel() {
         if (myFragment.completedFields()) {
             myListener?.showFragment(InitialFragment())
         } else {
-            Toast.makeText(myContext, "Please fill empty fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(myContext, "Por favor, complete los campos", Toast.LENGTH_SHORT).show()
         }
     }
 
