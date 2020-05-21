@@ -1,6 +1,7 @@
 package com.tegMob.viewModel
 
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.models.RandomGames
@@ -32,4 +33,7 @@ class GamesListViewModel : MyViewModel() {
         }
 
     }
+
+    fun search(newText: String?)= gamesAdapter.search(newText)
+
 }

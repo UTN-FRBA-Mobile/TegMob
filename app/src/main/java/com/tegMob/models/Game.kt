@@ -1,9 +1,9 @@
 package com.tegMob.models
 
 data class Game(
-    internal val name: String,
-    internal val description: String,
-    internal val full: Boolean
+    val name: String,
+    val description: String,
+    val full: Boolean
 )
 
 object RandomGames {
@@ -16,3 +16,4 @@ object RandomGames {
     )
 
 }
+

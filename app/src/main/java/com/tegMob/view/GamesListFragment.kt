@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.R
 import com.tegMob.models.Game
@@ -35,7 +36,7 @@ class GamesListFragment : MyFragment() {
         initViewModel()
         getPassedData()
         viewModel.loadDummyGameList()
-
+        initSearchBar()
     }
 
     override fun getPassedData() {
@@ -47,6 +48,20 @@ class GamesListFragment : MyFragment() {
     override fun initViewModel() {
         viewModel = GamesListViewModel()
         context?.let { viewModel.init(this, listener, it) }    }
+
+    private fun initSearchBar(){
+        game_search.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.search(newText)
+                return false
+            }
+        }
+        )
+    }
 
 //    override fun onStart(){
 //        super.onStart()
