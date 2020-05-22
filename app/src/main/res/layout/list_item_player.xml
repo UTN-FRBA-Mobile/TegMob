@@ -51,6 +51,7 @@
         android:text="@string/delete_player"
         android:textColor="@android:color/white"
         android:textSize="12sp"
+        android:background="@drawable/search_rounded"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toRightOf="@id/playerImage"

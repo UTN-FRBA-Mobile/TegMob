@@ -58,10 +58,11 @@
 
     <Button
         android:id="@+id/logInButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="54dp"
         android:layout_gravity="center"
         android:layout_margin="32dp"
+        android:background="@drawable/search_rounded"
         android:backgroundTint="@color/primaryButtonColor"
         android:padding="10dp"
         android:text="@string/signIn"
