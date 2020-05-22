@@ -51,6 +51,8 @@ namespace api.Services
 			SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 			user.Token = tokenHandler.WriteToken(token);
 
+			_users.ReplaceOne<User>(u => u.Username == username, user);
+
 			return user;
 		}
 
