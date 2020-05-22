@@ -41,6 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
+        android:layout_marginBottom="15dp"
         android:textCursorDrawable="@null"
         android:background="@drawable/search_rounded"
         app:iconifiedByDefault="false"
@@ -55,16 +56,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gamesList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="388dp"
+        android:layout_height="580dp"
         android:layout_margin="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/game_search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:orientation="vertical"
         tools:listitem="@layout/list_item_game"
-        />
+        tools:orientation="vertical" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/search_guideline"
