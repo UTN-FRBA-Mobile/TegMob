@@ -84,16 +84,16 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
+        //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
         var widthRelation: Float = windowWidth / 800F
         var heightRelation: Float = windowHeight / 480F
         var xRelation: Float = widthRelation
         var yRelation: Float = heightRelation
 
-//        if (windowWidthHeightRelation > 1.8F) {
-//            widthRelation = windowWidth / 703F
-//            xRelation = windowWidth / 810F
-//        }
+        //        if (windowWidthHeightRelation > 1.8F) {
+        //            widthRelation = windowWidth / 703F
+        //            xRelation = windowWidth / 810F
+        //        }
         //América del Sur
         //Tamaño de los países
         imageColombia.layoutParams.width = (67F * widthRelation).toInt()   //67
@@ -205,9 +205,9 @@ class MapFragment : Fragment() {
         return true
     }
 
-//    private fun onCountryTouched(country: ImageView) {
-//        country.setImageResource(R.drawable.chile_light_blue)
-//    }
+    //    private fun onCountryTouched(country: ImageView) {
+    //        country.setImageResource(R.drawable.chile_light_blue)
+    //    }
 
     companion object {
         @JvmStatic
