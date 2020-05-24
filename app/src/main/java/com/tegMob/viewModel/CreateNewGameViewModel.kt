@@ -1,5 +1,6 @@
 package com.tegMob.viewModel
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +10,8 @@ import com.tegMob.models.Player
 import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
+import com.tegMob.view.GamesListFragment
+import com.tegMob.view.MapFragment
 import kotlinx.android.synthetic.main.new_game_fragment.*
 
 class CreateNewGameViewModel : MyViewModel() {
@@ -77,5 +80,8 @@ class CreateNewGameViewModel : MyViewModel() {
         }
     }
 
+    fun startNewGame(){
+        myListener?.showFragment(MapFragment())
+    }
 
 }

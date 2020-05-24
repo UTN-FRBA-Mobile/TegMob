@@ -6,36 +6,24 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
-import androidx.fragment.app.Fragment
+//import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.collection.ArrayMap
 
 import com.tegMob.R
+import com.tegMob.utils.MyFragment
 import kotlinx.android.synthetic.main.map_fragment.*
-import kotlinx.android.synthetic.main.map_fragment.view.*
 
 
-class MapFragment : Fragment() {
-    //
-    //    override fun onCreate(savedInstanceState: Bundle?) {
-    //        super.onCreate(savedInstanceState)
-    //        arguments?.let {
-    //            param1 = it.getString(ARG_PARAM1)
-    //            param2 = it.getString(ARG_PARAM2)
-    //        }
-    //    }
-    //color del mar: 37255155
+class MapFragment : MyFragment() {
     private val countryBackColors = mapOf<String, String>(
         "174176169" to "Colombia", "0247255" to "Perú", "551115" to "Brasil", "000" to "Chile", "1387324" to "Argentina", "25543189" to "Uruguay", "132084" to "Sahara", "25400" to "Egipto", "2520255" to "Etiopía", "2342550" to "Zaire", "302540" to "Sudáfrica", "971330" to "Madagascar"
     )
 
     private var chileColors = "pink"
-
     private lateinit var bitMapFullView: Bitmap
 
     //    private lateinit var fullView: View
@@ -49,7 +37,6 @@ class MapFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.map_fragment, container, false)
         view.setOnTouchListener { v, event ->
             if (event.action == ACTION_DOWN) {
-                //do something
                 screenTouched(v, event)
             }
             true
@@ -79,6 +66,14 @@ class MapFragment : Fragment() {
             c.drawColor(Color.WHITE)
         v.draw(c)
         return b
+    }
+
+    override fun getPassedData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initViewModel() {
+        TODO("Not yet implemented")
     }
 
 
