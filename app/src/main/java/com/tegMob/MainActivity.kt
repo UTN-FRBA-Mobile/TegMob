@@ -8,15 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.tegMob.utils.MyFragment
 import com.tegMob.view.InitialFragment
+import com.tegMob.view.MapFragment
 import com.tegMob.view.SignUpFragment
 
-class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListener
-{
+class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        //        HASTA QUE TENGAMOS EL BOTÓN DE INICIAR PARTIDO SE PUEDE VER EL MAPA DESCOMENTANDO ESTO
+        //        supportFragmentManager.beginTransaction()
+        //            .replace(R.id.container, MapFragment.newInstance())
+        //            .commitNow()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, InitialFragment())
             .addToBackStack(BACK_STACK_ROOT_TAG)
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
     override fun showFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
- //           .setCustomAnimations(R.anim.fragment_push_enter, R.anim.fragment_push_exit, R.anim.fragment_pop_enter, R.anim.fragment_pop_exit)
+            //           .setCustomAnimations(R.anim.fragment_push_enter, R.anim.fragment_push_exit, R.anim.fragment_pop_enter, R.anim.fragment_pop_exit)
             .replace(R.id.fragment_container, fragment)
             .commit()
     }

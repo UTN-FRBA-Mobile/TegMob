@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mapa_480x800"
+
+    tools:context=".view.MapFragment">
+
+
+
+        <!-- América del Sur -->
+        <ImageView
+            android:id="@+id/imageColombia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/colombia_green"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/imagePeru"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Perú"
+            android:src="@drawable/peru_green" />
+
+        <ImageView
+            android:id="@+id/imageBrasil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Brasil"
+            android:src="@drawable/brasil_lightblue" />
+
+        <ImageView
+            android:id="@+id/imageChile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Chile"
+            android:src="@drawable/chile_pink" />
+
+        <ImageView
+            android:id="@+id/imageArgentina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Argentina"
+            android:src="@drawable/argentina_lightblue" />
+
+        <ImageView
+            android:id="@+id/imageUruguay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Uruguay"
+            android:src="@drawable/uruguay_red" />
+
+        <!-- África -->
+        <ImageView
+            android:id="@+id/imageSudafrica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Sudafrica"
+            android:src="@drawable/sudafrica_red" />
+
+        <ImageView
+            android:id="@+id/imageSahara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Sahara"
+            android:src="@drawable/sahara_green" />
+
+        <ImageView
+            android:id="@+id/imageEgipto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Egipto"
+            android:src="@drawable/egipto_celeste" />
+
+        <ImageView
+            android:id="@+id/imageEtiopia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Etiopía"
+            android:src="@drawable/etiopia_black" />
+
+        <ImageView
+            android:id="@+id/imageZaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Zaire"
+            android:src="@drawable/zaire_black" />
+
+        <ImageView
+            android:id="@+id/imageMadagascar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Madagascar"
+            android:src="@drawable/madagascar_yellow" />
+
+
+    </RelativeLayout>
