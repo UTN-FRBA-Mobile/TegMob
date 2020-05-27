@@ -26,7 +26,6 @@
         android:text="@string/table_name"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/tableName"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toBottomOf="@id/guidelineTopNG"
         app:layout_constraintVertical_chainStyle="spread" />
