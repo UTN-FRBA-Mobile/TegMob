@@ -10,16 +10,14 @@
 
     <ImageButton
         android:id="@+id/addPlayerButton"
-        android:layout_width="50dp"
-        android:layout_height="41dp"
+        android:layout_width="36dp"
+        android:layout_height="35dp"
         android:background="@drawable/plus"
         android:contentDescription="@string/teg"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintLeft_toRightOf="@id/playersText"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintBottom_toTopOf="@+id/playersList"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toBottomOf="@id/createGameButton"
-        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/tableNameText"
@@ -28,8 +26,6 @@
         android:text="@string/table_name"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintRight_toLeftOf="@id/createGameButton"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintBottom_toTopOf="@id/tableName"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toBottomOf="@id/guidelineTopNG"
@@ -79,8 +75,7 @@
         android:text="@string/create_game"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintLeft_toRightOf="@id/tableName"
-        app:layout_constraintTop_toBottomOf="@id/guidelineTopNG"
+        app:layout_constraintTop_toBottomOf="@id/guidelineTopNG2"
         app:layout_constraintBottom_toTopOf="@id/addPlayerButton"
         app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
 
@@ -91,8 +86,6 @@
         android:text="@string/players"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintRight_toLeftOf="@id/addPlayerButton"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toBottomOf="@+id/tableName"
         app:layout_constraintBottom_toTopOf="@id/playersList"
@@ -148,6 +141,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.95"
         app:layout_constraintTop_toBottomOf="@id/startGameButton"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopNG2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineVerticalLeft"
