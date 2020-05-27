@@ -15,6 +15,8 @@
         android:background="@drawable/plus"
         android:contentDescription="@string/teg"
         app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@id/playersText"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintBottom_toTopOf="@+id/playersList"
         app:layout_constraintTop_toBottomOf="@id/createGameButton"
         app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
@@ -26,6 +28,8 @@
         android:text="@string/table_name"
         android:textColor="@android:color/white"
         android:textSize="20sp"
+        app:layout_constraintRight_toLeftOf="@id/createGameButton"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintBottom_toTopOf="@id/tableName"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toBottomOf="@id/guidelineTopNG"
@@ -43,9 +47,12 @@
         android:inputType="text"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
+        app:layout_constraintRight_toLeftOf="@id/createGameButton"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintBottom_toTopOf="@id/playersText"
-        app:layout_constraintTop_toBottomOf="@+id/tableNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/tableNameText"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintHorizontal_chainStyle="spread"/>
 
     <TextView
         android:id="@+id/tableNameTextFinal"
@@ -60,24 +67,22 @@
         app:layout_constraintBottom_toTopOf="@+id/playersText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.595"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintVertical_bias="0.595"  />
 
 
     <Button
         android:id="@+id/createGameButton"
         android:layout_width="129dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/search_rounded"
         android:backgroundTint="@color/primaryButtonColor"
         android:text="@string/create_game"
         android:textColor="@android:color/white"
         android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@id/tableName"
         app:layout_constraintTop_toBottomOf="@id/guidelineTopNG"
         app:layout_constraintBottom_toTopOf="@id/addPlayerButton"
-        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
 
     <TextView
         android:id="@+id/playersText"
@@ -86,6 +91,8 @@
         android:text="@string/players"
         android:textColor="@android:color/white"
         android:textSize="20sp"
+        app:layout_constraintRight_toLeftOf="@id/addPlayerButton"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toBottomOf="@+id/tableName"
         app:layout_constraintBottom_toTopOf="@id/playersList"
