@@ -57,7 +57,6 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     private fun hideTableCreation() {
-        myFragment.worldImage.visibility = View.GONE
         myFragment.createGameButton.visibility = View.GONE
         myFragment.tableName.visibility = View.GONE
         myFragment.tableNameText.visibility = View.INVISIBLE
