@@ -44,7 +44,6 @@
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-        app:layout_constraintRight_toLeftOf="@+id/createGameButton"
         app:layout_constraintBottom_toTopOf="@id/playersText"
         app:layout_constraintTop_toBottomOf="@+id/tableNameText" />
 
