@@ -1,0 +1,70 @@
+service: tegmob-backend-users
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+  environment:
+    DYNAMODB_USERS_TABLE: ${self:service}-users-${opt:stage}
+    BCRYPT_SALT_ROUNDS: 10
+    
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:Scan*
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:service}-users-${opt:stage}
+
+plugins:
+  - serverless-pseudo-parameters
+
+functions:
+  register:
+    handler: handler.register
+    events:
+      - http:
+          path: users
+          method: post
+  update:
+    handler: handler.update
+    events:
+      - http:
+          path: users/{username}
+          method: put
+  delete:
+    handler: handler.delete
+    events:
+      - http:
+          path: users/{username}
+          method: delete
+  get:
+    handler: handler.get
+    events:
+      - http:
+          path: users/{username}
+          method: get
+  list:
+    handler: handler.list
+    events:
+      - http:
+          path: users
+          method: get
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-users-${opt:stage}
+        AttributeDefinitions:
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

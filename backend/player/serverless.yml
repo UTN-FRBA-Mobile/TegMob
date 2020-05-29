@@ -1,0 +1,64 @@
+service: tegmob-backend-player
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+
+  environment:
+    DYNAMODB_PLAYER_TABLE: ${self:service}-player-${opt:stage}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:Scan*
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:service}-player-${opt:stage}
+
+
+plugins:
+  - serverless-pseudo-parameters
+  
+functions:
+  create:
+    handler: handler.create
+    events:
+      - http:
+          path: player/{matchid}
+          method: post
+  deletePlayer:
+    handler: handler.deletePlayer
+    events:
+      - http:
+          path: player/{matchid}
+          method: delete
+  deleteMatch:
+    handler: handler.deleteMatch
+    events:
+      - http:
+          path: player
+          method: delete
+  list:
+    handler: handler.list
+    events:
+      - http:
+          path: player
+          method: get
+
+resources:
+  Resources:
+    playerTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-player-${opt:stage}
+        AttributeDefinitions:
+          - AttributeName: playerid
+            AttributeType: S
+        KeySchema:
+          - AttributeName: playerid
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
