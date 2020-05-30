@@ -26,6 +26,7 @@
     <string name="delete_player">Eliminar</string>
     <string name="game_search_query_hint">Buscar mesa</string>
     <string name="game_list_title">Mesas disponibles</string>
+    <string name="match_size">Cantidad</string>
 
 
 </resources>

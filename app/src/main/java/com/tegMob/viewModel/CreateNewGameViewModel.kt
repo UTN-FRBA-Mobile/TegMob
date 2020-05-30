@@ -21,6 +21,7 @@ import retrofit2.Response
 class CreateNewGameViewModel : MyViewModel() {
     var tableName: String = ""
     var userName: String = ""
+    private var matchPlayersSize: String = ""
     private lateinit var playersAdapter: PlayersAdapter
 
     override fun setDataToPass(): Bundle {
@@ -30,12 +31,13 @@ class CreateNewGameViewModel : MyViewModel() {
     private fun createMatch() {
         val matchesClient =
             ClientBuilder.MatchesClientBuilder.buildService(
-                MatchesRouter::class.java)
+                MatchesRouter::class.java
+            )
         val call = matchesClient.createMatch(
             MatchDTOs.MatchCreationDTO(
                 name = tableName,
                 owner = userName,
-                size = 2
+                size = matchPlayersSize.toInt()
             )
         )
         call.enqueue(object : Callback<Unit> {
@@ -46,6 +48,7 @@ class CreateNewGameViewModel : MyViewModel() {
                 if (response.isSuccessful) {
                     myFragment.tableNameTextFinal.visibility = View.VISIBLE
                     myFragment.tableNameTextFinal.text = tableName
+                    myFragment.addPlayerButton.visibility = View.VISIBLE
                     hideTableCreation()
                     //Get players
                     loadDummyPlayersList()
@@ -53,8 +56,7 @@ class CreateNewGameViewModel : MyViewModel() {
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                print("Match couldn't be created. Exception $t")
-                Toast.makeText(myContext, "Table couldn't be created", Toast.LENGTH_SHORT).show()
+                Toast.makeText(myContext, "La mesa no se pudo crear", Toast.LENGTH_SHORT).show()
                 throw t
             }
         }
@@ -68,7 +70,7 @@ class CreateNewGameViewModel : MyViewModel() {
             adapter = playersAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
-        if (playersAdapter.itemCount < 1) {
+        if (playersAdapter.itemCount < matchPlayersSize.toInt()) {
             myFragment.progressBar.visibility = View.VISIBLE
         } else {
             myFragment.progressBar.visibility = View.INVISIBLE
@@ -79,21 +81,33 @@ class CreateNewGameViewModel : MyViewModel() {
 
     private fun refreshData() {
         tableName = myFragment.tableName.text.toString()
+        matchPlayersSize = myFragment.numberOfPlayers.text.toString()
+    }
+
+    private fun completeFields(): Boolean {
+        if (tableName == "") {
+            Toast.makeText(myContext, "Ingrese un nombre de mesa", Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        if (matchPlayersSize == "" || matchPlayersSize.toInt() < 2 || matchPlayersSize.toInt() > 6) {
+            Toast.makeText(myContext,"Ingrese una cantidad de jugadores entre 2 y 6", Toast.LENGTH_LONG).show()
+            return false
+        }
+
+        return true
     }
 
     fun createNewGame() {
         refreshData()
-        if (tableName == "") {
-            Toast.makeText(myContext, "Ingrese un nombre de mesa", Toast.LENGTH_LONG).show()
-        } else {
-            createMatch()
-        }
+        if (completeFields()) createMatch()
     }
 
     private fun hideTableCreation() {
         myFragment.createGameButton.visibility = View.GONE
         myFragment.tableName.visibility = View.GONE
         myFragment.tableNameText.visibility = View.INVISIBLE
+        myFragment.numberOfPlayers.visibility = View.INVISIBLE
     }
 
     private fun getFakePlayerFromServer(): Player {
@@ -101,7 +115,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun addNewPlayer() {
-        if (playersAdapter.players.size < 5) {
+        if (playersAdapter.players.size < matchPlayersSize.toInt()) {
             playersAdapter = PlayersAdapter(playersAdapter.players.plus(getFakePlayerFromServer()))
             myFragment.playersList.apply {
                 layoutManager = LinearLayoutManager(context)
@@ -109,7 +123,7 @@ class CreateNewGameViewModel : MyViewModel() {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         } else {
-            Toast.makeText(myContext, "El máximo es de 6 jugadores", Toast.LENGTH_SHORT).show()
+            Toast.makeText(myContext, "El máximo es de ${matchPlayersSize.toInt()} jugadores para esta mesa", Toast.LENGTH_SHORT).show()
         }
     }
 
