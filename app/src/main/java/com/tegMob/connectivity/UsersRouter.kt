@@ -1,4 +1,4 @@
-package com.tegMob.utils.connectivity
+package com.tegMob.connectivity
 
 import com.tegMob.models.Game
 import com.tegMob.models.Player
@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface Router {
+interface UsersRouter {
 
     @GET("/games")
     fun getGamesList(): Call<List<Game>>

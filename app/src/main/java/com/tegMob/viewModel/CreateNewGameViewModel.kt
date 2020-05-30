@@ -1,25 +1,22 @@
 package com.tegMob.viewModel
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.tegMob.clients.ClientBuilder
-import com.tegMob.clients.MatchesClient
-import com.tegMob.clients.dtos.MatchDTOs
+import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.MatchesRouter
+import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.models.Player
 import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
-import com.tegMob.view.GamesListFragment
 import com.tegMob.view.MapFragment
 import kotlinx.android.synthetic.main.new_game_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.log
 
 class CreateNewGameViewModel : MyViewModel() {
     var tableName: String = ""
@@ -30,7 +27,8 @@ class CreateNewGameViewModel : MyViewModel() {
 
     private fun createMatch() {
         val matchesClient =
-            ClientBuilder.MatchesClientBuilder.buildService(MatchesClient::class.java)
+            ClientBuilder.MatchesClientBuilder.buildService(
+                MatchesRouter::class.java)
         val call = matchesClient.createMatch(
             MatchDTOs.MatchCreationDTO(
                 name = tableName,
@@ -44,7 +42,6 @@ class CreateNewGameViewModel : MyViewModel() {
                 response: Response<Unit>
             ) {
                 if (response.isSuccessful) {
-                    print("table created")
                     myFragment.tableNameTextFinal.visibility = View.VISIBLE
                     myFragment.tableNameTextFinal.text = tableName
                     hideTableCreation()

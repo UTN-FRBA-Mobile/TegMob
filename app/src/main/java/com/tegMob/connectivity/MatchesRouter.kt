@@ -1,11 +1,11 @@
-package com.tegMob.clients
-import com.tegMob.clients.dtos.MatchDTOs
+package com.tegMob.connectivity
+import com.tegMob.connectivity.dtos.MatchDTOs
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface MatchesClient {
+interface MatchesRouter {
     @Headers("Content-Type: application/json")
     @POST("match")
     fun createMatch(@Body matchInformation: MatchDTOs.MatchCreationDTO): Call<Unit>
