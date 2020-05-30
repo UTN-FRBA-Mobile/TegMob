@@ -7,7 +7,7 @@ object TegService {
 
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("127.0.0.1")
+        .baseUrl("https://e9c4x73vla.execute-api.us-east-1.amazonaws.com/dev/")
         .build()
 
     fun<T> buildService(service: Class<T>): T{
