@@ -25,20 +25,22 @@ class CreateNewGameFragment : MyFragment() {
         initViewModel()
     }
 
-    override fun getPassedData() {
-        viewModel.tableName = tableName.text.toString()
-    }
-
     private fun initButtons() {
         createGameButton.setOnClickListener{viewModel.createNewGame()}
         addPlayerButton.setOnClickListener{viewModel.addNewPlayer()}
         startGameButton.setOnClickListener{viewModel.startNewGame()}
     }
 
+    override fun getPassedData() {
+        TODO("Not yet implemented")
+    }
+
 
     override fun initViewModel() {
         viewModel = CreateNewGameViewModel()
-        context?.let { viewModel.init(this, listener, it) }    }
+        context?.let { viewModel.init(this, listener, it) }
+        viewModel.userName = arguments?.getString("user")?: "PlayerName error"
+    }
 
     companion object {
         @JvmStatic

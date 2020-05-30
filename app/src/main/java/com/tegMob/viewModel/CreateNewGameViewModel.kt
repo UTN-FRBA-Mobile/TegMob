@@ -20,7 +20,9 @@ import retrofit2.Response
 
 class CreateNewGameViewModel : MyViewModel() {
     var tableName: String = ""
+    var userName: String = ""
     private lateinit var playersAdapter: PlayersAdapter
+
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
     }
@@ -32,7 +34,7 @@ class CreateNewGameViewModel : MyViewModel() {
         val call = matchesClient.createMatch(
             MatchDTOs.MatchCreationDTO(
                 name = tableName,
-                owner = "test",
+                owner = userName,
                 size = 2
             )
         )
@@ -84,7 +86,6 @@ class CreateNewGameViewModel : MyViewModel() {
         if (tableName == "") {
             Toast.makeText(myContext, "Ingrese un nombre de mesa", Toast.LENGTH_LONG).show()
         } else {
-            //TODO send creation to server
             createMatch()
         }
     }
