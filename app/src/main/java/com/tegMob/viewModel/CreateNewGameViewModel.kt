@@ -6,6 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tegMob.clients.ClientBuilder
+import com.tegMob.clients.MatchesClient
+import com.tegMob.clients.dtos.MatchDTOs
 import com.tegMob.models.Player
 import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
@@ -13,12 +16,50 @@ import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.GamesListFragment
 import com.tegMob.view.MapFragment
 import kotlinx.android.synthetic.main.new_game_fragment.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.math.log
 
 class CreateNewGameViewModel : MyViewModel() {
     var tableName: String = ""
     private lateinit var playersAdapter: PlayersAdapter
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
+    }
+
+    private fun createMatch() {
+        val matchesClient =
+            ClientBuilder.MatchesClientBuilder.buildService(MatchesClient::class.java)
+        val call = matchesClient.createMatch(
+            MatchDTOs.MatchCreationDTO(
+                name = tableName,
+                owner = "test",
+                size = 2
+            )
+        )
+        call.enqueue(object : Callback<Unit> {
+            override fun onResponse(
+                call: Call<Unit>,
+                response: Response<Unit>
+            ) {
+                if (response.isSuccessful) {
+                    print("table created")
+                    myFragment.tableNameTextFinal.visibility = View.VISIBLE
+                    myFragment.tableNameTextFinal.text = tableName
+                    hideTableCreation()
+                    //Get players
+                    loadDummyPlayersList()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                print("Match couldn't be created. Exception $t")
+                Toast.makeText(myContext, "Table couldn't be created", Toast.LENGTH_SHORT).show()
+                throw t
+            }
+        }
+        )
     }
 
     private fun loadDummyPlayersList() {
@@ -47,12 +88,7 @@ class CreateNewGameViewModel : MyViewModel() {
             Toast.makeText(myContext, "Ingrese un nombre de mesa", Toast.LENGTH_LONG).show()
         } else {
             //TODO send creation to server
-            myFragment.tableNameTextFinal.visibility = View.VISIBLE
-            myFragment.tableNameTextFinal.text = tableName
-            hideTableCreation()
-
-            //Get players
-            loadDummyPlayersList()
+            createMatch()
         }
     }
 
@@ -79,8 +115,7 @@ class CreateNewGameViewModel : MyViewModel() {
         }
     }
 
-    fun startNewGame(){
+    fun startNewGame() {
         myListener?.showFragment(MapFragment())
     }
-
 }
