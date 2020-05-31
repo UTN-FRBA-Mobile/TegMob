@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tegMob.R
 import com.tegMob.models.Game
 import com.tegMob.utils.MyFragment
+import com.tegMob.view.MapFragment
 import kotlinx.android.synthetic.main.list_item_game.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,13 +38,20 @@ class GamesAdapter(private val games : List<Game>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = filteredGames[position]
-        holder.gameName.text = game.name
-        holder.gameDescription.text = game.description
+
+        holder.bind(game)
+        holder.itemView.setOnClickListener { listener!!.showFragment(MapFragment()) }
+
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val gameName : TextView = itemView.gameName
-        val gameDescription : TextView = itemView.gameDescription
+        private val gameName : TextView = itemView.gameName
+        private val gameDescription : TextView = itemView.gameDescription
+
+        fun bind(game : Game) {
+            gameName.text = game.name
+            gameDescription.text = game.description
+        }
     }
 
     fun search(newText: String?) = this.filter.filter(newText)

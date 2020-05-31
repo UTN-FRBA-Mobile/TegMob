@@ -1,6 +1,7 @@
 package com.tegMob.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,9 @@ class GamesListFragment : MyFragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         getPassedData()
-        viewModel.loadDummyGameList()
+        gamesList.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+//        viewModel.loadDummyGameList()
         initSearchBar()
     }
 
@@ -53,31 +56,19 @@ class GamesListFragment : MyFragment() {
         )
     }
 
-//    override fun onStart(){
-//        super.onStart()
-        //viewModel.
-//        gamesList.visibility = View.GONE
-//        progressBar.visibility = View.VISIBLE
-//
-//        val request = TegService.buildService(Router::class.java)
-//        val call = request.getGamesList()
-//
-//        call.enqueue(object : Callback<List<Game>> {
-//            override fun onResponse(call: Call<List<Game>>, response: Response<List<Game>>) {
-//                if (response.isSuccessful){
-//                    progressBar.visibility = View.GONE
-//                    gamesAdapter = GamesAdapter(response.body()!!, listener)
-//                    gamesList.apply {
-//                        layoutManager = LinearLayoutManager(context)
-//                        adapter = gamesAdapter
-//                    }
-//                }
-//            }
-//            override fun onFailure(call: Call<List<Game>>, error: Throwable) {
-//                Toast.makeText(activity, "No games founds!", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//    }
+    override fun onStart(){
+        super.onStart()
+
+        val handler = Handler()
+        val delay : Long = 1000 //milliseconds
+
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                viewModel.getGames()
+                handler.postDelayed(this, delay)
+            }
+        }, delay)
+    }
 
    companion object {
         @JvmStatic

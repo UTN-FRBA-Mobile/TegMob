@@ -1,13 +1,21 @@
 package com.tegMob.viewModel
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.MatchesRouter
+import com.tegMob.models.Game
 import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
 import kotlinx.android.synthetic.main.games_list_fragment.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class GamesListViewModel : MyViewModel() {
@@ -32,6 +40,26 @@ class GamesListViewModel : MyViewModel() {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
 
+    }
+
+    fun getGames(){
+        val request = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
+        val call = request.getGamesList()
+        call.enqueue(object : Callback<List<Game>> {
+            override fun onResponse(call: Call<List<Game>>, response: Response<List<Game>>) {
+                if (response.isSuccessful){
+                    myFragment.progressBar.visibility = View.GONE
+                    gamesAdapter = GamesAdapter(response.body()!!, myListener)
+                    myFragment.gamesList.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = gamesAdapter
+                    }
+                }
+            }
+            override fun onFailure(call: Call<List<Game>>, error: Throwable) {
+                Toast.makeText(myContext, "No games founds!", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun search(newText: String?)= gamesAdapter.search(newText)
