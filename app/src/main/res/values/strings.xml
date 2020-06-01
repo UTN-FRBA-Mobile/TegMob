@@ -27,5 +27,17 @@
     <string name="game_search_query_hint">Buscar mesa</string>
     <string name="game_list_title">Mesas disponibles</string>
 
-
+    <!-- Country names -->
+    <string name="chile_name">Chile</string>
+    <string name="brazil_name">Brasil</string>
+    <string name="argentina_name">Argentina</string>
+    <string name="peru_name">Perú</string>
+    <string name="colombia_name">Colombia</string>
+    <string name="uruguay_name">Uruguay</string>
+    <string name="sahara_name">Sahara</string>
+    <string name="ethiopia_name">Etiopía</string>
+    <string name="madagascar_name">Madagascar</string>
+    <string name="egypt_name">Egipto</string>
+    <string name="southafrica_name">Sudáfrica</string>
+    <string name="zaire_name">Zaire</string>
 </resources>
