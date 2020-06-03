@@ -90,11 +90,7 @@ class CreateNewGameViewModel : MyViewModel() {
         }
 
         if (matchPlayersSize == "" || matchPlayersSize.toInt() < 2 || matchPlayersSize.toInt() > 6) {
-            Toast.makeText(
-                myContext,
-                "Ingrese una cantidad de jugadores entre 2 y 6",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(myContext,"Ingrese una cantidad de jugadores entre 2 y 6", Toast.LENGTH_LONG).show()
             return false
         }
 
@@ -122,11 +118,7 @@ class CreateNewGameViewModel : MyViewModel() {
             playersAdapter.players = playersAdapter.players.plus(getFakePlayerFromServer())
             refreshPlayersList()
         } else {
-            Toast.makeText(
-                myContext,
-                "El máximo es de ${matchPlayersSize.toInt()} jugadores para esta mesa",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(myContext, "El máximo es de ${matchPlayersSize.toInt()} jugadores para esta mesa", Toast.LENGTH_SHORT).show()
         }
     }
 
