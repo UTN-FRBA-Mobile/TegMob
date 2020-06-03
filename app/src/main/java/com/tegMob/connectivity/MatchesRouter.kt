@@ -11,7 +11,7 @@ interface MatchesRouter {
     fun createMatch(@Body matchInformation: MatchDTOs.MatchCreationDTO): Call<Unit>
 
     @GET("/games")
-    fun getGamesList(): Call<List<Game>>
+    fun getGamesList(): Call<List<MatchDTOs.MatchListItem>>
 
     @Headers("Content-Type: application/json")
     @PUT("match/leave/{match_id}")

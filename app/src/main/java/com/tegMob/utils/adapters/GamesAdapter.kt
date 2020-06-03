@@ -8,6 +8,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tegMob.R
+import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.models.Game
 import com.tegMob.utils.MyFragment
 import com.tegMob.view.MapFragment
@@ -15,13 +16,13 @@ import kotlinx.android.synthetic.main.list_item_game.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GamesAdapter(private val games : List<Game>,
+class GamesAdapter(private val games : List<MatchDTOs.MatchListItem>,
                    private val listener: MyFragment.OnFragmentInteractionListener?):
     RecyclerView.Adapter<GamesAdapter.ViewHolder>(), Filterable
 
 {
 
-    private var filteredGames : List<Game>
+    private var filteredGames : List<MatchDTOs.MatchListItem>
 
     init {
         filteredGames = games
@@ -48,7 +49,7 @@ class GamesAdapter(private val games : List<Game>,
         private val gameName : TextView = itemView.gameName
         private val gameDescription : TextView = itemView.gameDescription
 
-        fun bind(game : Game) {
+        fun bind(game : MatchDTOs.MatchListItem) {
             gameName.text = game.name
             gameDescription.text = game.description
         }
@@ -59,7 +60,7 @@ class GamesAdapter(private val games : List<Game>,
     override fun getFilter() = object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                val resultGamesList : ArrayList<Game> = ArrayList()
+                val resultGamesList : ArrayList<MatchDTOs.MatchListItem> = ArrayList()
 
                 filteredGames =
                     if (charSearch.isEmpty()) {
@@ -83,7 +84,7 @@ class GamesAdapter(private val games : List<Game>,
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredGames = results?.values as List<Game>
+                filteredGames = results?.values as List<MatchDTOs.MatchListItem>
                 notifyDataSetChanged()
             }
 
