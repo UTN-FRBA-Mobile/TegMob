@@ -5,8 +5,11 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import com.tegMob.R
+import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.MatchesRouter
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.GamesListViewModel
 import kotlinx.android.synthetic.main.games_list_fragment.*
@@ -28,7 +31,7 @@ class GamesListFragment : MyFragment() {
         getPassedData()
         gamesList.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
-//        viewModel.loadDummyGameList()
+        viewModel.loadDummyGameList()
         initSearchBar()
     }
 
@@ -56,19 +59,19 @@ class GamesListFragment : MyFragment() {
         )
     }
 
-    override fun onStart(){
+    /*override fun onStart() {
         super.onStart()
 
         val handler = Handler()
-        val delay : Long = 1000 //milliseconds
+        val delay: Long = 1000 //milliseconds
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                viewModel.getGames()
+                viewModel.loadDummyGameList()
                 handler.postDelayed(this, delay)
             }
         }, delay)
-    }
+    }*/
 
    companion object {
         @JvmStatic

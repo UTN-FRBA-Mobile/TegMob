@@ -1,5 +1,7 @@
 package com.tegMob.models
 
+import com.tegMob.connectivity.dtos.MatchDTOs
+
 data class Game(
     val name: String,
     val description: String,
@@ -8,11 +10,11 @@ data class Game(
 
 object RandomGames {
 
-    val gamesList: List<Game> = listOf(
-        Game("juego1", "descrip1", false),
-        Game("juego2", "descrip2", false),
-        Game("juego3", "descrip3", false),
-        Game("juego4", "descrip4", false)
+    val gamesList: List<MatchDTOs.MatchListItem> = listOf(
+        MatchDTOs.MatchListItem(id = 1, description = "primer juego", name = "juego1", owner = "user1", size = 3, socket = ""),
+        MatchDTOs.MatchListItem(id = 2, description = "segundo juego", name = "juego2", owner = "user2", size = 3, socket = ""),
+        MatchDTOs.MatchListItem(id = 3, description = "tercer juego", name = "juego3", owner = "user3", size = 3, socket = ""),
+        MatchDTOs.MatchListItem(id = 4, description = "cuarto juego", name = "juego4", owner = "user4", size = 3, socket = "")
     )
 
 }

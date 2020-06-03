@@ -9,20 +9,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tegMob.R
 import com.tegMob.connectivity.dtos.MatchDTOs
-import com.tegMob.models.Game
-import com.tegMob.utils.MyFragment
-import com.tegMob.view.MapFragment
+import com.tegMob.viewModel.GamesListViewModel
 import kotlinx.android.synthetic.main.list_item_game.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GamesAdapter(private val games : List<MatchDTOs.MatchListItem>,
-                   private val listener: MyFragment.OnFragmentInteractionListener?):
-    RecyclerView.Adapter<GamesAdapter.ViewHolder>(), Filterable
+class GamesAdapter(var games: List<MatchDTOs.MatchListItem>, val viewModel: GamesListViewModel) :
+    RecyclerView.Adapter<GamesAdapter.ViewHolder>(), Filterable {
 
-{
-
-    private var filteredGames : List<MatchDTOs.MatchListItem>
+    private var filteredGames: List<MatchDTOs.MatchListItem>
 
     init {
         filteredGames = games
@@ -41,15 +36,15 @@ class GamesAdapter(private val games : List<MatchDTOs.MatchListItem>,
         val game = filteredGames[position]
 
         holder.bind(game)
-        holder.itemView.setOnClickListener { listener!!.showFragment(MapFragment()) }
+        holder.itemView.setOnClickListener { viewModel.joinMatch(game) }
 
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val gameName : TextView = itemView.gameName
-        private val gameDescription : TextView = itemView.gameDescription
+        private val gameName: TextView = itemView.gameName
+        private val gameDescription: TextView = itemView.gameDescription
 
-        fun bind(game : MatchDTOs.MatchListItem) {
+        fun bind(game: MatchDTOs.MatchListItem) {
             gameName.text = game.name
             gameDescription.text = game.description
         }
@@ -58,35 +53,35 @@ class GamesAdapter(private val games : List<MatchDTOs.MatchListItem>,
     fun search(newText: String?) = this.filter.filter(newText)
 
     override fun getFilter() = object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                val resultGamesList : ArrayList<MatchDTOs.MatchListItem> = ArrayList()
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val charSearch = constraint.toString()
+            val resultGamesList: ArrayList<MatchDTOs.MatchListItem> = ArrayList()
 
-                filteredGames =
-                    if (charSearch.isEmpty()) {
-                        games
-                    } else {
-                        for (game in games) {
-                            if (charSearch.toLowerCase(Locale.ROOT) in game.name.toLowerCase(Locale.ROOT)) {
-                                resultGamesList.add(game)
+            filteredGames =
+                if (charSearch.isEmpty()) {
+                    games
+                } else {
+                    for (game in games) {
+                        if (charSearch.toLowerCase(Locale.ROOT) in game.name.toLowerCase(Locale.ROOT)) {
+                            resultGamesList.add(game)
 
-                            }
                         }
-                        resultGamesList.toList()
                     }
+                    resultGamesList.toList()
+                }
 
-                val filterResults = FilterResults()
+            val filterResults = FilterResults()
 
-                filterResults.values = filteredGames
+            filterResults.values = filteredGames
 
-                return filterResults
-            }
+            return filterResults
+        }
 
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredGames = results?.values as List<MatchDTOs.MatchListItem>
-                notifyDataSetChanged()
-            }
+        @Suppress("UNCHECKED_CAST")
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            filteredGames = results?.values as List<MatchDTOs.MatchListItem>
+            notifyDataSetChanged()
+        }
 
     }
 

@@ -7,7 +7,7 @@ object ClientBuilder {
         private const val matchesUrl = "https://e9c4x73vla.execute-api.us-east-1.amazonaws.com/dev/"
 
         fun<T> buildService(service: Class<T>): T{
-            return ClientBuilder.buildService(service, matchesUrl)
+            return buildService(service, matchesUrl)
         }
     }
 
@@ -15,7 +15,7 @@ object ClientBuilder {
         private const val usersUrl = "https://tzdb0jz1yh.execute-api.us-east-1.amazonaws.com/dev/"
 
         fun<T> buildService(service: Class<T>): T{
-            return ClientBuilder.buildService(service, usersUrl)
+            return buildService(service, usersUrl)
         }
     }
 
@@ -23,7 +23,7 @@ object ClientBuilder {
         private const val playersUrl = "https://fjskeqpwi3.execute-api.us-east-1.amazonaws.com/dev/"
 
         fun<T> buildService(service: Class<T>): T{
-            return ClientBuilder.buildService(service, playersUrl)
+            return buildService(service, playersUrl)
         }
     }
 

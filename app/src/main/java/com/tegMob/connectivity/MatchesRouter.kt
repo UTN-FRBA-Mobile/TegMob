@@ -17,4 +17,9 @@ interface MatchesRouter {
     @PUT("match/leave/{match_id}")
     fun removePlayer(@Path("match_id") matchId: Int, @Body removedPlayer: MatchDTOs.MatchPlayerRemoveDTO): Call<Unit>
 
+    @Headers("Content-Type: application/json")
+    @PUT("match/join/{match_id}")
+    fun addPlayer(@Path("match_id") matchId: Int, @Body addedPlayer: MatchDTOs.MatchPlayerAddDTO): Call<Unit>
+
+
 }
