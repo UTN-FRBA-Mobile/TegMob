@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.CreateNewGameViewModel
+import kotlinx.android.synthetic.main.list_item_player.*
 import kotlinx.android.synthetic.main.new_game_fragment.*
 
 class CreateNewGameFragment : MyFragment() {

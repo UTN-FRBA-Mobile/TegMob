@@ -3,6 +3,7 @@ package com.tegMob.viewModel
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.ClientBuilder
@@ -13,6 +14,7 @@ import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.MapFragment
+import kotlinx.android.synthetic.main.list_item_player.*
 import kotlinx.android.synthetic.main.new_game_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,17 +24,16 @@ class CreateNewGameViewModel : MyViewModel() {
     var tableName: String = ""
     var userName: String = ""
     private var matchPlayersSize: String = ""
+    private val matchId = 0
     private lateinit var playersAdapter: PlayersAdapter
+    private val matchesClient =
+        ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
     }
 
     private fun createMatch() {
-        val matchesClient =
-            ClientBuilder.MatchesClientBuilder.buildService(
-                MatchesRouter::class.java
-            )
         val call = matchesClient.createMatch(
             MatchDTOs.MatchCreationDTO(
                 name = tableName,
@@ -52,6 +53,7 @@ class CreateNewGameViewModel : MyViewModel() {
                     hideTableCreation()
                     //Get players
                     loadDummyPlayersList()
+                    //TODO Receive match id after creation from server
                 }
             }
 
@@ -64,12 +66,9 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     private fun loadDummyPlayersList() {
-        playersAdapter = PlayersAdapter(RandomPlayers.playersList)
-        myFragment.playersList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = playersAdapter
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
+        playersAdapter = PlayersAdapter(RandomPlayers.playersList, this)
+        refreshPlayersList()
+
         if (playersAdapter.itemCount < matchPlayersSize.toInt()) {
             myFragment.progressBar.visibility = View.VISIBLE
         } else {
@@ -115,16 +114,44 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun addNewPlayer() {
-        if (playersAdapter.players.size < matchPlayersSize.toInt()) {
-            playersAdapter = PlayersAdapter(playersAdapter.players.plus(getFakePlayerFromServer()))
-            myFragment.playersList.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = playersAdapter
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            }
+        if (playersAdapter.players.size < matchPlayersSize.toInt() - 1) {
+            playersAdapter.players = playersAdapter.players.plus(getFakePlayerFromServer())
+            refreshPlayersList()
         } else {
             Toast.makeText(myContext, "El máximo es de ${matchPlayersSize.toInt()} jugadores para esta mesa", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun refreshPlayersList() {
+        myFragment.playersList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = playersAdapter
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
+    }
+
+    fun removePlayerFromMatch(username: String) {
+        val call = matchesClient.removePlayer(matchId, MatchDTOs.MatchPlayerRemoveDTO(userName))
+        call.enqueue(object : Callback<Unit> {
+            override fun onResponse(
+                call: Call<Unit>,
+                response: Response<Unit>
+            ) {
+                //TODO REMOVE 400 WHEN ENDPOINT WORKS OK
+                if (response.isSuccessful && response.code() == 200 || response.code() == 400) {
+                    playersAdapter.players = playersAdapter.players.filter { it.username != username }
+                    refreshPlayersList()
+                } else {
+                    Toast.makeText(myContext,"No se pudo eliminar al usuario de la partida", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                Toast.makeText(myContext,"No se pudo eliminar al usuario de la partida", Toast.LENGTH_SHORT).show()
+                throw t
+            }
+        }
+        )
     }
 
     fun startNewGame() {
