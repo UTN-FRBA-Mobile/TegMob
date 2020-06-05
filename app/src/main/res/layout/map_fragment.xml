@@ -16,7 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/colombia_name"
-        android:src="@drawable/colombia_green" />
+        android:src="@drawable/colombia_white"
+        />
 
     <TextView
         android:id="@+id/numberColombia"
@@ -27,7 +28,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/peru_name"
-        android:src="@drawable/peru_green" />
+        android:src="@drawable/peru_white" />
 
     <TextView
         android:id="@+id/numberPeru"
@@ -47,7 +47,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -56,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/brazil_name"
-        android:src="@drawable/brazil_lightblue" />
+        android:src="@drawable/brazil_white" />
 
     <TextView
         android:id="@+id/numberBrazil"
@@ -67,7 +66,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -78,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/argentina_name"
-        android:src="@drawable/argentina_lightblue" />
+        android:src="@drawable/argentina_white" />
 
     <TextView
         android:id="@+id/numberArgentina"
@@ -89,14 +87,14 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
     <ImageView
         android:id="@+id/imageChile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/chile_name" />
+        android:contentDescription="@string/chile_name"
+        android:src="@drawable/chile_white"/>
 
     <TextView
         android:id="@+id/numberChile"
@@ -107,7 +105,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
     <ImageView
@@ -115,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/uruguay_name"
-        android:src="@drawable/uruguay_red" />
+        android:src="@drawable/uruguay_white" />
 
     <TextView
         android:id="@+id/numberUruguay"
@@ -126,7 +123,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
     <!-- África -->
@@ -135,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/southafrica_name"
-        android:src="@drawable/southafrica_red" />
+        android:src="@drawable/southafrica_white" />
 
     <TextView
         android:id="@+id/numberSouthafrica"
@@ -146,7 +142,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -155,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/sahara_name"
-        android:src="@drawable/sahara_green" />
+        android:src="@drawable/sahara_white" />
 
     <TextView
         android:id="@+id/numberSahara"
@@ -166,7 +161,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -175,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/egypt_name"
-        android:src="@drawable/egypt_lightblue" />
+        android:src="@drawable/egypt_white" />
 
     <TextView
         android:id="@+id/numberEgypt"
@@ -186,7 +180,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -195,7 +188,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/ethiopia_name"
-        android:src="@drawable/ethiopia_black" />
+        android:src="@drawable/ethiopia_white" />
 
     <TextView
         android:id="@+id/numberEthiopia"
@@ -206,7 +199,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -215,7 +207,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/zaire_name"
-        android:src="@drawable/zaire_black" />
+        android:src="@drawable/zaire_white" />
 
     <TextView
         android:id="@+id/numberZaire"
@@ -226,7 +218,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 
@@ -235,7 +226,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/madagascar_name"
-        android:src="@drawable/madagascar_yellow" />
+        android:src="@drawable/madagascar_white" />
 
     <TextView
         android:id="@+id/numberMadagascar"
@@ -246,7 +237,6 @@
         android:layout_gravity="center"
         android:background="@drawable/circle_white"
         android:gravity="center"
-        android:text="20"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
 

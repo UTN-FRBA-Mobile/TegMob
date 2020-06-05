@@ -1,44 +1,32 @@
 package com.tegMob.viewModel
 
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
-import com.tegMob.R
 import com.tegMob.utils.MyViewModel
-import com.tegMob.utils.constants.CountriesImagesNames
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONObject
 
 
 class MapViewModel : MyViewModel() {
     private lateinit var countryBackColors: Map<String, ImageView>
-
-    private val countriesImageNames = CountriesImagesNames()
-
-    private var chileColors = R.drawable.chile_pink
-
+    private val playerColors = mapOf(
+        "green" to Color.GREEN,
+        "red" to Color.RED,
+        "cyan" to Color.CYAN,
+        "magenta" to Color.MAGENTA,
+        "yellow" to Color.YELLOW,
+        "black" to Color.BLACK
+    )
     private lateinit var bitMapFullView: Bitmap
-
 
     fun Map(view: View, windowWidth: Int, windowHeight: Int, countriesData: JSONObject) {
         bitMapFullView = loadBitmapFromView(view, windowWidth, windowHeight)
-        setCountriesData(countriesData)
-
-
-        //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
-        var widthRelation: Float = windowWidth / 800F
-        var heightRelation: Float = windowHeight / 480F
-        var xRelation: Float = widthRelation
-        var yRelation: Float = heightRelation
-        drawCountries(widthRelation, heightRelation, xRelation, yRelation)
-
         countryBackColors = mapOf(
             "174176169" to myFragment.imageColombia,
             "0247255" to myFragment.imagePeru,
@@ -53,59 +41,41 @@ class MapViewModel : MyViewModel() {
             "302540" to myFragment.imageSouthafrica,
             "971330" to myFragment.imageMadagascar
         )
+        setCountriesData(countriesData)
+        //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
+        var widthRelation: Float = windowWidth / 800F
+        var heightRelation: Float = windowHeight / 480F
+        var xRelation: Float = widthRelation
+        var yRelation: Float = heightRelation
+        drawCountries(widthRelation, heightRelation, xRelation, yRelation)
     }
 
     private fun setCountriesData(countriesData: JSONObject) {
-//        val lala="chile_green"
-        val chileColorString="chile_"+countriesData.getJSONObject("chile").getString("owner")
-        val resources: Resources = myContext!!.getResources()
-        val lalaId=resources.getIdentifier(chileColorString,"drawable", myContext!!.packageName)
-
-        Log.i("string lala",chileColorString)
-        Log.i("el que funciona",R.drawable.chile_green.toString())
-        Log.i("con la variable",lalaId.toString())
-
-//        //        val name = "your_drawable"
-//        val id: Int = R.getIdentifier(lala, "drawable", getPackageName())
-//        val drawable: Drawable = getResources().getDrawable(id)
-
-//        Log.i("color recibido de chile",R.drawable.field(lala))
-
-//        Log.i("id de chile green",R.drawable.getIdentifier(${lala}).toString())
-//        myFragment.imageChile.setImageResource(countriesImageNames.chileImageNames.getValue(countriesData.getJSONObject("chile").getString("owner")))
-        myFragment.imageChile.setImageResource(resources.getIdentifier("chile_"+countriesData.getJSONObject("chile").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageColombia.setImageResource(resources.getIdentifier("colombia_"+countriesData.getJSONObject("colombia").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imagePeru.setImageResource(resources.getIdentifier("peru"+countriesData.getJSONObject("peru").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageBrazil.setImageResource(resources.getIdentifier("brazil_"+countriesData.getJSONObject("brazil").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageArgentina.setImageResource(resources.getIdentifier("argentina_"+countriesData.getJSONObject("argentina").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageUruguay.setImageResource(resources.getIdentifier("uruguay_"+countriesData.getJSONObject("uruguay").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageMadagascar.setImageResource(resources.getIdentifier("madagascar_"+countriesData.getJSONObject("madagascar").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageSahara.setImageResource(resources.getIdentifier("sahara_"+countriesData.getJSONObject("chile").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageEgypt.setImageResource(resources.getIdentifier("egypt_"+countriesData.getJSONObject("chile").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageEthiopia.setImageResource(resources.getIdentifier("ethiopia_"+countriesData.getJSONObject("chile").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageSouthafrica.setImageResource(resources.getIdentifier("southafrica_"+countriesData.getJSONObject("chile").getString("owner"),"drawable", myContext!!.packageName))
-        myFragment.imageZaire.setImageResource(resources.getIdentifier("zaire_"+countriesData.getJSONObject("chile").getString("owner"),"drawable", myContext!!.packageName))
-
-
-
-//        myFragment.imageColombia.setImageResource(R.drawable.colombia_green)
-//        myFragment.imagePeru.setImageResource(R.drawable.peru_green)
-//        myFragment.imageBrazil.setImageResource(R.drawable.brazil_lightblue)
-//        myFragment.imageArgentina.setImageResource(R.drawable.argentina_lightblue)
-//        myFragment.imageUruguay.setImageResource(R.drawable.uruguay_red)
-//        myFragment.imageMadagascar.setImageResource(R.drawable.madagascar_yellow)
-//        myFragment.imageSahara.setImageResource(R.drawable.sahara_green)
-//        myFragment.imageEgypt.setImageResource(R.drawable.egypt_lightblue)
-//        myFragment.imageEthiopia.setImageResource(R.drawable.ethiopia_black)
-//        myFragment.imageSouthafrica.setImageResource(R.drawable.southafrica_red)
-//        myFragment.imageZaire.setImageResource(R.drawable.zaire_black)
-
+        //América del sur
+        myFragment.imageChile.setColorFilter(playerColors[countriesData.getJSONObject("chile").getString("owner")]!!)
+        myFragment.imageBrazil.setColorFilter(playerColors[countriesData.getJSONObject("brazil").getString("owner")]!!)
+        myFragment.imageUruguay.setColorFilter(playerColors[countriesData.getJSONObject("uruguay").getString("owner")]!!)
+        myFragment.imageArgentina.setColorFilter(playerColors[countriesData.getJSONObject("argentina").getString("owner")]!!)
+        myFragment.imageColombia.setColorFilter(playerColors[countriesData.getJSONObject("colombia").getString("owner")]!!)
+        myFragment.imagePeru.setColorFilter(playerColors[countriesData.getJSONObject("peru").getString("owner")]!!)
         myFragment.numberChile.setText(countriesData.getJSONObject("chile").getString("armies"))
         myFragment.numberPeru.setText(countriesData.getJSONObject("peru").getString("armies"))
         myFragment.numberBrazil.setText(countriesData.getJSONObject("brazil").getString("armies"))
         myFragment.numberColombia.setText(countriesData.getJSONObject("colombia").getString("armies"))
         myFragment.numberArgentina.setText(countriesData.getJSONObject("argentina").getString("armies"))
         myFragment.numberUruguay.setText(countriesData.getJSONObject("uruguay").getString("armies"))
+
+        //África
+        //        unwrappedDrawable = AppCompatResources.getDrawable(myContext!!, R.drawable.sahara_white)
+//        wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
+//        DrawableCompat.setTint(wrappedDrawable, playerColors[countriesData.getJSONObject("sahara").getString("owner")]!!)
+//        myFragment.imageSahara.setImageResource(R.drawable.sahara_white)
+        myFragment.imageSahara.setColorFilter(playerColors[countriesData.getJSONObject("sahara").getString("owner")]!!)
+        myFragment.imageZaire.setColorFilter(playerColors[countriesData.getJSONObject("zaire").getString("owner")]!!)
+        myFragment.imageMadagascar.setColorFilter(playerColors[countriesData.getJSONObject("madagascar").getString("owner")]!!)
+        myFragment.imageEthiopia.setColorFilter(playerColors[countriesData.getJSONObject("ethiopia").getString("owner")]!!)
+        myFragment.imageSouthafrica.setColorFilter(playerColors[countriesData.getJSONObject("southafrica").getString("owner")]!!)
+        myFragment.imageEgypt.setColorFilter(playerColors[countriesData.getJSONObject("egypt").getString("owner")]!!)
         myFragment.numberZaire.setText(countriesData.getJSONObject("zaire").getString("armies"))
         myFragment.numberSouthafrica.setText(countriesData.getJSONObject("southafrica").getString("armies"))
         myFragment.numberEgypt.setText(countriesData.getJSONObject("egypt").getString("armies"))
@@ -115,7 +85,7 @@ class MapViewModel : MyViewModel() {
 
     }
 
-    fun drawCountries(widthRelation: Float, heightRelation: Float, xRelation: Float, yRelation: Float) {
+    private fun drawCountries(widthRelation: Float, heightRelation: Float, xRelation: Float, yRelation: Float) {
         //América del Sur
         //Tamaño de los países
         myFragment.imageColombia.layoutParams.width = (67F * widthRelation).toInt()   //67
@@ -221,37 +191,8 @@ class MapViewModel : MyViewModel() {
         val blueValue = Color.blue(touchColor)
         val greenValue = Color.green(touchColor)
         val countryImage: ImageView = countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()]!!
+        Log.i("país clickeado", countryImage.contentDescription.toString())
 
-        if (countryImage == myFragment.imageChile) {
-            //            Log.i("current_drawable", countryImage.drawable.current.toString())
-            when (chileColors) {
-                R.drawable.chile_pink -> {
-                    myFragment.imageChile.setImageResource(R.drawable.chile_lightblue)
-                    chileColors = R.drawable.chile_lightblue
-                }
-                R.drawable.chile_lightblue -> {
-                    myFragment.imageChile.setImageResource(R.drawable.chile_black)
-                    chileColors = R.drawable.chile_black
-                }
-                R.drawable.chile_black -> {
-                    myFragment.imageChile.setImageResource(R.drawable.chile_green)
-                    chileColors = R.drawable.chile_green
-                }
-                R.drawable.chile_green -> {
-                    myFragment.imageChile.setImageResource(R.drawable.chile_yellow)
-                    chileColors = R.drawable.chile_yellow
-                }
-                R.drawable.chile_yellow -> {
-                    myFragment.imageChile.setImageResource(R.drawable.chile_red)
-                    chileColors = R.drawable.chile_red
-                }
-                R.drawable.chile_red -> {
-                    myFragment.imageChile.setImageResource(R.drawable.chile_pink)
-                    chileColors = R.drawable.chile_pink
-                }
-            }
-
-        }
         return true
     }
 

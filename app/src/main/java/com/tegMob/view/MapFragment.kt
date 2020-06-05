@@ -88,18 +88,18 @@ class MapFragment : MyFragment() {
 
     private fun mockupDataCountries(): String {
         var data = "{\"countries\":{" +
-                "\"brazil\":{\"owner\":\"lightblue\",\"armies\": \"5\"}," +
-                "\"colombia\":{\"owner\":\"green\",\"armies\": \"1\"}," +
+                "\"brazil\":{\"owner\":\"cyan\",\"armies\": \"5\"}," +
+                "\"colombia\":{\"owner\":\"magenta\",\"armies\": \"1\"}," +
                 "\"chile\":{\"owner\":\"black\",\"armies\": \"1\"}," +
                 "\"peru\":{\"owner\":\"green\",\"armies\": \"3\"}," +
-                "\"argentina\":{\"owner\":\"lightblue\",\"armies\": \"4\"}," +
+                "\"argentina\":{\"owner\":\"cyan\",\"armies\": \"4\"}," +
                 "\"uruguay\":{\"owner\":\"red\",\"armies\": \"6\"}," +
-                "\"egypt\":{\"owner\":\"lightblue\",\"armies\": \"2\"}," +
+                "\"egypt\":{\"owner\":\"cyan\",\"armies\": \"2\"}," +
                 "\"ethiopia\":{\"owner\":\"black\",\"armies\": \"1\"}," +
                 "\"zaire\":{\"owner\":\"black\",\"armies\": \"3\"}," +
-                "\"madagascar\":{\"owner\":\"yellow\",\"armies\": \"1\"}," +
+                "\"madagascar\":{\"owner\":\"yellow\",\"armies\": \"5\"}," +
                 "\"southafrica\":{\"owner\":\"red\",\"armies\": \"1\"}," +
-                "\"sahara\":{\"owner\":\"green\",\"armies\": \"4\"}" +
+                "\"sahara\":{\"owner\":\"red\",\"armies\": \"4\"}" +
                 "}}"
 
 
