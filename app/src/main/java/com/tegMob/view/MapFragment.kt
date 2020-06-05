@@ -68,11 +68,6 @@ class MapFragment : MyFragment() {
         val receivedData: String = mockupDataCountries()
         val receivedObj = JSONObject(receivedData)
         countriesData = receivedObj.getJSONObject("countries")
-        //        val brazilData=countriesData.getJSONObject("brazil")
-        //        Log.i("Brasil color", brazilData.getString("owner"))
-        //        Log.i("Brasil ejercitos", brazilData.getString("armies"))
-
-
     }
 
     override fun getPassedData() {
