@@ -27,6 +27,7 @@ abstract class MyFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun showFragment(fragment: Fragment)
+        fun showFragment(fragment: Fragment, tag : String)
     }
 
     open fun completedFields(): Boolean {

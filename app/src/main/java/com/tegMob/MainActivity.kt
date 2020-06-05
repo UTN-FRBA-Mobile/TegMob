@@ -11,20 +11,35 @@ import com.tegMob.view.InitialFragment
 import com.tegMob.view.MapFragment
 
 class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListener {
+
+    private lateinit var fragment : MyFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragment = if (savedInstanceState != null ) { // saved instance state, fragment may exist
+            // look up the instance that already exists by tag
+            (supportFragmentManager.findFragmentByTag(TAG_MAP_FRAGMENT) as MapFragment?)!!
+        } else {
+            InitialFragment()
+        }
+
+        supportFragmentManager.popBackStack(
+            BACK_STACK_ROOT_TAG,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        );
         //        HASTA QUE TENGAMOS EL BOTÓN DE INICIAR PARTIDO SE PUEDE VER EL MAPA DESCOMENTANDO ESTO
 //                supportFragmentManager.beginTransaction()
 //                    .replace(R.id.container, MapFragment.newInstance())
 //                    .commitNow()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, InitialFragment())
+            .replace(R.id.fragment_container, fragment)
             .addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
+
     }
+
 
     //fun for closing app after tapping back twice
     private var doubleBackToExitPressedOnce = false
@@ -46,7 +61,16 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             .commit()
     }
 
+    override fun showFragment(fragment: Fragment, tag : String) {
+        supportFragmentManager.beginTransaction()
+            //.addToBackStack(null)
+            //.setCustomAnimations(R.anim.fragment_push_enter, R.anim.fragment_push_exit, R.anim.fragment_pop_enter, R.anim.fragment_pop_exit)
+            .replace(R.id.fragment_container, fragment, tag)
+            .commit()
+    }
+
     companion object {
         private const val BACK_STACK_ROOT_TAG = "root_fragment" //tag activity as root in stack
+        private const val TAG_MAP_FRAGMENT = "map_fragment"
     }
 }

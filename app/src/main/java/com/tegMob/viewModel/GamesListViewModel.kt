@@ -1,5 +1,6 @@
 package com.tegMob.viewModel
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -26,6 +27,7 @@ class GamesListViewModel : MyViewModel() {
     var imageURI = ""
     var userId = 0
     var userName = ""
+    private val TAG_MAP_FRAGMENT = "map_fragment"
     private lateinit var gamesAdapter: GamesAdapter
     private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
 
@@ -79,7 +81,7 @@ class GamesListViewModel : MyViewModel() {
                 //TODO CHANGE CODE 400 WHEN IT WORKS IN SERVER
                 if (response.isSuccessful && response.code() == 200 || response.code() == 400){
                     //TODO MAKE A SOCKET CONNECTION WITH game.socket ATTRIBUTE
-                    myFragment.listener!!.showFragment(MapFragment())
+                    myFragment.listener!!.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
                 } else {
                     Toast.makeText(myContext, "Hubo un error al unirse a la partida", Toast.LENGTH_SHORT).show()
                 }

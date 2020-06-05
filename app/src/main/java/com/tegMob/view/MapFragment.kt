@@ -1,5 +1,6 @@
 package com.tegMob.view
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -28,6 +29,11 @@ class MapFragment : MyFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
+        if(activity?.requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ) {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+
         return inflater.inflate(R.layout.map_fragment, container, false)
     }
 

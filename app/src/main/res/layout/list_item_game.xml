@@ -6,6 +6,7 @@
     android:layout_margin="8dp"
     android:background="@color/primaryColor"
     android:orientation="horizontal"
+    android:id="@+id/list_item_game"
     >
 
         <ImageView
