@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.tegMob.connectivity.ClientBuilder
 import com.tegMob.connectivity.UsersRouter
-import com.tegMob.models.User
+import com.tegMob.connectivity.dtos.UserDTOs
 import com.tegMob.utils.MyViewModel
 import com.tegMob.view.InitialFragment
 import kotlinx.android.synthetic.main.sign_up_fragment.*
@@ -13,19 +13,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SignUpViewModel : MyViewModel() {
-    var firstName : String = ""
-    var lastName : String = ""
-    var email : String = ""
-    var userNameSignUp : String = ""
-    var passwordSignUp : String = ""
+    private var firstName = ""
+    private var lastName = ""
+    private var email = ""
+    private var userNameSignUp = ""
+    private var passwordSignUp = ""
+    private val usersClient = ClientBuilder.UsersClientBuilder.buildService(UsersRouter::class.java)
 
     fun signUpFinishButton(){
         if (myFragment.completedFields()) {
-            val newUser = getUser()
 
-            val request = ClientBuilder.UsersClientBuilder.buildService(UsersRouter::class.java)
+            val newUser = getNewUserData()
 
-            val  call = request.createUser(newUser)
+            val  call = usersClient.createUser(newUser)
 
             call.enqueue(object : Callback<Unit>{
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
@@ -50,7 +50,21 @@ class SignUpViewModel : MyViewModel() {
         TODO("Not yet implemented")
     }
 
-    private fun getUser() = User (
+    fun saveData(){
+        firstName = myFragment.firstName?.text.toString()
+        lastName = myFragment.lastName?.text.toString()
+        email = myFragment.email?.text.toString()
+        userNameSignUp = myFragment.usernameSignUp?.text.toString()
+        passwordSignUp = myFragment.passwordSignUp?.text.toString()
+    }
+
+    fun loadData(){
+        myFragment.firstName.setText(firstName)
+        myFragment.lastName.setText(lastName)
+        myFragment.email.setText(email)
+        myFragment.usernameSignUp.setText(userNameSignUp)
+    }
+    private fun getNewUserData() = UserDTOs.NewUser (
         username = myFragment.usernameSignUp.toString(),
         password = myFragment.passwordSignUp.toString(),
         firstname = myFragment.firstName.toString(),

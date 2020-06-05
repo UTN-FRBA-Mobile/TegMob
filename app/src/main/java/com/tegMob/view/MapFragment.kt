@@ -15,6 +15,8 @@ import android.view.ViewGroup
 
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
+import com.tegMob.viewModel.MapViewModel
+import com.tegMob.viewModel.SignUpViewModel
 import kotlinx.android.synthetic.main.map_fragment.*
 
 
@@ -31,6 +33,8 @@ class MapFragment : MyFragment() {
     private var windowWidth: Int = 0
     private var densityRelation: Float = 0F
     private val displayMetrics = DisplayMetrics()
+
+    private lateinit var viewModel: MapViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         //        return inflater.inflate(R.layout.main_fragment, container, false)
@@ -73,7 +77,8 @@ class MapFragment : MyFragment() {
     }
 
     override fun initViewModel() {
-        TODO("Not yet implemented")
+        viewModel = MapViewModel()
+        context?.let { viewModel.init(this, listener, it) }
     }
 
 
@@ -206,6 +211,8 @@ class MapFragment : MyFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = MapFragment()
+        fun newInstance() = MapFragment().apply {
+            arguments = Bundle()
+        }
     }
 }

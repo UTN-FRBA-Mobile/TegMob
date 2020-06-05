@@ -1,17 +1,12 @@
 package com.tegMob.view
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
-import com.tegMob.viewModel.LogInViewModel
-import kotlinx.android.synthetic.main.initial_fragment.*
 import com.tegMob.viewModel.SignUpViewModel
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 
@@ -28,18 +23,13 @@ class SignUpFragment : MyFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        viewModel.loadData()
         initButtons()
     }
 
     override fun initViewModel(){
         viewModel = SignUpViewModel()
         context?.let { viewModel.init(this, listener, it) }
-
-        firstName.setText(viewModel.firstName)
-        lastName.setText(viewModel.lastName)
-        email.setText(viewModel.email)
-        usernameSignUp.setText(viewModel.userNameSignUp)
-
     }
 
     private fun initButtons() {
@@ -48,11 +38,7 @@ class SignUpFragment : MyFragment() {
 
 
     override fun onPause() {
-        viewModel.firstName = firstName?.text.toString()
-        viewModel.lastName = lastName?.text.toString()
-        viewModel.email = email?.text.toString()
-        viewModel.userNameSignUp = usernameSignUp?.text.toString()
-
+        viewModel.saveData()
         super.onPause()
     }
 
