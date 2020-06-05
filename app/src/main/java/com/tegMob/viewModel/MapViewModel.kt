@@ -185,14 +185,14 @@ class MapViewModel : MyViewModel() {
         return b
     }
 
+    val redValue = Color.red(touchColor)
+    val blueValue = Color.blue(touchColor)
+    val greenValue = Color.green(touchColor)
+    val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue
     fun screenTouched(view: View, event: MotionEvent): Boolean {
 
-        val touchColor: Int = bitMapFullView.getPixel(event.getX().toInt(), event.getY().toInt())
-        val redValue = Color.red(touchColor)
-        val blueValue = Color.blue(touchColor)
-        val greenValue = Color.green(touchColor)
-        val countryImage: ImageView = countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()]!!
-        Log.i("país clickeado", countryImage.contentDescription.toString())
+        val touchColor: Int = bitMapFullView.getPixel(event.getX().toInt(), event.getY().toInt()).toString()]
+        Log.i("país clickeado", countryImage?.contentDescription.toString())
 
         return true
     }
