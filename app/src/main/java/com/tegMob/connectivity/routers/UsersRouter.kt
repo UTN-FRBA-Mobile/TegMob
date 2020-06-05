@@ -1,4 +1,4 @@
-package com.tegMob.connectivity
+package com.tegMob.connectivity.routers
 
 import com.tegMob.connectivity.dtos.UserDTOs
 import com.tegMob.models.*

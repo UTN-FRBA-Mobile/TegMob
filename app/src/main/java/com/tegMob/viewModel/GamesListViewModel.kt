@@ -1,18 +1,16 @@
 package com.tegMob.viewModel
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.ClientBuilder
-import com.tegMob.connectivity.MatchesRouter
+import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
-import com.tegMob.models.Game
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
@@ -30,7 +28,7 @@ class GamesListViewModel : MyViewModel() {
     private val TAG_MAP_FRAGMENT = "map_fragment"
     private lateinit var gamesAdapter: GamesAdapter
     private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
-
+    private val matchHandler: MatchHandler = MatchHandler
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
@@ -81,6 +79,7 @@ class GamesListViewModel : MyViewModel() {
                 //TODO CHANGE CODE 400 WHEN IT WORKS IN SERVER
                 if (response.isSuccessful && response.code() == 200 || response.code() == 400){
                     //TODO MAKE A SOCKET CONNECTION WITH game.socket ATTRIBUTE
+                    joinMatchInServer()
                     myFragment.listener!!.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
                 } else {
                     Toast.makeText(myContext, "Hubo un error al unirse a la partida", Toast.LENGTH_SHORT).show()
@@ -90,5 +89,9 @@ class GamesListViewModel : MyViewModel() {
                 Toast.makeText(myContext, "No games founds!", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    fun joinMatchInServer() {
+        matchHandler.joinMatch(myContext)
     }
 }

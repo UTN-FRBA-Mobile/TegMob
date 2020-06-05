@@ -186,15 +186,17 @@ class MapViewModel : MyViewModel() {
 
     fun screenTouched(view: View, event: MotionEvent): Boolean {
 
-        val touchColor: Int = bitMapFullView.getPixel(event.x.toInt(), event.y.toInt())
+        val touchColor: Int = bitMapFullView.getPixel(event.getX().toInt(), event.getY().toInt())
         val redValue = Color.red(touchColor)
         val blueValue = Color.blue(touchColor)
         val greenValue = Color.green(touchColor)
-        val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()]
+        val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue]
         Log.i("país clickeado", countryImage?.contentDescription.toString())
 
         return true
     }
+
+
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
