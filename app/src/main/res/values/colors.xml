@@ -6,4 +6,5 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="primaryButtonColor">#431200</color>
     <color name="colorMapSea">#0087CA</color>
+    <color name="armiesNumberColor">#000000</color>
 </resources>

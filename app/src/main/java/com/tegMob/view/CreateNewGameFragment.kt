@@ -14,8 +14,7 @@ class CreateNewGameFragment : MyFragment() {
     private lateinit var viewModel: CreateNewGameViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.new_game_fragment, container, false)
     }
@@ -27,9 +26,9 @@ class CreateNewGameFragment : MyFragment() {
     }
 
     private fun initButtons() {
-        createGameButton.setOnClickListener{viewModel.createNewGame()}
-        addPlayerButton.setOnClickListener{viewModel.addNewPlayer()}
-        startGameButton.setOnClickListener{viewModel.startNewGame()}
+        createGameButton.setOnClickListener { viewModel.createNewGame() }
+        addPlayerButton.setOnClickListener { viewModel.addNewPlayer() }
+        startGameButton.setOnClickListener { viewModel.startNewGame() }
     }
 
     override fun getPassedData() {

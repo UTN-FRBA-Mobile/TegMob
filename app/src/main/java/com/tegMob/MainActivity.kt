@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager
 import com.tegMob.utils.MyFragment
 import com.tegMob.view.InitialFragment
 import com.tegMob.view.MapFragment
-import com.tegMob.view.SignUpFragment
 
 class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,9 +17,9 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
 
         supportFragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         //        HASTA QUE TENGAMOS EL BOTÓN DE INICIAR PARTIDO SE PUEDE VER EL MAPA DESCOMENTANDO ESTO
-        //        supportFragmentManager.beginTransaction()
-        //            .replace(R.id.container, MapFragment.newInstance())
-        //            .commitNow()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, MapFragment.newInstance())
+                    .commitNow()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, InitialFragment())
             .addToBackStack(BACK_STACK_ROOT_TAG)

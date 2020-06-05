@@ -6,96 +6,238 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mapa_480x800"
-
+    android:orientation="horizontal"
     tools:context=".view.MapFragment">
 
 
+    <!-- América del Sur -->
+    <ImageView
+        android:id="@+id/imageColombia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/colombia_name"
+        android:src="@drawable/colombia_white"
+        />
 
-        <!-- América del Sur -->
-        <ImageView
-            android:id="@+id/imageColombia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/colombia_green"
-            android:visibility="visible" />
+    <TextView
+        android:id="@+id/numberColombia"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageColombia"
+        android:layout_alignTop="@id/imageColombia"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
 
-        <ImageView
-            android:id="@+id/imagePeru"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Perú"
-            android:src="@drawable/peru_green" />
+    <ImageView
+        android:id="@+id/imagePeru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/peru_name"
+        android:src="@drawable/peru_white" />
 
-        <ImageView
-            android:id="@+id/imageBrasil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Brasil"
-            android:src="@drawable/brasil_lightblue" />
+    <TextView
+        android:id="@+id/numberPeru"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imagePeru"
+        android:layout_alignTop="@id/imagePeru"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
 
-        <ImageView
-            android:id="@+id/imageChile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Chile"
-            android:src="@drawable/chile_pink" />
+    <ImageView
+        android:id="@+id/imageBrazil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/brazil_name"
+        android:src="@drawable/brazil_white" />
 
-        <ImageView
-            android:id="@+id/imageArgentina"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Argentina"
-            android:src="@drawable/argentina_lightblue" />
-
-        <ImageView
-            android:id="@+id/imageUruguay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Uruguay"
-            android:src="@drawable/uruguay_red" />
-
-        <!-- África -->
-        <ImageView
-            android:id="@+id/imageSudafrica"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Sudafrica"
-            android:src="@drawable/sudafrica_red" />
-
-        <ImageView
-            android:id="@+id/imageSahara"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Sahara"
-            android:src="@drawable/sahara_green" />
-
-        <ImageView
-            android:id="@+id/imageEgipto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Egipto"
-            android:src="@drawable/egipto_celeste" />
-
-        <ImageView
-            android:id="@+id/imageEtiopia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Etiopía"
-            android:src="@drawable/etiopia_black" />
-
-        <ImageView
-            android:id="@+id/imageZaire"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Zaire"
-            android:src="@drawable/zaire_black" />
-
-        <ImageView
-            android:id="@+id/imageMadagascar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Madagascar"
-            android:src="@drawable/madagascar_yellow" />
+    <TextView
+        android:id="@+id/numberBrazil"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageBrazil"
+        android:layout_alignTop="@id/imageBrazil"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
 
 
-    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageArgentina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/argentina_name"
+        android:src="@drawable/argentina_white" />
+
+    <TextView
+        android:id="@+id/numberArgentina"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageArgentina"
+        android:layout_alignTop="@id/imageArgentina"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+    <ImageView
+        android:id="@+id/imageChile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/chile_name"
+        android:src="@drawable/chile_white"/>
+
+    <TextView
+        android:id="@+id/numberChile"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageChile"
+        android:layout_alignTop="@id/imageChile"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+    <ImageView
+        android:id="@+id/imageUruguay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/uruguay_name"
+        android:src="@drawable/uruguay_white" />
+
+    <TextView
+        android:id="@+id/numberUruguay"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageUruguay"
+        android:layout_alignTop="@id/imageUruguay"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+    <!-- África -->
+    <ImageView
+        android:id="@+id/imageSouthafrica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/southafrica_name"
+        android:src="@drawable/southafrica_white" />
+
+    <TextView
+        android:id="@+id/numberSouthafrica"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageSouthafrica"
+        android:layout_alignTop="@id/imageSouthafrica"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+
+    <ImageView
+        android:id="@+id/imageSahara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/sahara_name"
+        android:src="@drawable/sahara_white" />
+
+    <TextView
+        android:id="@+id/numberSahara"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageSahara"
+        android:layout_alignTop="@id/imageSahara"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+
+    <ImageView
+        android:id="@+id/imageEgypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/egypt_name"
+        android:src="@drawable/egypt_white" />
+
+    <TextView
+        android:id="@+id/numberEgypt"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageEgypt"
+        android:layout_alignTop="@id/imageEgypt"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+
+    <ImageView
+        android:id="@+id/imageEthiopia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/ethiopia_name"
+        android:src="@drawable/ethiopia_white" />
+
+    <TextView
+        android:id="@+id/numberEthiopia"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageEthiopia"
+        android:layout_alignTop="@id/imageEthiopia"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+
+    <ImageView
+        android:id="@+id/imageZaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/zaire_name"
+        android:src="@drawable/zaire_white" />
+
+    <TextView
+        android:id="@+id/numberZaire"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageZaire"
+        android:layout_alignTop="@id/imageZaire"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+
+    <ImageView
+        android:id="@+id/imageMadagascar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/madagascar_name"
+        android:src="@drawable/madagascar_white" />
+
+    <TextView
+        android:id="@+id/numberMadagascar"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/imageMadagascar"
+        android:layout_alignTop="@id/imageMadagascar"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_white"
+        android:gravity="center"
+        android:textColor="@color/armiesNumberColor"
+        android:textSize="8sp" />
+
+</RelativeLayout>
