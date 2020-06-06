@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             BACK_STACK_ROOT_TAG,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         );
-        //        HASTA QUE TENGAMOS EL BOTÓN DE INICIAR PARTIDO SE PUEDE VER EL MAPA DESCOMENTANDO ESTO
+        //        DESCOMENTO ESTO PARA INICIAR EL PARTIDO SIN LAS PANTALLAS PREVIAS CADA VEZ QUE QUIERO PROBAR (Guille)
 //                supportFragmentManager.beginTransaction()
 //                    .replace(R.id.container, MapFragment.newInstance())
 //                    .commitNow()

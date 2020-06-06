@@ -16,8 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/colombia_name"
-        android:src="@drawable/colombia_white"
-        />
+        android:src="@drawable/colombia_white" />
 
     <TextView
         android:id="@+id/numberColombia"
@@ -70,7 +69,6 @@
         android:textSize="8sp" />
 
 
-
     <ImageView
         android:id="@+id/imageArgentina"
         android:layout_width="wrap_content"
@@ -89,12 +87,13 @@
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
+
     <ImageView
         android:id="@+id/imageChile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/chile_name"
-        android:src="@drawable/chile_white"/>
+        android:src="@drawable/chile_white" />
 
     <TextView
         android:id="@+id/numberChile"
@@ -107,6 +106,7 @@
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
+
     <ImageView
         android:id="@+id/imageUruguay"
         android:layout_width="wrap_content"
@@ -239,5 +239,184 @@
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="Ataque"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/attacker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/defender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btnAtack"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="@string/atack"
+            android:visibility="invisible" />
+        <Button
+            android:id="@+id/btnAccept"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="@string/accept"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVerticalLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.09" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVerticalRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.91" />
+
+
+        <LinearLayout
+            android:id="@+id/movingDicesAttacker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+            app:layout_constraintTop_toBottomOf="parent"
+            android:visibility="invisible"
+
+            >
+
+            <ImageView
+                android:id="@+id/movingDicesAttacker1"
+                android:layout_width="51dp"
+                android:layout_height="50dp"
+                android:background="@drawable/dice1"
+                />
+            <ImageView
+                android:id="@+id/movingDicesAttacker2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/dice2"
+                android:layout_marginHorizontal="20dp"
+                />
+            <ImageView
+                android:id="@+id/movingDicesAttacker3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/dice3"
+                />
+            <!--<pl.droidsonroids.gif.GifImageView
+                android:id="@+id/movingDicesAttacker1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mov_dice" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/movingDicesAttacker2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mov_dice" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/movingDicesAttacker3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mov_dice" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/movingDicesDefender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/movingDicesAttacker"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+            app:layout_constraintTop_toBottomOf="parent"
+            android:visibility="invisible"
+            >
+            <ImageView
+                android:id="@+id/movingDicesDefender1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/dice4"
+                />
+            <ImageView
+                android:id="@+id/movingDicesDefender2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/dice5"
+                android:layout_marginHorizontal="20dp"
+                />
+            <ImageView
+                android:id="@+id/movingDicesDefender3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/dice6"
+                />
+         <!--   <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/movingDicesDefender1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mov_dice" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/movingDicesDefender2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mov_dice" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/movingDicesDefender3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/mov_dice" />-->
+        </LinearLayout>
+            <!--    <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/mov_dice"
+                    />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

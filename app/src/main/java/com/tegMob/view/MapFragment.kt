@@ -1,6 +1,7 @@
 package com.tegMob.view
 
 import android.content.pm.ActivityInfo
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.MapViewModel
+import kotlinx.android.synthetic.main.map_fragment.*
+import kotlinx.coroutines.delay
 import org.json.JSONObject
 
 
@@ -30,7 +33,7 @@ class MapFragment : MyFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        if(activity?.requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ) {
+        if (activity?.requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
 
@@ -47,6 +50,46 @@ class MapFragment : MyFragment() {
                 viewModel.screenTouched(v, event)
             }
             true
+        }
+
+        btnAtack.setOnClickListener {
+            val dice1 = movingDicesAttacker1.background as AnimationDrawable
+            dice1.start()
+            val dice2 = movingDicesAttacker2.background as AnimationDrawable
+            dice2.start()
+            val dice3 = movingDicesAttacker3.background as AnimationDrawable
+            dice3.start()
+            val dice4 = movingDicesDefender1.background as AnimationDrawable
+            dice4.start()
+            val dice5 = movingDicesDefender2.background as AnimationDrawable
+            dice5.start()
+            val dice6 = movingDicesDefender3.background as AnimationDrawable
+            dice6.start()
+            movingDicesAttacker.visibility = View.VISIBLE
+            movingDicesDefender.visibility = View.VISIBLE
+            btnAtack.visibility = View.INVISIBLE
+        }
+
+        imageSouthafrica.setOnClickListener {
+            val dice1 = movingDicesAttacker1.background as AnimationDrawable
+            dice1.stop()
+            val dice2 = movingDicesAttacker2.background as AnimationDrawable
+            dice2.stop()
+            val dice3 = movingDicesAttacker3.background as AnimationDrawable
+            dice3.stop()
+            val dice4 = movingDicesDefender1.background as AnimationDrawable
+            dice4.stop()
+            val dice5 = movingDicesDefender2.background as AnimationDrawable
+            dice5.stop()
+            val dice6 = movingDicesDefender3.background as AnimationDrawable
+            dice6.stop()
+            btnAccept.visibility = View.VISIBLE
+        }
+        btnAccept.setOnClickListener {
+            movingDicesAttacker.visibility = View.INVISIBLE
+            movingDicesDefender.visibility = View.INVISIBLE
+            btnAccept.visibility = View.INVISIBLE
+
         }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -84,7 +127,6 @@ class MapFragment : MyFragment() {
         viewModel = MapViewModel()
         context?.let { viewModel.init(this, listener, it) }
     }
-
 
 
     private fun mockupDataCountries(): String {

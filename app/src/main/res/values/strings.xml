@@ -41,4 +41,8 @@
     <string name="egypt_name">Egipto</string>
     <string name="southafrica_name">Sudáfrica</string>
     <string name="zaire_name">Zaire</string>
+
+    <!-- Mapa -->
+    <string name="atack">Atacar</string>
+    <string name="accept">OK</string>
 </resources>
