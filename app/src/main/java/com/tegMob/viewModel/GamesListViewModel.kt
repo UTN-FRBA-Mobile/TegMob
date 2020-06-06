@@ -1,18 +1,16 @@
 package com.tegMob.viewModel
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.ClientBuilder
-import com.tegMob.connectivity.MatchesRouter
+import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
-import com.tegMob.models.Game
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
@@ -28,9 +26,8 @@ class GamesListViewModel : MyViewModel() {
     var userId = 0
     var userName = ""
     private val TAG_MAP_FRAGMENT = "map_fragment"
-    private lateinit var gamesAdapter: GamesAdapter
+    private var gamesAdapter: GamesAdapter = GamesAdapter(listOf(), this)
     private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
-
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")

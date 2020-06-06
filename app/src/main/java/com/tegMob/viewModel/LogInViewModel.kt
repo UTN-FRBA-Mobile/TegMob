@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import com.tegMob.connectivity.ClientBuilder
-import com.tegMob.connectivity.UsersRouter
+import com.tegMob.connectivity.routers.UsersRouter
 import com.tegMob.connectivity.dtos.UserDTOs
 import com.tegMob.utils.MyViewModel
 import com.tegMob.view.InitialFragment

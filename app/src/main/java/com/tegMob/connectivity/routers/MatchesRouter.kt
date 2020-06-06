@@ -1,4 +1,4 @@
-package com.tegMob.connectivity
+package com.tegMob.connectivity.routers
 import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.models.Game
 import retrofit2.Call

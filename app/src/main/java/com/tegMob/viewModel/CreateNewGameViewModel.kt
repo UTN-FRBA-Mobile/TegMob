@@ -3,18 +3,17 @@ package com.tegMob.viewModel
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.ClientBuilder
-import com.tegMob.connectivity.MatchesRouter
+import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.models.Player
 import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.MapFragment
-import kotlinx.android.synthetic.main.list_item_player.*
 import kotlinx.android.synthetic.main.new_game_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,9 +24,10 @@ class CreateNewGameViewModel : MyViewModel() {
     var userName: String = ""
     private var matchPlayersSize: String = ""
     private val matchId = 0
-    private lateinit var playersAdapter: PlayersAdapter
-    private val matchesClient =
-        ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
+    private var playersAdapter: PlayersAdapter = PlayersAdapter(listOf(), this)
+    private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
+    private val matchHandler: MatchHandler = MatchHandler
+    private val TAG_MAP_FRAGMENT = "map_fragment"
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
@@ -69,7 +69,7 @@ class CreateNewGameViewModel : MyViewModel() {
         playersAdapter = PlayersAdapter(RandomPlayers.playersList, this)
         refreshPlayersList()
 
-        if (playersAdapter.itemCount < matchPlayersSize.toInt()) {
+        if (playersAdapter.itemCount < matchPlayersSize.toInt() -1) {
             myFragment.progressBar.visibility = View.VISIBLE
         } else {
             myFragment.progressBar.visibility = View.INVISIBLE
@@ -155,6 +155,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun startNewGame() {
-        myListener?.showFragment(MapFragment())
+        matchHandler.joinMatch(matchId)
+        myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }

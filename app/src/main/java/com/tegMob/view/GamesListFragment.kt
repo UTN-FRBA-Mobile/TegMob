@@ -1,22 +1,19 @@
 package com.tegMob.view
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import com.tegMob.R
-import com.tegMob.connectivity.ClientBuilder
-import com.tegMob.connectivity.MatchesRouter
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.GamesListViewModel
+import io.socket.client.Socket
 import kotlinx.android.synthetic.main.games_list_fragment.*
 
 class GamesListFragment : MyFragment() {
     private lateinit var viewModel : GamesListViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

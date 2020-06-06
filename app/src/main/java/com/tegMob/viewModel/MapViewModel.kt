@@ -1,11 +1,8 @@
 package com.tegMob.viewModel
 
-import android.R
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Movie
-import android.graphics.Movie.decodeStream
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -189,23 +186,14 @@ class MapViewModel : MyViewModel() {
 
     fun screenTouched(view: View, event: MotionEvent): Boolean {
 
-//        val movingDice =
-//        val movingDice = decodeStream(myFragment.movingDice);
-//
-//
-//        if (DECODE_STREAM) {
-//            mMovie = decodeStream(`is`)
-//            decodeStream(movingDice)
-//        } else {
-//            val array: ByteArray = streamToBytes(`is`)
-//            mMovie = Movie.decodeByteArray(array, 0, array.size)
-//        }
+
 
         val touchColor: Int = bitMapFullView.getPixel(event.x.toInt(), event.y.toInt())
+
         val redValue = Color.red(touchColor)
         val blueValue = Color.blue(touchColor)
         val greenValue = Color.green(touchColor)
-        val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()]
+        val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue]
         Log.i("país clickeado", countryImage?.contentDescription.toString())
         if (countryImage != null) {
             if (myFragment.attacker.visibility == View.INVISIBLE) {
@@ -230,6 +218,8 @@ class MapViewModel : MyViewModel() {
         }
         return true
     }
+
+
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
