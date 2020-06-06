@@ -27,6 +27,7 @@ class CreateNewGameViewModel : MyViewModel() {
     private var playersAdapter: PlayersAdapter = PlayersAdapter(listOf(), this)
     private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
     private val matchHandler: MatchHandler = MatchHandler
+    private val TAG_MAP_FRAGMENT = "map_fragment"
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
@@ -154,7 +155,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun startNewGame() {
-        matchHandler.joinMatch(myContext)
-        myListener?.showFragment(MapFragment())
+        matchHandler.joinMatch()
+        myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }
