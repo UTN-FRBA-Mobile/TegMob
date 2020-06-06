@@ -1,49 +1,38 @@
 package com.tegMob.connectivity.socket
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import java.net.URISyntaxException
 
 object MatchHandler {
-    private val URL = "http://localhost:8000"
+    private val URL = "http://192.168.1.23:8000"
     private var mSocket: Socket? = null
 
-    init {
-        onCreate()
-    }
-
-    private fun onCreate() {
+    private fun connect() {
         try {
             mSocket = IO.socket(URL)
-            Log.d("success", "")
+            mSocket!!.connect()
+            Log.i("SUCCESS CONNECTION TO SERVER SOCKET", "")
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.d("fail", "Failed to connect")
+            Log.i("fail", "Failed to connect")
         }
-
-        mSocket!!.connect()
     }
 
     private fun getSocketInstance(): Socket? {
         return mSocket
     }
 
-    fun joinMatch() {
-        mSocket!!.on(Socket.EVENT_CONNECT, onConnect)
-
-        if (mSocket!!.connected()){
-            Log.i("INFO SOCKET", "socket is connected")
-        } else {
-            Log.i("ERROR SOCKET", "not connected")
-        }
+    fun joinMatch(matchId: Int) {
+        connect()
+        mSocket!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(matchId))
     }
 
-    var onConnect = Emitter.Listener{ mSocket!!.emit("hello")}
+    private fun sendMatchInitEvent(arg: Int): Emitter.Listener? {
+       return Emitter.Listener { mSocket!!.emit("match_init", arg) }
+    }
 
 
 }
