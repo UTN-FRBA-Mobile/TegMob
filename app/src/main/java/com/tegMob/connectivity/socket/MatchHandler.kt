@@ -9,7 +9,7 @@ import io.socket.emitter.Emitter
 import java.net.URISyntaxException
 
 object MatchHandler {
-    private val URL = "http://127.0.0.1:8000"
+    private val URL = "http://localhost:8000"
     private var mSocket: Socket? = null
 
     init {
@@ -18,7 +18,6 @@ object MatchHandler {
 
     private fun onCreate() {
         try {
-            //This address is the way you can connect to localhost with AVD(Android Virtual Device)
             mSocket = IO.socket(URL)
             Log.d("success", "")
 
