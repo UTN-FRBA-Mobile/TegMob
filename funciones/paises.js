@@ -33,7 +33,8 @@ var paises_usados_por_nosotros = [
     'Brasil',
     'Chile',
     'Colombia',
-    'Uruguay'
+	'Uruguay',
+	'Peru'
 ];
 
 var paises_por_continente = {
