@@ -3,6 +3,7 @@ package com.tegMob.viewModel
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.media.AsyncPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -12,10 +13,15 @@ import com.tegMob.utils.MyViewModel
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONObject
 
-
+/*
+colores de países
+ejércitos de los países
+tipo de actividad (incorporar|atacar...)
+jugador que tiene el turno
+ */
 class MapViewModel : MyViewModel() {
     private lateinit var countryBackColors: Map<String, ImageView>
-    private val playerColors = mapOf(
+    val playerColors = mapOf(
         "green" to Color.GREEN,
         "red" to Color.RED,
         "cyan" to Color.CYAN,
@@ -24,8 +30,14 @@ class MapViewModel : MyViewModel() {
         "black" to Color.BLACK
     )
     private lateinit var bitMapFullView: Bitmap
+    private lateinit var countriesData: JSONObject
+    private lateinit var currentRound: String
+    private lateinit var currentPlayer: String
 
-    fun Map(view: View, windowWidth: Int, windowHeight: Int, countriesData: JSONObject) {
+    fun Map(view: View, windowWidth: Int, windowHeight: Int, initMapData: JSONObject) {
+        countriesData = initMapData.getJSONObject("countries")
+        currentRound = initMapData.getString("currentRound")
+        currentPlayer = initMapData.getString("currentPlayer")
         bitMapFullView = loadBitmapFromView(view, windowWidth, windowHeight)
         countryBackColors = mapOf(
             "174176169" to myFragment.imageColombia,
@@ -41,7 +53,10 @@ class MapViewModel : MyViewModel() {
             "302540" to myFragment.imageSouthafrica,
             "971330" to myFragment.imageMadagascar
         )
-        setCountriesData(countriesData)
+
+        setCurrentRoundText()
+        setCurrentPlayerText()
+        setCountriesData()
         //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
         var widthRelation: Float = windowWidth / 800F
         var heightRelation: Float = windowHeight / 480F
@@ -50,7 +65,29 @@ class MapViewModel : MyViewModel() {
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
     }
 
-    private fun setCountriesData(countriesData: JSONObject) {
+    /**
+     * escribe la ronda del juego actual
+     * incorporar|atacar|....
+     */
+    private fun setCurrentRoundText() {
+        when (currentRound) {
+            "attack" -> {
+                myFragment.textCurrentRound.append(" ATAQUE")
+            }
+        }
+    }
+
+    /**
+     * escribe el jugador que tiene el turno
+     */
+    private fun setCurrentPlayerText() {
+        myFragment.textCurrentPlayer.append(" " + currentPlayer.toUpperCase())
+    }
+
+    /**
+     * setea el color y la cantidad de ejércitos que tiene cada país
+     */
+    private fun setCountriesData() {
         //América del sur
         myFragment.imageChile.setColorFilter(playerColors[countriesData.getJSONObject("chile").getString("owner")]!!)
         myFragment.imageBrazil.setColorFilter(playerColors[countriesData.getJSONObject("brazil").getString("owner")]!!)
@@ -85,6 +122,9 @@ class MapViewModel : MyViewModel() {
 
     }
 
+    /**
+     * define el tamaño y la ubicación de cada país
+     */
     private fun drawCountries(widthRelation: Float, heightRelation: Float, xRelation: Float, yRelation: Float) {
         //América del Sur
         //Tamaño de los países
@@ -170,6 +210,9 @@ class MapViewModel : MyViewModel() {
 
     }
 
+    /**
+     * crea el bitmap para usar el color de fondo para detectar qué país se toco
+     */
     private fun loadBitmapFromView(v: View, width: Int, height: Int): Bitmap {
         val b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val c = Canvas(b)
@@ -184,41 +227,15 @@ class MapViewModel : MyViewModel() {
         return b
     }
 
-    fun screenTouched(view: View, event: MotionEvent): Boolean {
-
-
-
+    fun getCountryImageTouched(view: View, event: MotionEvent): ImageView? {
         val touchColor: Int = bitMapFullView.getPixel(event.x.toInt(), event.y.toInt())
 
         val redValue = Color.red(touchColor)
         val blueValue = Color.blue(touchColor)
         val greenValue = Color.green(touchColor)
-        val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue]
-        Log.i("país clickeado", countryImage?.contentDescription.toString())
-        if (countryImage != null) {
-            if (myFragment.attacker.visibility == View.INVISIBLE) {
-                myFragment.attacker.text = countryImage?.contentDescription.toString()
-                myFragment.attacker.visibility = View.VISIBLE
-            } else if (myFragment.defender.visibility == View.INVISIBLE) {
-                if (myFragment.attacker.text != countryImage?.contentDescription.toString()) {
-                    myFragment.defender.text = countryImage?.contentDescription.toString()
-                    myFragment.defender.visibility = View.VISIBLE
-                    myFragment.btnAtack.visibility = View.VISIBLE
-                }
-            } else {
-                myFragment.attacker.text = countryImage?.contentDescription.toString()
-                myFragment.attacker.visibility = View.VISIBLE
-                myFragment.defender.visibility = View.INVISIBLE
-                myFragment.btnAtack.visibility = View.INVISIBLE
-            }
-        }else{
-            myFragment.attacker.visibility = View.INVISIBLE
-            myFragment.defender.visibility = View.INVISIBLE
-            myFragment.btnAtack.visibility = View.INVISIBLE
-        }
-        return true
+        val countryImage: ImageView? = countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()]
+        return countryImage
     }
-
 
 
     override fun setDataToPass(): Bundle {

@@ -43,6 +43,13 @@
     <string name="zaire_name">Zaire</string>
 
     <!-- Mapa -->
-    <string name="atack">Atacar</string>
+    <string name="attackVerb">Atacar</string>
+    <string name="attackNoun">Atacar</string>
     <string name="accept">OK</string>
+    <string name="currentPlayer">Turno de</string>
+    <string name="currentRound">Ronda de</string>
+    <string name="noOwnCountryError">País no propio</string>
+    <string name="noNeighbourCountryError">País no limítrofe</string>
+    <string name="errorAttackingOwnCountry">No puede atacar a un país suyo</string>
+
 </resources>
