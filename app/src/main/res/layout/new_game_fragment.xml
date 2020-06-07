@@ -30,25 +30,21 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/tableName"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-        app:layout_constraintTop_toBottomOf="@id/guidelineTopNG"
+        app:layout_constraintTop_toTopOf="@id/guidelineTopNG"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <EditText
         android:id="@+id/tableName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="36dp"
         android:autofillHints=""
         android:backgroundTint="@android:color/white"
         android:hint="@string/table_name"
         android:inputType="text"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@id/playersText"
-        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintBottom_toTopOf="@id/createGameButton"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-        app:layout_constraintRight_toLeftOf="@id/createGameButton"
         app:layout_constraintTop_toBottomOf="@+id/tableNameText"
         app:layout_constraintVertical_chainStyle="spread" />
 
@@ -56,30 +52,28 @@
         android:id="@+id/tableNameTextFinal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
         android:text="@string/table_name"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:visibility="invisible"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintBottom_toTopOf="@+id/playersText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.595" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/createGameButton"
-        android:layout_width="129dp"
-        android:layout_height="48dp"
+        android:layout_width="165dp"
+        android:layout_height="32dp"
         android:background="@drawable/search_rounded"
         android:backgroundTint="@color/primaryButtonColor"
         android:text="@string/create_game"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/addPlayerButton"
-        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-        app:layout_constraintTop_toBottomOf="@id/guidelineTopNG2" />
+        app:layout_constraintBottom_toTopOf="@id/playersText"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintTop_toBottomOf="@id/tableName"
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/playersText"
@@ -90,13 +84,13 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/playersList"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-        app:layout_constraintTop_toBottomOf="@+id/tableName"
+        app:layout_constraintTop_toBottomOf="@+id/createGameButton"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <EditText
         android:id="@+id/numberOfPlayers"
-        android:layout_width="79dp"
-        android:layout_height="41dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:autofillHints="2 a 6"
         android:backgroundTint="@android:color/white"
         android:hint="@string/match_size"
@@ -106,17 +100,17 @@
         android:textColorHint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@id/playersList"
         app:layout_constraintLeft_toRightOf="@id/playersText"
-        app:layout_constraintTop_toBottomOf="@id/tableName"
+        app:layout_constraintRight_toLeftOf="@id/addPlayerButton"
+        app:layout_constraintTop_toBottomOf="@id/createGameButton"
         app:layout_constraintVertical_chainStyle="spread" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playersList"
-        android:layout_width="325dp"
-        android:layout_height="436dp"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         app:layout_constraintBottom_toTopOf="@+id/startGameButton"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
         app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineVerticalLeft"
         app:layout_constraintTop_toBottomOf="@id/playersText"
         app:layout_constraintVertical_chainStyle="spread" />
 
