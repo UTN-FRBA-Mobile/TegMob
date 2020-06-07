@@ -63,6 +63,7 @@ class MapViewModel : MyViewModel() {
         var xRelation: Float = widthRelation
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
+
     }
 
     /**
@@ -140,32 +141,44 @@ class MapViewModel : MyViewModel() {
         myFragment.imageArgentina.layoutParams.height = (92F * heightRelation).toInt()
         myFragment.imageUruguay.layoutParams.width = (52F * widthRelation).toInt()
         myFragment.imageUruguay.layoutParams.height = (44F * heightRelation).toInt()
-
         //Ubicación de los países
         myFragment.imageColombia.x = 217F * xRelation      //217
         myFragment.imageColombia.y = 243F * yRelation     //243
         myFragment.numberColombia.x = myFragment.imageColombia.x + (myFragment.imageColombia.layoutParams.width / 2) - (myFragment.numberColombia.layoutParams.width / 2)
         myFragment.numberColombia.y = myFragment.imageColombia.y + (myFragment.imageColombia.layoutParams.height / 2) - (myFragment.numberColombia.layoutParams.height / 2)
+        myFragment.textNameColombia.x = myFragment.numberColombia.x - 40
+        myFragment.textNameColombia.y = myFragment.numberColombia.y - 30
         myFragment.imagePeru.x = 224F * xRelation
         myFragment.imagePeru.y = 282F * yRelation
         myFragment.numberPeru.x = myFragment.imagePeru.x + (myFragment.imagePeru.layoutParams.width / 2) - (myFragment.numberPeru.layoutParams.width / 2)
         myFragment.numberPeru.y = myFragment.imagePeru.y + (myFragment.imagePeru.layoutParams.height / 2) - (myFragment.numberPeru.layoutParams.height / 2)
+        myFragment.textNamePeru.x = myFragment.numberPeru.x - 40
+        myFragment.textNamePeru.y = myFragment.numberPeru.y - 30
         myFragment.imageBrazil.x = 269F * xRelation    //269
         myFragment.imageBrazil.y = 246F * yRelation
         myFragment.numberBrazil.x = myFragment.imageBrazil.x + (myFragment.imageBrazil.layoutParams.width / 2) - (myFragment.numberBrazil.layoutParams.width / 2)
         myFragment.numberBrazil.y = myFragment.imageBrazil.y + (myFragment.imageBrazil.layoutParams.height / 2) - (myFragment.numberBrazil.layoutParams.height / 2)
+        myFragment.textNameBrazil.x = myFragment.numberBrazil.x - 10
+        myFragment.textNameBrazil.y = myFragment.numberBrazil.y + 30
         myFragment.imageChile.x = 238F * xRelation     //238
         myFragment.imageChile.y = 321F * yRelation
         myFragment.numberChile.x = myFragment.imageChile.x + (myFragment.imageChile.layoutParams.width / 2) - (myFragment.numberChile.layoutParams.width / 2)
         myFragment.numberChile.y = myFragment.imageChile.y + (myFragment.imageChile.layoutParams.height / 2) - (myFragment.numberChile.layoutParams.height / 2)
+        myFragment.textNameChile.x = myFragment.numberChile.x - 40
+        myFragment.textNameChile.y = myFragment.numberChile.y - 30
         myFragment.imageArgentina.x = 247F * xRelation
         myFragment.imageArgentina.y = 319F * yRelation
         myFragment.numberArgentina.x = myFragment.imageArgentina.x + (myFragment.imageArgentina.layoutParams.width / 2) - (myFragment.numberArgentina.layoutParams.width / 2)
         myFragment.numberArgentina.y = myFragment.imageArgentina.y + (myFragment.imageArgentina.layoutParams.height / 2) - (myFragment.numberArgentina.layoutParams.height / 2)
+        myFragment.textNameArgentina.x = myFragment.numberArgentina.x - 20
+        myFragment.textNameArgentina.y = myFragment.numberArgentina.y +30
         myFragment.imageUruguay.x = 285F * xRelation   //285
         myFragment.imageUruguay.y = 322F * yRelation   //322
         myFragment.numberUruguay.x = myFragment.imageUruguay.x + (myFragment.imageUruguay.layoutParams.width / 2) - (myFragment.numberUruguay.layoutParams.width / 2)
         myFragment.numberUruguay.y = myFragment.imageUruguay.y + (myFragment.imageUruguay.layoutParams.height / 2) - (myFragment.numberUruguay.layoutParams.height / 2)
+        myFragment.textNameUruguay.x = myFragment.numberUruguay.x + 30
+        myFragment.textNameUruguay.y = myFragment.numberUruguay.y +10
+
 
         // África
         //Tamaño de los países
@@ -187,26 +200,38 @@ class MapViewModel : MyViewModel() {
         myFragment.imageSahara.y = 294F * yRelation
         myFragment.numberSahara.x = myFragment.imageSahara.x + (myFragment.imageSahara.layoutParams.width / 2) - (myFragment.numberSahara.layoutParams.width / 2)
         myFragment.numberSahara.y = myFragment.imageSahara.y + (myFragment.imageSahara.layoutParams.height / 2) - (myFragment.numberSahara.layoutParams.height / 2)
+        myFragment.textNameSahara.x = myFragment.numberSahara.x - 30
+        myFragment.textNameSahara.y = myFragment.numberSahara.y - 30
         myFragment.imageEgypt.x = 517F * xRelation    //520
         myFragment.imageEgypt.y = 289F * yRelation
         myFragment.numberEgypt.x = myFragment.imageEgypt.x + (myFragment.imageEgypt.layoutParams.width / 2) - (myFragment.numberEgypt.layoutParams.width / 2)
         myFragment.numberEgypt.y = myFragment.imageEgypt.y + (myFragment.imageEgypt.layoutParams.height / 2) - (myFragment.numberEgypt.layoutParams.height / 2)
+        myFragment.textNameEgypt.x = myFragment.numberEgypt.x - 20
+        myFragment.textNameEgypt.y = myFragment.numberEgypt.y - 30
         myFragment.imageEthiopia.x = 518 * xRelation
         myFragment.imageEthiopia.y = 317F * yRelation  //330
         myFragment.numberEthiopia.x = myFragment.imageEthiopia.x + (myFragment.imageEthiopia.layoutParams.width / 2) - (myFragment.numberEthiopia.layoutParams.width / 2)
         myFragment.numberEthiopia.y = myFragment.imageEthiopia.y + (myFragment.imageEthiopia.layoutParams.height / 2) - (myFragment.numberEthiopia.layoutParams.height / 2)
+        myFragment.textNameEthiopia.x = myFragment.numberEthiopia.x +30
+        myFragment.textNameEthiopia.y = myFragment.numberEthiopia.y +15
         myFragment.imageZaire.x = 464F * xRelation
         myFragment.imageZaire.y = 340F * yRelation
         myFragment.numberZaire.x = myFragment.imageZaire.x + (myFragment.imageZaire.layoutParams.width / 2) - (myFragment.numberZaire.layoutParams.width / 2)
         myFragment.numberZaire.y = myFragment.imageZaire.y + (myFragment.imageZaire.layoutParams.height / 2) - (myFragment.numberZaire.layoutParams.height / 2)
+        myFragment.textNameZaire.x = myFragment.numberZaire.x - 40
+        myFragment.textNameZaire.y = myFragment.numberZaire.y +30
         myFragment.imageSouthafrica.x = 537F * xRelation
         myFragment.imageSouthafrica.y = 364F * yRelation
         myFragment.numberSouthafrica.x = myFragment.imageSouthafrica.x + (myFragment.imageSouthafrica.layoutParams.width / 2) - (myFragment.numberSouthafrica.layoutParams.width / 2)
         myFragment.numberSouthafrica.y = myFragment.imageSouthafrica.y + (myFragment.imageSouthafrica.layoutParams.height / 2) - (myFragment.numberSouthafrica.layoutParams.height / 2)
+        myFragment.textNameSouthafrica.x = myFragment.numberSouthafrica.x - 40
+        myFragment.textNameSouthafrica.y = myFragment.numberSouthafrica.y +30
         myFragment.imageMadagascar.x = 618F * xRelation
         myFragment.imageMadagascar.y = 317F * yRelation
         myFragment.numberMadagascar.x = myFragment.imageMadagascar.x + (myFragment.imageMadagascar.layoutParams.width / 2) - (myFragment.numberMadagascar.layoutParams.width / 2)
         myFragment.numberMadagascar.y = myFragment.imageMadagascar.y + (myFragment.imageMadagascar.layoutParams.height / 2) - (myFragment.numberMadagascar.layoutParams.height / 2)
+        myFragment.textNameMadagascar.x = myFragment.numberMadagascar.x - 40
+        myFragment.textNameMadagascar.y = myFragment.numberMadagascar.y - 30
 
     }
 

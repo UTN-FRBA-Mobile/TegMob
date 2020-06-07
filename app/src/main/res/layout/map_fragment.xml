@@ -7,13 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".view.MapFragment">
+
     <ImageView
         android:id="@+id/backgroundMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/mapa_back"
-        />
-
+        android:background="@drawable/mapa_back" />
 
 
     <!-- América del Sur -->
@@ -73,7 +72,6 @@
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
         android:textSize="8sp" />
-
 
     <ImageView
         android:id="@+id/imageArgentina"
@@ -260,8 +258,7 @@
             android:text="Ataque"
             android:textColor="@color/primaryTextColor"
             android:textSize="20sp"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/attacker"
@@ -287,12 +284,14 @@
             android:layout_height="50dp"
             android:text="@string/attackVerb"
             android:visibility="invisible" />
+
         <Button
             android:id="@+id/btnStop"
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:text="STOP"
             android:visibility="invisible" />
+
         <Button
             android:id="@+id/btnAccept"
             android:layout_width="80dp"
@@ -320,44 +319,51 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.99" />
 
-
+        <ImageView
+            android:id="@+id/locationIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/location_icon"
+            />
         <TextView
             android:id="@+id/textCurrentPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@color/primaryDarkColor"
             android:text="@string/currentPlayer"
             android:textColor="@color/primaryTextColor"
             android:textSize="20dp"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textCurrentRound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@color/primaryDarkColor"
             android:text="@string/currentRound"
             android:textColor="@color/primaryTextColor"
             android:textSize="20dp"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@id/textCurrentPlayer"
-            android:layout_marginTop="10dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/textCurrentPlayer" />
 
         <LinearLayout
             android:id="@+id/movingDicesAttacker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:visibility="invisible"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@id/textCurrentRound"
-            android:layout_marginTop="50dp"
-            >
+            app:layout_constraintTop_toBottomOf="@id/textCurrentRound">
 
             <ImageView
                 android:id="@+id/movingDicesAttacker1"
@@ -383,12 +389,11 @@
             android:id="@+id/movingDicesDefender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:visibility="invisible"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toBottomOf="@id/movingDicesAttacker"
-            android:layout_marginTop="20dp"
-            >
+            app:layout_constraintTop_toBottomOf="@id/movingDicesAttacker">
 
             <ImageView
                 android:id="@+id/movingDicesDefender1"
@@ -409,46 +414,150 @@
                 android:layout_height="50dp"
                 android:background="@drawable/dice6" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/errorNoOwnCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/primaryDarkColor"
             android:text="@string/noOwnCountryError"
             android:textColor="@color/primaryTextColor"
             android:textSize="20dp"
             android:visibility="invisible"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
+
         <TextView
             android:id="@+id/errorNoNeighbourCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/primaryDarkColor"
             android:text="@string/noNeighbourCountryError"
             android:textColor="@color/primaryTextColor"
             android:textSize="20dp"
             android:visibility="invisible"
-            />
-<!--        errorAttackingOwnCountry-->
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
+        <!--        errorAttackingOwnCountry-->
         <TextView
             android:id="@+id/errorAttackingOwnCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/primaryDarkColor"
             android:text="@string/errorAttackingOwnCountry"
             android:textColor="@color/primaryTextColor"
             android:textSize="20dp"
             android:visibility="invisible"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+            app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <RelativeLayout
+        android:id="@+id/countryNames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+        <!-- América del Sur -->
+        <TextView
+            android:id="@+id/textNameColombia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/colombia_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNamePeru"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/peru_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameBrazil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/brazil_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameChile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/chile_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameArgentina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/argentina_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameUruguay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/uruguay_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <!-- África -->
+        <TextView
+            android:id="@+id/textNameSahara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/sahara_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameEgypt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/egypt_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameEthiopia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/ethiopia_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameZaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/zaire_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameSouthafrica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/southafrica_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/textNameMadagascar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryDarkColor"
+            android:text="@string/madagascar_name"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
 </RelativeLayout>

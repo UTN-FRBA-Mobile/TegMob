@@ -147,15 +147,19 @@ class MapFragment : MyFragment() {
         }
 
         btnAccept.setOnClickListener {
-           resetAttack()
+            resetAttack()
+        }
+
+        locationIcon.setOnClickListener() {
+            if (countryNames.visibility == View.VISIBLE)
+                countryNames.visibility = View.INVISIBLE
+            else
+                countryNames.visibility = View.VISIBLE
         }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         windowWidth = displayMetrics.widthPixels
         windowHeight = displayMetrics.heightPixels
-
-
-
 
         viewModel.run { Map(view, windowWidth, windowHeight, initMapData) }
         /*        windowWidth = mapaBack.layoutParams.width
@@ -169,7 +173,10 @@ class MapFragment : MyFragment() {
 
     }
 
-    private fun resetAttack(){
+    /**
+     * resetea los parámetros y elementos que se usan para los ataques para poder usarlos en un ataque futuro
+     */
+    private fun resetAttack() {
         attackerCountry = null
         defenderCountry = null
         attacker.visibility = View.INVISIBLE
@@ -191,7 +198,7 @@ class MapFragment : MyFragment() {
         errorAttackingOwnCountry.visibility = View.INVISIBLE
         val touchedCountry = viewModel.getCountryImageTouched(view, event)
         val attackerCountryLocal = attackerCountry  //variable local para evitar error: Smart cast to 'Type' is impossible, because 'variable' is a mutable property that could have been changed by this time
-        Log.i("pais tocado",touchedCountry?.contentDescription.toString())
+        Log.i("pais tocado", touchedCountry?.contentDescription.toString())
         if (touchedCountry == null) {
             resetAttack()
             return false
@@ -273,13 +280,13 @@ class MapFragment : MyFragment() {
                 "\"argentina\":{\"owner\":\"cyan\",\"armies\": \"4\"}," +
                 "\"uruguay\":{\"owner\":\"red\",\"armies\": \"6\"}," +
                 "\"egypt\":{\"owner\":\"cyan\",\"armies\": \"2\"}," +
-                "\"ethiopia\":{\"owner\":\"black\",\"armies\": \"1\"}," +
+                "\"ethiopia\":{\"owner\":\"yellow\",\"armies\": \"1\"}," +
                 "\"zaire\":{\"owner\":\"black\",\"armies\": \"3\"}," +
                 "\"madagascar\":{\"owner\":\"yellow\",\"armies\": \"5\"}," +
                 "\"southafrica\":{\"owner\":\"red\",\"armies\": \"1\"}," +
                 "\"sahara\":{\"owner\":\"red\",\"armies\": \"4\"}" +
                 "}," +
-                "\"currentPlayer\":\"red\"," +
+                "\"currentPlayer\":\"cyan\"," +
                 "\"currentRound\":\"attack\"" +
                 "}"
         return data
