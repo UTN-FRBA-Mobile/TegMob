@@ -38,7 +38,7 @@ class MapViewModel : MyViewModel() {
         countriesData = initMapData.getJSONObject("countries")
         currentRound = initMapData.getString("currentRound")
         currentPlayer = initMapData.getString("currentPlayer")
-        bitMapFullView = loadBitmapFromView(view, windowWidth, windowHeight)
+        bitMapFullView = loadBitmapFromView(myFragment.backgroundMap, windowWidth, windowHeight)
         countryBackColors = mapOf(
             "174176169" to myFragment.imageColombia,
             "0247255" to myFragment.imagePeru,

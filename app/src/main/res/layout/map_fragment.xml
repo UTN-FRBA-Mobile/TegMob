@@ -5,9 +5,15 @@
     android:id="@+id/map_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mapa_480x800"
     android:orientation="horizontal"
     tools:context=".view.MapFragment">
+    <ImageView
+        android:id="@+id/backgroundMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/mapa_back"
+        />
+
 
 
     <!-- América del Sur -->
@@ -305,14 +311,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.09" />
+            app:layout_constraintGuide_percent="0.01" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineVerticalRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.91" />
+            app:layout_constraintGuide_percent="0.99" />
 
 
         <TextView

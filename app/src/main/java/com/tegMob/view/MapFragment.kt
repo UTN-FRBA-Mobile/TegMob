@@ -191,13 +191,11 @@ class MapFragment : MyFragment() {
         errorAttackingOwnCountry.visibility = View.INVISIBLE
         val touchedCountry = viewModel.getCountryImageTouched(view, event)
         val attackerCountryLocal = attackerCountry  //variable local para evitar error: Smart cast to 'Type' is impossible, because 'variable' is a mutable property that could have been changed by this time
+        Log.i("pais tocado",touchedCountry?.contentDescription.toString())
         if (touchedCountry == null) {
             resetAttack()
             return false
         }
-
-        Log.i("countryColorInt", countriesOwners.get(touchedCountry))
-        Log.i("currentPlayerColor", initMapData.getString("currentPlayer"))
 
         if (attackerCountryLocal === null) {    //elige el país desde el cual ataca
             if (countriesOwners.get(touchedCountry) != initMapData.getString("currentPlayer")) {
