@@ -3,9 +3,9 @@ package com.tegMob.view
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -32,6 +32,8 @@ class MapFragment : MyFragment() {
     private lateinit var dice5: AnimationDrawable
     private lateinit var dice6: AnimationDrawable
     private lateinit var countryObjects: Map<String, Map<String, Any>>
+    private lateinit var countriesStateArray: JSONArray
+    lateinit var currentPlayer: String
 
     private var windowHeight: Int = 0
     private var windowWidth: Int = 0
@@ -183,8 +185,6 @@ class MapFragment : MyFragment() {
             val attackerArmiesNumber = Integer.parseInt(attackerArmies.text.toString())
             var defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
             val defenderArmiesNumber = Integer.parseInt(defenderArmies.text.toString())
-            Log.i("attackerArmiesNumber", attackerArmiesNumber.toString())
-            Log.i("defenderArmiesNumber", defenderArmiesNumber.toString())
 
             if (attackerArmiesNumber >= 2) {
                 dice1.start()
@@ -212,12 +212,69 @@ class MapFragment : MyFragment() {
                 movingDicesDefender3.visibility = View.VISIBLE
             }
 
-
             btnAtack.visibility = View.INVISIBLE
             btnStop.visibility = View.VISIBLE
         }
 
         btnStop.setOnClickListener {
+            val resultAttackString = makeAttack()
+            println(resultAttackString)
+            val resultAttack = JSONObject(resultAttackString)
+            val attackerDicesArray = resultAttack.getJSONArray("attackerDices")
+            val defenderDicesArray = resultAttack.getJSONArray("defenderDices")
+            countriesStateArray = resultAttack.getJSONArray("countries")
+            println(attackerDicesArray)
+            println(defenderDicesArray)
+            println(countriesStateArray)
+
+            val dicesImages = listOf(null, R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6)
+            movingDicesAttacker1.visibility = View.INVISIBLE
+            movingDicesAttacker2.visibility = View.INVISIBLE
+            movingDicesAttacker3.visibility = View.INVISIBLE
+            movingDicesDefender1.visibility = View.INVISIBLE
+            movingDicesDefender2.visibility = View.INVISIBLE
+            movingDicesDefender3.visibility = View.INVISIBLE
+            when (attackerDicesArray.length()) {
+                1 -> {
+                    resultDicesAttacker1.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(0).toString())]!!)
+                    resultDicesAttacker1.visibility = View.VISIBLE
+                }
+                2 -> {
+                    resultDicesAttacker1.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(0).toString())]!!)
+                    resultDicesAttacker2.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(1).toString())]!!)
+                    resultDicesAttacker1.visibility = View.VISIBLE
+                    resultDicesAttacker2.visibility = View.VISIBLE
+                }
+                3 -> {
+                    resultDicesAttacker1.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(0).toString())]!!)
+                    resultDicesAttacker2.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(1).toString())]!!)
+                    resultDicesAttacker3.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(2).toString())]!!)
+                    resultDicesAttacker1.visibility = View.VISIBLE
+                    resultDicesAttacker2.visibility = View.VISIBLE
+                    resultDicesAttacker3.visibility = View.VISIBLE
+                }
+            }
+            when (defenderDicesArray.length()) {
+                1 -> {
+                    resultDicesDefender1.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(0).toString())]!!)
+                    resultDicesDefender1.visibility = View.VISIBLE
+                }
+                2 -> {
+                    resultDicesDefender1.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(0).toString())]!!)
+                    resultDicesDefender2.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(1).toString())]!!)
+                    resultDicesDefender1.visibility = View.VISIBLE
+                    resultDicesDefender2.visibility = View.VISIBLE
+                }
+                3 -> {
+                    resultDicesDefender1.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(0).toString())]!!)
+                    resultDicesDefender2.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(1).toString())]!!)
+                    resultDicesDefender3.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(2).toString())]!!)
+                    resultDicesDefender1.visibility = View.VISIBLE
+                    resultDicesDefender2.visibility = View.VISIBLE
+                    resultDicesDefender3.visibility = View.VISIBLE
+                }
+            }
+
             val dice1 = movingDicesAttacker1.background as AnimationDrawable
             dice1.stop()
             val dice2 = movingDicesAttacker2.background as AnimationDrawable
@@ -238,13 +295,18 @@ class MapFragment : MyFragment() {
         btnAccept.setOnClickListener {
             resetAttack()
             val updateData = JSONObject(mockupCountriesDataUpdate())
-            val countriesData = updateData.getJSONArray("countries")
+            //            val updateData = JSONObject(mockupCountriesDataUpdate())
+            //            val countriesData = updateData.getJSONArray("countries")
+            val countriesData = countriesStateArray
+            resultDicesAttacker1.visibility = View.INVISIBLE
+            resultDicesAttacker2.visibility = View.INVISIBLE
+            resultDicesAttacker3.visibility = View.INVISIBLE
+            resultDicesDefender1.visibility = View.INVISIBLE
+            resultDicesDefender2.visibility = View.INVISIBLE
+            resultDicesDefender3.visibility = View.INVISIBLE
 
             for (i in 0 until countriesData.length()) {
                 val item = countriesData.getJSONObject(i)
-                Log.i("país", item.getString("country"))
-                Log.i("color", item.getString("owner"))
-                Log.i("number", item.getString("armies"))
                 val countryImage = countryObjects[item.getString("country")]!!["image"] as ImageView
                 val countryNumber = countryObjects[item.getString("country")]!!["number"] as TextView
                 countryImage.setColorFilter(viewModel.playerColors[item.getString("owner")]!!)
@@ -259,6 +321,30 @@ class MapFragment : MyFragment() {
                 countryNames.visibility = View.INVISIBLE
             else
                 countryNames.visibility = View.VISIBLE
+        }
+
+        changePlayerIcon.setOnClickListener() {
+            when (currentPlayer) {
+                "cyan" -> {
+                    currentPlayer = "magenta"
+                }
+                "magenta" -> {
+                    currentPlayer = "red"
+                }
+                "red" -> {
+                    currentPlayer = "black"
+                }
+                "black" -> {
+                    currentPlayer = "yellow"
+                }
+                "yellow" -> {
+                    currentPlayer = "green"
+                }
+                "green" -> {
+                    currentPlayer = "cyan"
+                }
+            }
+            viewModel.setCurrentPlayerText(currentPlayer)
         }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -312,14 +398,12 @@ class MapFragment : MyFragment() {
 
         if (touchedCountryName == null) {
             resetAttack()
-            Log.i("país tocado", "ninguno")
             return false
         }
-        Log.i("pais tocado", touchedCountryName)
         val touchedCountry = countryObjects[touchedCountryName]!!["image"] as ImageView
         val attackerCountryLocal = attackerCountry  //variable local para evitar error: Smart cast to 'Type' is impossible, because 'variable' is a mutable property that could have been changed by this time
         if (attackerCountryLocal === null) {    //elige el país desde el cual ataca
-            if (countriesOwners[touchedCountry] != initMapData.getString("currentPlayer")) {
+            if (countriesOwners[touchedCountry] != currentPlayer) {
                 errorNoOwnCountry.visibility = View.VISIBLE
                 return false
             }
@@ -333,7 +417,7 @@ class MapFragment : MyFragment() {
             attacker.text = touchedCountry?.contentDescription.toString()
             attacker.visibility = View.VISIBLE
         } else if (defenderCountry === null) {
-            if (countriesOwners.get(touchedCountry) == initMapData.getString("currentPlayer")) {
+            if (countriesOwners.get(touchedCountry) == currentPlayer) {
                 errorAttackingOwnCountry.visibility = View.VISIBLE
                 return false
             }
@@ -374,6 +458,8 @@ class MapFragment : MyFragment() {
         countriesOwners.set(imageEgypt, countriesData.getJSONObject("egypt").getString("owner"))
         countriesOwners.set(imageMadagascar, countriesData.getJSONObject("madagascar").getString("owner"))
 
+        currentPlayer = jsonObjData.getString("currentPlayer")
+
         return jsonObjData
     }
 
@@ -393,7 +479,7 @@ class MapFragment : MyFragment() {
                 "\"countries\":" +
                 "{" +
                 "\"brazil\":{\"owner\":\"cyan\",\"armies\": \"5\"}," +
-                "\"colombia\":{\"owner\":\"magenta\",\"armies\": \"1\"}," +
+                "\"colombia\":{\"owner\":\"magenta\",\"armies\": \"6\"}," +
                 "\"chile\":{\"owner\":\"black\",\"armies\": \"1\"}," +
                 "\"peru\":{\"owner\":\"green\",\"armies\": \"3\"}," +
                 "\"argentina\":{\"owner\":\"cyan\",\"armies\": \"3\"}," +
@@ -420,9 +506,69 @@ class MapFragment : MyFragment() {
                 "}"
     }
 
-//    private fun makeAttack() {
-//        val armiesAttacker = countryObjects[attackerCountry]?.get("number") as TextView
-//        val armiesDefender = countryObjects[defenderCountry]?.get("number") as TextView
-//
-//    }
+    private fun makeAttack(): String {
+        var jsonReturn: String = "{"
+        val imageAttacker = countryObjects[attackerCountry]?.get("image") as ImageView
+        val imageDefender = countryObjects[defenderCountry]?.get("image") as ImageView
+        val armiesAttacker = countryObjects[attackerCountry]?.get("number") as TextView
+        val armiesDefender = countryObjects[defenderCountry]?.get("number") as TextView
+        var attackerArmiesDices = if (Integer.parseInt(armiesAttacker.text.toString()) > 4) 3 else (Integer.parseInt(armiesAttacker.text.toString()) - 1)
+        var defenderArmiesDices = if (Integer.parseInt(armiesDefender.text.toString()) > 3) 3 else Integer.parseInt(armiesDefender.text.toString())
+        var attackerDicesResults = mutableListOf<Int>()
+        var defenderDicesResults = mutableListOf<Int>()
+        println("cantidad de ejercitos atacante: " + attackerArmiesDices)
+        println("cantidad de ejercitos defensor: " + defenderArmiesDices)
+        for (i in 0 until attackerArmiesDices) {
+            attackerDicesResults.add((1..6).random())
+        }
+        for (i in 0 until defenderArmiesDices) {
+            defenderDicesResults.add((1..6).random())
+        }
+        attackerDicesResults.sortDescending()
+        defenderDicesResults.sortDescending()
+
+        jsonReturn += "\"attackerDices\":["
+        var iterator = attackerDicesResults.listIterator()
+        iterator.forEach {
+            jsonReturn += "\"" + it.toString() + "\","
+            //            println("valor del dado atacante: " + it)
+        }
+        jsonReturn = jsonReturn.trimEnd(',')
+        jsonReturn += "]"
+        jsonReturn += ",\"defenderDices\":["
+        iterator = defenderDicesResults.listIterator()
+        iterator.forEach {
+            jsonReturn += "\"" + it.toString() + "\","
+            //            println("valor del dado defensor: " + it)
+        }
+        jsonReturn = jsonReturn.trimEnd(',')
+        jsonReturn += "]"
+
+
+        val significativeDices = if (attackerDicesResults.size <= defenderDicesResults.size) attackerDicesResults.size else defenderDicesResults.size
+        var armiesAttackerQuant = Integer.parseInt(armiesAttacker.text.toString())
+        var armiesDefenderQuant = Integer.parseInt(armiesDefender.text.toString())
+        println("ejércitos del atacante: " + armiesAttackerQuant)
+        println("ejércitos del defensor: " + armiesDefenderQuant)
+        for (i in 0 until significativeDices) {
+            if (attackerDicesResults.get(i) > defenderDicesResults.get(i))
+                armiesDefenderQuant--
+            else
+                armiesAttackerQuant--
+        }
+        println("ejércitos del atacante: " + armiesAttackerQuant)
+        println("ejércitos del defensor: " + armiesDefenderQuant)
+
+        jsonReturn += ",\"countries\":["
+        if (armiesDefenderQuant > 0) {  //NO conquistó país
+            jsonReturn += "{\"country\":\"" + attackerCountry + "\",\"owner\":\"" + countriesOwners[imageAttacker] + "\",\"armies\": \"" + armiesAttackerQuant.toString() + "\"}," +
+                    "{\"country\":\"" + defenderCountry + "\",\"owner\":\"" + countriesOwners[imageDefender] + "\",\"armies\": \"" + armiesDefenderQuant.toString() + "\"}"
+        } else {    //conquistó país
+            jsonReturn += "{\"country\":\"" + attackerCountry + "\",\"owner\":\"" + countriesOwners[imageAttacker] + "\",\"armies\": \"" + (armiesAttackerQuant - 1).toString() + "\"}," +
+                    "{\"country\":\"" + defenderCountry + "\",\"owner\":\"" + countriesOwners[imageAttacker] + "\",\"armies\": \"1\"}"
+        }
+        jsonReturn += "]"
+        jsonReturn += "}"   //cierre del objeto global
+        return jsonReturn
+    }
 }

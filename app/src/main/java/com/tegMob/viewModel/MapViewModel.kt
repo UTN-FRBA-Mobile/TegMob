@@ -34,12 +34,10 @@ class MapViewModel : MyViewModel() {
     private lateinit var bitMapFullView: Bitmap
     private lateinit var countriesData: JSONObject
     private lateinit var currentRound: String
-    private lateinit var currentPlayer: String
 
     fun Map(view: View, windowWidth: Int, windowHeight: Int, initMapData: JSONObject) {
         countriesData = initMapData.getJSONObject("countries")
         currentRound = initMapData.getString("currentRound")
-        currentPlayer = initMapData.getString("currentPlayer")
         bitMapFullView = loadBitmapFromView(myFragment.backgroundMap, windowWidth, windowHeight)
         countryBackColors = mapOf(
             "174176169" to "colombia",
@@ -59,7 +57,7 @@ class MapViewModel : MyViewModel() {
 
 
         setCurrentRoundText()
-        setCurrentPlayerText()
+        setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
         //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
         var widthRelation: Float = windowWidth / 800F
@@ -85,23 +83,23 @@ class MapViewModel : MyViewModel() {
     /**
      * escribe el jugador que tiene el turno
      */
-    private fun setCurrentPlayerText() {
-        myFragment.textCurrentPlayer.append(" " + currentPlayer.toUpperCase())
+    fun setCurrentPlayerText(currentPlayer: String) {
+        myFragment.textCurrentPlayer.text = "Turno de " + currentPlayer.toUpperCase()
     }
 
-  /*    fun updateData(data: JSONArray) { //EN DESUSO
-        for (i in 0 until data.length()) {
-            val item = data.getJSONObject(i)
-            Log.i("país", item.getString("country"))
-            Log.i("color", item.getString("owner"))
-            Log.i("number", item.getString("armies"))
-            val countryImage = countryObjects[item.getString("country")]!!["image"] as ImageView
-            val countryNumber = countryObjects[item.getString("country")]!!["number"] as TextView
-            countryImage.setColorFilter(playerColors[item.getString("owner")]!!)
-            countryNumber.setText(item.getString("armies"))
+    /*    fun updateData(data: JSONArray) { //EN DESUSO
+          for (i in 0 until data.length()) {
+              val item = data.getJSONObject(i)
+              Log.i("país", item.getString("country"))
+              Log.i("color", item.getString("owner"))
+              Log.i("number", item.getString("armies"))
+              val countryImage = countryObjects[item.getString("country")]!!["image"] as ImageView
+              val countryNumber = countryObjects[item.getString("country")]!!["number"] as TextView
+              countryImage.setColorFilter(playerColors[item.getString("owner")]!!)
+              countryNumber.setText(item.getString("armies"))
 
-        }
-    }*/
+          }
+      }*/
 
     /**
      * setea el color y la cantidad de ejércitos que tiene cada país
