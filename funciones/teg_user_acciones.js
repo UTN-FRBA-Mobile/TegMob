@@ -3,12 +3,6 @@
 // Requiere tambien incluir las funciones de paises.js --> 
 var f_paises = require('./paises');
 
-// Entiendo que solo hay 3 posibles acciones:
-// - Atacar si tengo un pais con 2 o mas ejercitos al lado de un enemigo, caso ideal,
-//   se puede hacer mas de una vez pero lo hago una sola para q sea simple
-// - Mover tropas, lo uso si no puedo atacar pero tengo 2 mas ejercitos en algun lugar
-// - Pasar el turno, si no puedo hacer nada
-
 // El formato del mapa en juego es el siguiente
 // {
 //     "brazil":{"owner":"lightblue","armies": "5"},
@@ -46,7 +40,7 @@ module.exports = {
         for(var i=0; i < n; i++){
             dados.push(Math.floor(Math.random()*6) + 1);
         }
-        return dados.sort();
+        return dados.sort().reverse();
     },
 
     // indico color del pais y el estado del mapa para obtener posibles convinaciones de ataque
@@ -57,7 +51,7 @@ module.exports = {
         this.getPaisesConCapacidadDeAtaque(id_user, mapa).forEach(pais => {
             f_paises.get_limitrofes(pais).forEach(victima => {
                 if (mapa[victima].owner != id_user){
-                    posiblesAtaques.push({'atacante': pais, 'defesor': victima});
+                    posiblesAtaques.push({'atacante': pais, 'defensor': victima});
                 }
             });
         });
