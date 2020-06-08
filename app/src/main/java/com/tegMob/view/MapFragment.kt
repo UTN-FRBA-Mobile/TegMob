@@ -114,7 +114,7 @@ class MapFragment : MyFragment() {
                 imageZaire, imageEthiopia, imageMadagascar
             ),
             imageMadagascar to listOf<ImageView>(
-                imageChile, imageZaire, imageEgypt
+                imageChile, imageZaire, imageEgypt, imageSouthafrica
             )
         )
 

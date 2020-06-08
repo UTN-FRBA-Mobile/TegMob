@@ -341,7 +341,7 @@
             android:id="@+id/changePlayerIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/change_player"
             app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
