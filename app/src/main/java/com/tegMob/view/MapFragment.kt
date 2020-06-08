@@ -11,23 +11,33 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.MapViewModel
 import kotlinx.android.synthetic.main.map_fragment.*
 import kotlinx.coroutines.delay
+import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Text
 
 
 class MapFragment : MyFragment() {
     private lateinit var viewModel: MapViewModel
     private lateinit var initMapData: JSONObject
+    private lateinit var dice1: AnimationDrawable
+    private lateinit var dice2: AnimationDrawable
+    private lateinit var dice3: AnimationDrawable
+    private lateinit var dice4: AnimationDrawable
+    private lateinit var dice5: AnimationDrawable
+    private lateinit var dice6: AnimationDrawable
+    private lateinit var countryObjects: Map<String, Map<String, Any>>
 
     private var windowHeight: Int = 0
     private var windowWidth: Int = 0
     private val displayMetrics = DisplayMetrics()
-    private var attackerCountry: ImageView? = null
-    private var defenderCountry: ImageView? = null
+    private var attackerCountry: String? = null
+    private var defenderCountry: String? = null
 
     private var countriesOwners: MutableMap<ImageView, String?> = mutableMapOf(
         imageArgentina to null,
@@ -61,6 +71,12 @@ class MapFragment : MyFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dice1 = movingDicesAttacker1.background as AnimationDrawable
+        dice2 = movingDicesAttacker2.background as AnimationDrawable
+        dice3 = movingDicesAttacker3.background as AnimationDrawable
+        dice4 = movingDicesDefender1.background as AnimationDrawable
+        dice5 = movingDicesDefender2.background as AnimationDrawable
+        dice6 = movingDicesDefender3.background as AnimationDrawable
         countriesNeighbours = mapOf(
             imageArgentina to listOf<ImageView>(
                 imageUruguay, imageBrazil, imageChile, imagePeru
@@ -84,7 +100,7 @@ class MapFragment : MyFragment() {
                 imageBrazil, imageEgypt, imageEthiopia, imageZaire
             ),
             imageZaire to listOf<ImageView>(
-                imageSahara, imageSouthafrica, imageEthiopia, imageMadagascar
+                imageSahara, imageSouthafrica, imageEthiopia
             ),
             imageEthiopia to listOf<ImageView>(
                 imageSahara, imageZaire, imageSouthafrica, imageEgypt
@@ -93,11 +109,64 @@ class MapFragment : MyFragment() {
                 imageColombia, imageSahara, imageEthiopia, imageMadagascar
             ),
             imageSouthafrica to listOf<ImageView>(
-                imageZaire, imageEthiopia
+                imageZaire, imageEthiopia, imageMadagascar
             ),
             imageMadagascar to listOf<ImageView>(
                 imageChile, imageZaire, imageEgypt
             )
+        )
+
+        countryObjects = mapOf(
+            "colombia" to mapOf(
+                "image" to imageColombia,
+                "number" to numberColombia
+            ),
+            "peru" to mapOf(
+                "image" to imagePeru,
+                "number" to numberPeru
+            ),
+            "argentina" to mapOf(
+                "image" to imageArgentina,
+                "number" to numberArgentina
+            ),
+            "brazil" to mapOf(
+                "image" to imageBrazil,
+                "number" to numberBrazil
+            ),
+            "chile" to mapOf(
+                "image" to imageChile,
+                "number" to numberChile
+            ),
+            "uruguay" to mapOf(
+                "image" to imageUruguay,
+                "number" to numberUruguay
+            ),
+            "zaire" to mapOf(
+                "image" to imageZaire,
+                "number" to numberZaire
+            ),
+            "sahara" to mapOf(
+                "image" to imageSahara,
+                "number" to numberSahara
+            ),
+            "egypt" to mapOf(
+                "image" to imageEgypt,
+                "number" to numberEgypt
+            ),
+            "southafrica" to mapOf(
+                "image" to imageSouthafrica,
+                "number" to numberSouthafrica
+            ),
+            "madagascar" to mapOf(
+                "image" to imageMadagascar,
+                "number" to numberMadagascar
+            ),
+            "ethiopia" to mapOf(
+                "image" to imageEthiopia,
+                "number" to numberEthiopia
+            )
+
+
         )
         initViewModel()
         initMapData = initMapData()
@@ -110,20 +179,40 @@ class MapFragment : MyFragment() {
         }
 
         btnAtack.setOnClickListener {
-            val dice1 = movingDicesAttacker1.background as AnimationDrawable
-            dice1.start()
-            val dice2 = movingDicesAttacker2.background as AnimationDrawable
-            dice2.start()
-            val dice3 = movingDicesAttacker3.background as AnimationDrawable
-            dice3.start()
-            val dice4 = movingDicesDefender1.background as AnimationDrawable
-            dice4.start()
-            val dice5 = movingDicesDefender2.background as AnimationDrawable
-            dice5.start()
-            val dice6 = movingDicesDefender3.background as AnimationDrawable
-            dice6.start()
-            movingDicesAttacker.visibility = View.VISIBLE
-            movingDicesDefender.visibility = View.VISIBLE
+            val attackerArmies = countryObjects[attackerCountry]?.get("number") as TextView
+            val attackerArmiesNumber = Integer.parseInt(attackerArmies.text.toString())
+            var defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
+            val defenderArmiesNumber = Integer.parseInt(defenderArmies.text.toString())
+            Log.i("attackerArmiesNumber", attackerArmiesNumber.toString())
+            Log.i("defenderArmiesNumber", defenderArmiesNumber.toString())
+
+            if (attackerArmiesNumber >= 2) {
+                dice1.start()
+                movingDicesAttacker1.visibility = View.VISIBLE
+            }
+            if (attackerArmiesNumber >= 3) {
+                dice2.start()
+                movingDicesAttacker2.visibility = View.VISIBLE
+            }
+            if (attackerArmiesNumber >= 4) {
+                dice3.start()
+                movingDicesAttacker3.visibility = View.VISIBLE
+            }
+
+            if (defenderArmiesNumber >= 1) {
+                dice4.start()
+                movingDicesDefender1.visibility = View.VISIBLE
+            }
+            if (defenderArmiesNumber >= 2) {
+                dice5.start()
+                movingDicesDefender2.visibility = View.VISIBLE
+            }
+            if (defenderArmiesNumber >= 3) {
+                dice6.start()
+                movingDicesDefender3.visibility = View.VISIBLE
+            }
+
+
             btnAtack.visibility = View.INVISIBLE
             btnStop.visibility = View.VISIBLE
         }
@@ -148,6 +237,21 @@ class MapFragment : MyFragment() {
 
         btnAccept.setOnClickListener {
             resetAttack()
+            val updateData = JSONObject(mockupCountriesDataUpdate())
+            val countriesData = updateData.getJSONArray("countries")
+
+            for (i in 0 until countriesData.length()) {
+                val item = countriesData.getJSONObject(i)
+                Log.i("país", item.getString("country"))
+                Log.i("color", item.getString("owner"))
+                Log.i("number", item.getString("armies"))
+                val countryImage = countryObjects[item.getString("country")]!!["image"] as ImageView
+                val countryNumber = countryObjects[item.getString("country")]!!["number"] as TextView
+                countryImage.setColorFilter(viewModel.playerColors[item.getString("owner")]!!)
+                countryNumber.setText(item.getString("armies"))
+                countriesOwners[countryImage] = item.getString("owner")
+            }
+            //            viewModel.updateData(updateData.getJSONArray("countries"))
         }
 
         locationIcon.setOnClickListener() {
@@ -182,8 +286,14 @@ class MapFragment : MyFragment() {
         attacker.visibility = View.INVISIBLE
         defender.visibility = View.INVISIBLE
         attackTitle.visibility = View.INVISIBLE
-        movingDicesAttacker.visibility = View.INVISIBLE
-        movingDicesDefender.visibility = View.INVISIBLE
+        //        movingDicesAttacker.visibility = View.INVISIBLE
+        //        movingDicesDefender.visibility = View.INVISIBLE
+        movingDicesAttacker1.visibility = View.INVISIBLE
+        movingDicesAttacker2.visibility = View.INVISIBLE
+        movingDicesAttacker3.visibility = View.INVISIBLE
+        movingDicesDefender1.visibility = View.INVISIBLE
+        movingDicesDefender2.visibility = View.INVISIBLE
+        movingDicesDefender3.visibility = View.INVISIBLE
         btnAccept.visibility = View.INVISIBLE
         btnAtack.visibility = View.INVISIBLE
         btnStop.visibility = View.INVISIBLE
@@ -196,20 +306,29 @@ class MapFragment : MyFragment() {
         errorNoOwnCountry.visibility = View.INVISIBLE
         errorNoNeighbourCountry.visibility = View.INVISIBLE
         errorAttackingOwnCountry.visibility = View.INVISIBLE
-        val touchedCountry = viewModel.getCountryImageTouched(view, event)
-        val attackerCountryLocal = attackerCountry  //variable local para evitar error: Smart cast to 'Type' is impossible, because 'variable' is a mutable property that could have been changed by this time
-        Log.i("pais tocado", touchedCountry?.contentDescription.toString())
-        if (touchedCountry == null) {
+        errorNotEnoughArmies.visibility = View.INVISIBLE
+
+        val touchedCountryName = viewModel.getCountryImageTouched(view, event)  //puede ser nulo si toco el mar o los bordes de los países
+
+        if (touchedCountryName == null) {
             resetAttack()
+            Log.i("país tocado", "ninguno")
             return false
         }
-
+        Log.i("pais tocado", touchedCountryName)
+        val touchedCountry = countryObjects[touchedCountryName]!!["image"] as ImageView
+        val attackerCountryLocal = attackerCountry  //variable local para evitar error: Smart cast to 'Type' is impossible, because 'variable' is a mutable property that could have been changed by this time
         if (attackerCountryLocal === null) {    //elige el país desde el cual ataca
-            if (countriesOwners.get(touchedCountry) != initMapData.getString("currentPlayer")) {
+            if (countriesOwners[touchedCountry] != initMapData.getString("currentPlayer")) {
                 errorNoOwnCountry.visibility = View.VISIBLE
                 return false
             }
-            attackerCountry = touchedCountry
+            val attackerArmies = countryObjects[touchedCountryName]?.get("number") as TextView
+            if (Integer.parseInt(attackerArmies.text.toString()) <= 1) {
+                errorNotEnoughArmies.visibility = View.VISIBLE
+                return false
+            }
+            attackerCountry = touchedCountryName
             attackTitle.visibility = View.VISIBLE
             attacker.text = touchedCountry?.contentDescription.toString()
             attacker.visibility = View.VISIBLE
@@ -218,12 +337,12 @@ class MapFragment : MyFragment() {
                 errorAttackingOwnCountry.visibility = View.VISIBLE
                 return false
             }
-            if (!(countriesNeighbours.get(attackerCountryLocal)!!.contains(touchedCountry))) {
+            if (!(countriesNeighbours[countryObjects[attackerCountry]!!["image"] as ImageView]!!.contains(touchedCountry))) {
                 errorNoNeighbourCountry.visibility = View.VISIBLE
                 return false
             }
 
-            defenderCountry = touchedCountry
+            defenderCountry = touchedCountryName
             defender.text = touchedCountry?.contentDescription.toString()
             defender.visibility = View.VISIBLE
             btnAtack.visibility = View.VISIBLE
@@ -270,35 +389,40 @@ class MapFragment : MyFragment() {
 
 
     private fun mockupDataInit(): String {
-        var data = "{" +
+        return "{" +
                 "\"countries\":" +
                 "{" +
                 "\"brazil\":{\"owner\":\"cyan\",\"armies\": \"5\"}," +
                 "\"colombia\":{\"owner\":\"magenta\",\"armies\": \"1\"}," +
                 "\"chile\":{\"owner\":\"black\",\"armies\": \"1\"}," +
                 "\"peru\":{\"owner\":\"green\",\"armies\": \"3\"}," +
-                "\"argentina\":{\"owner\":\"cyan\",\"armies\": \"4\"}," +
+                "\"argentina\":{\"owner\":\"cyan\",\"armies\": \"3\"}," +
                 "\"uruguay\":{\"owner\":\"red\",\"armies\": \"6\"}," +
-                "\"egypt\":{\"owner\":\"cyan\",\"armies\": \"2\"}," +
-                "\"ethiopia\":{\"owner\":\"yellow\",\"armies\": \"1\"}," +
+                "\"egypt\":{\"owner\":\"cyan\",\"armies\": \"1\"}," +
+                "\"ethiopia\":{\"owner\":\"yellow\",\"armies\": \"2\"}," +
                 "\"zaire\":{\"owner\":\"black\",\"armies\": \"3\"}," +
                 "\"madagascar\":{\"owner\":\"yellow\",\"armies\": \"5\"}," +
-                "\"southafrica\":{\"owner\":\"red\",\"armies\": \"1\"}," +
+                "\"southafrica\":{\"owner\":\"cyan\",\"armies\": \"2\"}," +
                 "\"sahara\":{\"owner\":\"red\",\"armies\": \"4\"}" +
                 "}," +
                 "\"currentPlayer\":\"cyan\"," +
                 "\"currentRound\":\"attack\"" +
                 "}"
-        return data
     }
 
-    //    private fun mockupDataRound(): String {
-    //        var data = "{" +
-    //                "\"currentPlayer\":\"cyan\"" +
-    //                "\"round\":\"attack\"" +
-    //                "}"
-    //        return data
-    //    }
+    private fun mockupCountriesDataUpdate(): String {
+        return "{" +
+                "\"countries\":" +
+                "[" +
+                "{\"country\":\"brazil\",\"owner\":\"cyan\",\"armies\": \"2\"}," +
+                "{\"country\":\"colombia\",\"owner\":\"cyan\",\"armies\": \"3\"}" +
+                "]" +
+                "}"
+    }
 
-
+//    private fun makeAttack() {
+//        val armiesAttacker = countryObjects[attackerCountry]?.get("number") as TextView
+//        val armiesDefender = countryObjects[defenderCountry]?.get("number") as TextView
+//
+//    }
 }

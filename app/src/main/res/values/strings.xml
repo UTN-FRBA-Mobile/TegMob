@@ -51,5 +51,6 @@
     <string name="noOwnCountryError">País no propio</string>
     <string name="noNeighbourCountryError">País no limítrofe</string>
     <string name="errorAttackingOwnCountry">No puede atacar a un país suyo</string>
+    <string name="errorNotEnoughArmies">No se puede atacar con 1 ejército</string>
 
 </resources>
