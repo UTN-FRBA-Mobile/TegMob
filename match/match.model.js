@@ -22,7 +22,9 @@ const schema = new Schema({
             southafrica: { owner: null, armies: 1 },
             sahara: { owner: null, armies: 1 }
         }
-    }
+    },
+    currentPlayer: { type: String, required: false },
+    turn: { type: Number, default: 1 }
 });
 
 schema.set('toJSON', {
