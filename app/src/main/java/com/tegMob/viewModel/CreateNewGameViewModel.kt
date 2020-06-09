@@ -155,7 +155,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun startNewGame() {
-        matchHandler.joinMatch(matchId)
+        matchHandler.startMatch(matchId)
         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }

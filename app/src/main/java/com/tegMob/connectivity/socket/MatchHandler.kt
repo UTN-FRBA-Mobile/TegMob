@@ -21,7 +21,7 @@ object MatchHandler {
         }
     }
 
-    fun joinMatch(matchId: Int) {
+    fun startMatch(matchId: Int) {
         connect()
         mSocket!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(matchId))
     }
