@@ -5,12 +5,17 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.media.AsyncPlayer
 import android.os.Bundle
+import android.util.JsonReader
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.google.gson.JsonParser
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyViewModel
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -55,7 +60,7 @@ class MapViewModel : MyViewModel() {
         )
 
 
-
+        eventSubscriptions()
         setCurrentRoundText()
         setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
@@ -66,6 +71,17 @@ class MapViewModel : MyViewModel() {
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
 
+    }
+
+    private val onMatchStart = Emitter.Listener {
+        //val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        val countries = JsonParser().parse(it[0].toString())
+        Log.d("MAP_DATA", countries.toString())
+        Log.d("RECEIVE", "MATCH START EVENT ARRIVED FROM SERVER")
+    }
+
+    private fun eventSubscriptions() {
+        MatchHandler.getSocket()!!.on("match_start", onMatchStart)
     }
 
     /**

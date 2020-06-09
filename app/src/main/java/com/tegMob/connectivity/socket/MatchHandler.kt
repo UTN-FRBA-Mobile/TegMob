@@ -1,6 +1,7 @@
 package com.tegMob.connectivity.socket
 
 import android.util.Log
+import com.tegMob.viewModel.CreateNewGameViewModel
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -14,20 +15,22 @@ object MatchHandler {
             mSocket = IO.socket(URL)
             mSocket!!.connect()
             Log.d("SUCCESS CONNECTION TO SERVER SOCKET", "")
-
         } catch (e: Exception) {
             e.printStackTrace()
             Log.d("fail", "Failed to connect")
         }
     }
 
-    fun startMatch(matchId: Int) {
-        connect()
-        mSocket!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(matchId))
+    fun getSocket(): Socket? {
+        return mSocket
     }
 
-    private fun sendMatchInitEvent(arg: Int): Emitter.Listener? {
-       return Emitter.Listener { mSocket!!.emit("match_init", arg) }
+    fun startMatch() {
+        connect()
+    }
+
+    fun sendMatchInitEvent(matchId: Int): Emitter.Listener? {
+       return Emitter.Listener { mSocket!!.emit("match_init", matchId) }
     }
 
 

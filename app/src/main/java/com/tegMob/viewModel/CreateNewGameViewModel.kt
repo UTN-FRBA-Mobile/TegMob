@@ -9,11 +9,14 @@ import com.tegMob.connectivity.ClientBuilder
 import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.connectivity.socket.MatchHandler
+import com.tegMob.connectivity.socket.MatchHandler.getSocket
+import com.tegMob.connectivity.socket.MatchHandler.sendMatchInitEvent
 import com.tegMob.models.Player
 import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.MapFragment
+import io.socket.client.Socket
 import kotlinx.android.synthetic.main.new_game_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +29,6 @@ class CreateNewGameViewModel : MyViewModel() {
     private val matchId = 0
     private var playersAdapter: PlayersAdapter = PlayersAdapter(listOf(), this)
     private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
-    private val matchHandler: MatchHandler = MatchHandler
     private val TAG_MAP_FRAGMENT = "map_fragment"
 
     override fun setDataToPass(): Bundle {
@@ -155,7 +157,8 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun startNewGame() {
-        matchHandler.startMatch(matchId)
+        MatchHandler.startMatch()
+        getSocket()!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(matchId))
         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }
