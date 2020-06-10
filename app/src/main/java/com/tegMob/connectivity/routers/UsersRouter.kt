@@ -7,9 +7,9 @@ import retrofit2.http.*
 
 interface UsersRouter {
 
-    @POST("users")
+    @POST("users/register")
     fun createUser(@Body userData: UserDTOs.NewUser): Call<Unit>
 
-    @POST("/users/login")
+    @POST("users/authenticate")
     fun loginUser(@Body loginData : UserDTOs.UserLogin): Call<Unit>
 }

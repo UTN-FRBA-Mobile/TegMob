@@ -3,7 +3,7 @@ package com.tegMob.viewModel
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.TegMobClient
 import com.tegMob.connectivity.routers.UsersRouter
 import com.tegMob.connectivity.dtos.UserDTOs
 import com.tegMob.utils.MyViewModel
@@ -18,7 +18,7 @@ import retrofit2.Response
 class LogInViewModel : MyViewModel() {
     private var username = ""
     private var password = ""
-    private val usersClient = ClientBuilder.UsersClientBuilder.buildService(UsersRouter::class.java)
+    private val usersClient = TegMobClient.buildService(UsersRouter::class.java)
 
 
     fun loginButtonClick(){

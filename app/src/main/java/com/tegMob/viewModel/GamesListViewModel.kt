@@ -7,10 +7,9 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.TegMobClient
 import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
-import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
@@ -27,7 +26,7 @@ class GamesListViewModel : MyViewModel() {
     var userName = ""
     private val TAG_MAP_FRAGMENT = "map_fragment"
     private var gamesAdapter: GamesAdapter = GamesAdapter(listOf(), this)
-    private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
+    private val matchesClient = TegMobClient.buildService(MatchesRouter::class.java)
 
     override fun setDataToPass(): Bundle {
         TODO("Not yet implemented")
@@ -72,7 +71,7 @@ class GamesListViewModel : MyViewModel() {
     fun search(newText: String?)= gamesAdapter.search(newText)
 
     fun joinMatch(game: MatchDTOs.MatchListItem) {
-        val call = matchesClient.addPlayer(game.id, MatchDTOs.MatchPlayerAddDTO(userName))
+        val call = matchesClient.addPlayer(game.name, MatchDTOs.MatchPlayerAddDTO(userName))
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 //TODO CHANGE CODE 400 WHEN IT WORKS IN SERVER

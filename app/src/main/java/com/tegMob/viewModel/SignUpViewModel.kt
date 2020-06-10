@@ -2,7 +2,7 @@ package com.tegMob.viewModel
 
 import android.os.Bundle
 import android.widget.Toast
-import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.TegMobClient
 import com.tegMob.connectivity.routers.UsersRouter
 import com.tegMob.connectivity.dtos.UserDTOs
 import com.tegMob.utils.MyViewModel
@@ -18,7 +18,7 @@ class SignUpViewModel : MyViewModel() {
     private var email = ""
     private var userNameSignUp = ""
     private var passwordSignUp = ""
-    private val usersClient = ClientBuilder.UsersClientBuilder.buildService(UsersRouter::class.java)
+    private val usersClient = TegMobClient.buildService(UsersRouter::class.java)
 
     fun signUpFinishButton(){
         if (myFragment.completedFields()) {

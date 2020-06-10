@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.tegMob.connectivity.ClientBuilder
+import com.tegMob.connectivity.TegMobClient
 import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.connectivity.socket.MatchHandler
@@ -26,9 +26,8 @@ class CreateNewGameViewModel : MyViewModel() {
     var tableName: String = ""
     var userName: String = ""
     private var matchPlayersSize: String = ""
-    private val matchId = 0
     private var playersAdapter: PlayersAdapter = PlayersAdapter(listOf(), this)
-    private val matchesClient = ClientBuilder.MatchesClientBuilder.buildService(MatchesRouter::class.java)
+    private val matchesClient = TegMobClient.buildService(MatchesRouter::class.java)
     private val TAG_MAP_FRAGMENT = "map_fragment"
 
     override fun setDataToPass(): Bundle {
@@ -133,7 +132,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun removePlayerFromMatch(username: String) {
-        val call = matchesClient.removePlayer(matchId, MatchDTOs.MatchPlayerRemoveDTO(userName))
+        val call = matchesClient.removePlayer(tableName, MatchDTOs.MatchPlayerRemoveDTO(userName))
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(
                 call: Call<Unit>,
@@ -158,7 +157,7 @@ class CreateNewGameViewModel : MyViewModel() {
 
     fun startNewGame() {
         MatchHandler.startMatch()
-        getSocket()!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(matchId))
+        getSocket()!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(tableName))
         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }

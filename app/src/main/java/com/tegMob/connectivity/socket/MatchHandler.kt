@@ -29,7 +29,7 @@ object MatchHandler {
         connect()
     }
 
-    fun sendMatchInitEvent(matchId: Int): Emitter.Listener? {
+    fun sendMatchInitEvent(matchId: String): Emitter.Listener? {
        return Emitter.Listener { mSocket!!.emit("match_init", matchId) }
     }
 
