@@ -1,4 +1,5 @@
 require('rootpath')();
+require('dotenv').config();
 const app = require('express')();
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -13,7 +14,7 @@ app.use(cors());
 app.use(jwt());
 app.use(errorHandler);
 
-app.use('/users', require('./users/users.controller'));
+app.use('/users', require('./users/user.controller'));
 app.use('/match', require('./match/match.controller'));
 
 const server = require('http').Server(app);
