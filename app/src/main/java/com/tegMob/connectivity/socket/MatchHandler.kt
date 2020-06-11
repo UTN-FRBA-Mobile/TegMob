@@ -25,13 +25,16 @@ object MatchHandler {
         return mSocket
     }
 
-    fun startMatch() {
+    fun connectToServer() {
         connect()
     }
 
-    fun sendMatchInitEvent(matchId: String): Emitter.Listener? {
+    fun startMatch(matchId: String): Emitter.Listener? {
        return Emitter.Listener { mSocket!!.emit("match_init", matchId) }
     }
 
+    fun sendIdentity(username: String): Emitter.Listener? {
+        return Emitter.Listener { mSocket!!.emit("iam", username)}
+    }
 
 }

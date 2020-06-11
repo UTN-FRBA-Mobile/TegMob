@@ -10,13 +10,11 @@ import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.connectivity.socket.MatchHandler.getSocket
-import com.tegMob.connectivity.socket.MatchHandler.sendMatchInitEvent
+import com.tegMob.connectivity.socket.MatchHandler.sendIdentity
 import com.tegMob.models.Player
-import com.tegMob.models.RandomPlayers
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.MapFragment
-import io.socket.client.Socket
 import kotlinx.android.synthetic.main.new_game_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,14 +45,16 @@ class CreateNewGameViewModel : MyViewModel() {
                 call: Call<Unit>,
                 response: Response<Unit>
             ) {
-                if (response.isSuccessful) {
+                //TODO CHANGE WHEN BACKEND WORKS
+                if (response.isSuccessful || true) {
                     myFragment.tableNameTextFinal.visibility = View.VISIBLE
                     myFragment.tableNameTextFinal.text = tableName
                     myFragment.addPlayerButton.visibility = View.VISIBLE
                     hideTableCreation()
                     //Get players
                     loadDummyPlayersList()
-                    //TODO Receive match id after creation from server
+                } else {
+                    Toast.makeText(myContext, "La mesa no se pudo crear", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -67,16 +67,8 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     private fun loadDummyPlayersList() {
-        playersAdapter = PlayersAdapter(RandomPlayers.playersList, this)
+        playersAdapter = PlayersAdapter(listOf(Player(1, "", userName, null)), this)
         refreshPlayersList()
-
-        if (playersAdapter.itemCount < matchPlayersSize.toInt() -1) {
-            myFragment.progressBar.visibility = View.VISIBLE
-        } else {
-            myFragment.progressBar.visibility = View.INVISIBLE
-            myFragment.startGameButton.visibility = View.VISIBLE
-        }
-
     }
 
     private fun refreshData() {
@@ -115,7 +107,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun addNewPlayer() {
-        if (playersAdapter.players.size < matchPlayersSize.toInt() - 1) {
+        if (playersAdapter.players.size <= matchPlayersSize.toInt() - 1) {
             playersAdapter.players = playersAdapter.players.plus(getFakePlayerFromServer())
             refreshPlayersList()
         } else {
@@ -129,6 +121,13 @@ class CreateNewGameViewModel : MyViewModel() {
             adapter = playersAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
+
+        if (playersAdapter.itemCount <= matchPlayersSize.toInt() -1) {
+            myFragment.progressBar.visibility = View.VISIBLE
+        } else {
+            myFragment.progressBar.visibility = View.INVISIBLE
+            myFragment.startGameButton.visibility = View.VISIBLE
+        }
     }
 
     fun removePlayerFromMatch(username: String) {
@@ -138,8 +137,7 @@ class CreateNewGameViewModel : MyViewModel() {
                 call: Call<Unit>,
                 response: Response<Unit>
             ) {
-                //TODO REMOVE 400 WHEN ENDPOINT WORKS OK
-                if (response.isSuccessful && response.code() == 200 || response.code() == 400) {
+                if (response.isSuccessful && response.code() == 200) {
                     playersAdapter.players = playersAdapter.players.filter { it.username != username }
                     refreshPlayersList()
                 } else {
@@ -156,8 +154,9 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun startNewGame() {
-        MatchHandler.startMatch()
-        getSocket()!!.on(Socket.EVENT_CONNECT, sendMatchInitEvent(tableName))
+        MatchHandler.connectToServer()
+        getSocket()!!.on("whoru", sendIdentity(userName))
+        MatchHandler.startMatch(tableName)
         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }
