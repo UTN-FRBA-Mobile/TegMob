@@ -1,4 +1,11 @@
 require('rootpath')();
+
+// Variables de entorno
+var vars_loc = require('./variables_entorno.json');
+var node_env = process.env.NODE_ENV || 'development';
+process.env.MONGODB_URI = vars_loc[node_env].MONGODB_URI
+process.env.JWT_SECRET = vars_loc[node_env].JWSECRET
+
 const app = require('express')();
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -6,14 +13,13 @@ const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
 const games = require('game/service');
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(jwt());
 app.use(errorHandler);
 
-app.use('/users', require('./users/users.controller'));
+app.use('/users', require('./users/user.controller'));
 app.use('/match', require('./match/match.controller'));
 
 const server = require('http').Server(app);
@@ -21,6 +27,7 @@ const io = require('socket.io')(server);
 
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 server.listen(port);
+console.log('Recibiendo conexion socket por puerto: ' + port)
 
 io.on('connection', (socket) => {
     socket.emit('whoru');

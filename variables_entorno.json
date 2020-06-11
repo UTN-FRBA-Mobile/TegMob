@@ -1,0 +1,10 @@
+{
+    "development": {
+        "MONGODB_URI": "mongodb+srv://root:tegmob@cluster0-hixyr.mongodb.net/tegmob?retryWrites=true&w=majority",
+        "JWT_SECRET": "supersecreto"
+    },
+    "production": {
+        "MONGODB_URI": "mongodb+srv://root:tegmob@cluster0-hixyr.mongodb.net/tegmob?retryWrites=true&w=majority",
+        "JWT_SECRET": "supersecreto"
+    }
+}

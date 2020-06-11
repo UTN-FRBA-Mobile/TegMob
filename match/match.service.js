@@ -31,7 +31,7 @@ async function create(matchParam) {
     
     if (!user) throw 'Invalid Owner'
 
-    matchParam.players = [ { color: "black", user: matchParam.owner, armies= 0 } ]
+    matchParam.players = [ { color: "black", user: matchParam.owner, armies: 0 } ]
     const match = new Match(matchParam);
 
     await match.save();
@@ -54,19 +54,19 @@ async function join(id, matchParam) {
 
     switch (match.players.size()) {
         case 1:
-            match.players.push({ color: "green", user: matchParam.userToAdd, armies= 0 });
+            match.players.push({ color: "green", user: matchParam.userToAdd, armies: 0 });
             break;
         case 2:
-            match.players.push({ color: "yellow", user: matchParam.userToAdd, armies= 0 });
+            match.players.push({ color: "yellow", user: matchParam.userToAdd, armies: 0 });
             break;
         case 3:
-            match.players.push({ color: "red", user: matchParam.userToAdd, armies= 0 });
+            match.players.push({ color: "red", user: matchParam.userToAdd, armies: 0 });
             break;
         case 4:
-            match.players.push({ color: "magenta", user: matchParam.userToAdd, armies= 0 });
+            match.players.push({ color: "magenta", user: matchParam.userToAdd, armies: 0 });
             break;
         case 5:
-            match.players.push({ color: "cyan", user: matchParam.userToAdd, armies= 0 });
+            match.players.push({ color: "cyan", user: matchParam.userToAdd, armies: 0 });
             break;
     }
 
