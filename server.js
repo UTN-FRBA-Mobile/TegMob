@@ -7,7 +7,6 @@ const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
 const games = require('game/service');
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -22,6 +21,7 @@ const io = require('socket.io')(server);
 
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 server.listen(port);
+console.log('Recibiendo conexion socket por puerto: ' + port)
 
 io.on('connection', (socket) => {
     socket.emit('whoru');
