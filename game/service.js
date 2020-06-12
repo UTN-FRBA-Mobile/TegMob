@@ -3,7 +3,8 @@ const match = require('match/match.service');
 
 module.exports = {
     addPlayerSocket,
-    startMatch
+    startMatch,
+    removePlayerSocket
 };
 
 async function addPlayerSocket(id, _socket) {
@@ -16,4 +17,10 @@ async function addPlayerSocket(id, _socket) {
 
 async function startMatch(match_id) {
     return match.start(match_id);
+}
+
+async function removePlayerSocket(_socket) {
+    const userall = users.getAll();
+    const id = userall.find(u => u.socket.id === _socket.id);
+    return await users.update(id,{socket: null});
 }

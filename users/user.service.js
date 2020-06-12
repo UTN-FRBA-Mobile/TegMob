@@ -43,6 +43,8 @@ async function create(userParam) {
     }
 
     await user.save();
+
+    return user;
 }
 
 async function update(id, userParam) {

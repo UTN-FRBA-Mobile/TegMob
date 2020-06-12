@@ -10,20 +10,25 @@ const games = require('game/service');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(jwt());
+//app.use(jwt());
 app.use(errorHandler);
 
 app.use('/users', require('./users/user.controller'));
 app.use('/match', require('./match/match.controller'));
 
-const server = require('http').Server(app);
+const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 server.listen(port);
 console.log('Recibiendo conexion socket por puerto: ' + port)
 
+app.get('/', (req, res) => {
+	res.sendFile(`${__dirname}/public/index.html`);
+  });
+
 io.on('connection', (socket) => {
+	console.log(socket);
     socket.emit('whoru');
     socket.on('iam', (data) => {
         games.addPlayerSocket(data.userid,socket);
@@ -31,9 +36,12 @@ io.on('connection', (socket) => {
     socket.on('MATCH_INIT', (data) => {
         io.to(data.matchid).emit('MATCH_START', games.startMatch(data.matchid));
     });
-
+	socket.on('disconnect', () => {
+		games.removePlayerSocket(socket);
+	  });
 });
 
+/*
 server.on("connection", (socket) => {
 
     console.log("New client connected");
@@ -99,3 +107,4 @@ server.on("connection", (socket) => {
       console.log("Client gone");
     });
 });
+*/
