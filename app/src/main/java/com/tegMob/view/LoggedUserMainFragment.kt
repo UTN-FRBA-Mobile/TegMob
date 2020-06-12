@@ -38,7 +38,7 @@ class LoggedUserMainFragment : MyFragment() {
         viewModel = LoggedUserMainViewModel()
         context?.let { viewModel.init(this, listener, it) }
         viewModel.username = arguments?.getString("user")?: "PlayerName error"
-        viewModel.userID = arguments?.getInt("userID") ?: -1
+        viewModel.userId = arguments?.getString("userId") ?: ""
 
         //TODO get player avatar
 

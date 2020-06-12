@@ -11,5 +11,5 @@ interface UsersRouter {
     fun createUser(@Body userData: UserDTOs.NewUser): Call<Unit>
 
     @POST("users/authenticate")
-    fun loginUser(@Body loginData : UserDTOs.UserLogin): Call<Unit>
+    fun loginUser(@Body loginData : UserDTOs.UserLogin): Call<UserDTOs.LoggedUserResponseDTO>
 }

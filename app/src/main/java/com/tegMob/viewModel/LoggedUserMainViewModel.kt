@@ -10,7 +10,7 @@ import com.tegMob.view.GamesListFragment
 class LoggedUserMainViewModel : MyViewModel(){
 
     var imageURI : String = ""
-    var userID : Int = 0
+    var userId : String = ""
     var username : String = ""
 
     fun myProfileButtonClick(){
@@ -24,7 +24,7 @@ class LoggedUserMainViewModel : MyViewModel(){
 
     override fun setDataToPass() = bundleOf(
             "imageURI" to imageURI,
-            "userId" to userID,
+            "userId" to userId,
             "user" to username
     )
 
