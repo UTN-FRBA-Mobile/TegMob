@@ -23,18 +23,9 @@ class LogInViewModel : MyViewModel() {
 
     fun loginButtonClick(){
         if (myFragment.completedFields()) {
-
             username = (myFragment as InitialFragment).username.text.toString()
             password = (myFragment as InitialFragment).password.text.toString()
-
-
-            // logIn()
-            val loggedUserOK = LoggedUserMainFragment()
-            loggedUserOK.arguments = setDataToPass()
-            myListener?.showFragment(loggedUserOK)
-
-
-
+            logIn()
         } else {
             Toast.makeText(myContext, "Please fill empty fields", Toast.LENGTH_SHORT).show()
         }
@@ -45,14 +36,16 @@ class LogInViewModel : MyViewModel() {
         val call = usersClient.loginUser(logInData)
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                if (response.isSuccessful){
+                if (response.isSuccessful && response.code() != 400){
                     val loggedUserOK = LoggedUserMainFragment()
                     loggedUserOK.arguments = setDataToPass()
                     myListener?.showFragment(loggedUserOK)
+                } else {
+                    Toast.makeText(myContext, "El usuario o contraseña es incorrecto/a", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<Unit>, error: Throwable) {
-                Toast.makeText(myContext, "Bad username or password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(myContext, "El usuario o contraseña es incorrecto/a", Toast.LENGTH_SHORT).show()
             }
         })
     }
