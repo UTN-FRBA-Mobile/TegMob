@@ -13,7 +13,7 @@ module.exports = router;
 
 function create(req, res, next) {
     matchService.create(req.body)
-        .then(() => res.json({}))
+        .then(match => res.json(match))
         .catch(err => next(err));
 }
 

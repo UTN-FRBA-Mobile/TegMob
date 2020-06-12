@@ -35,6 +35,8 @@ async function create(matchParam) {
     const match = new Match(matchParam);
 
     await match.save();
+
+    return match;
 }
 
 async function join(id, matchParam) {
