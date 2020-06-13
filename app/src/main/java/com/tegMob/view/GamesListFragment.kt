@@ -68,7 +68,7 @@ class GamesListFragment : MyFragment() {
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                viewModel.getGames()
+                if (isVisible) viewModel.getGames()
                 handler.postDelayed(this, delay)
             }
         }, delay)

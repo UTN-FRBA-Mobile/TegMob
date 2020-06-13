@@ -1,17 +1,12 @@
 package com.tegMob.viewModel
 
 import android.os.Bundle
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.TegMobClient
-import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
+import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.socket.MatchHandler
-import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
 import com.tegMob.view.MapFragment
@@ -66,7 +61,9 @@ class GamesListViewModel : MyViewModel() {
     }
 
     private fun checkForNewGamesAndAddThem(response: Response<List<MatchDTOs.MatchListItemDTO>>) {
-        val gamesToAdd = response.body()!!.filter { g -> g.stage == "CREATED" && !gamesAdapter.games.map { it.id }.contains(g.id) }
+        val gamesToAdd = response.body()!!.filter { g ->
+            g.stage == "CREATED" && !gamesAdapter.games.map { it.id }.contains(g.id)
+        }
         gamesToAdd.forEach { game ->
             gamesAdapter.filteredGames = gamesAdapter.filteredGames.plus(game)
             gamesAdapter.games = gamesAdapter.filteredGames
@@ -76,6 +73,7 @@ class GamesListViewModel : MyViewModel() {
             }
         }
     }
+
 
     fun search(newText: String?)= gamesAdapter.search(newText)
 
