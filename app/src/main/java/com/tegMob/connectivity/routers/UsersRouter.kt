@@ -12,4 +12,7 @@ interface UsersRouter {
 
     @POST("users/authenticate")
     fun loginUser(@Body loginData : UserDTOs.UserLogin): Call<UserDTOs.LoggedUserResponseDTO>
+
+    @GET("users/{user_id}")
+    fun getUserById(@Path("user_id") id: String): Call<UserDTOs.UserResponseDTO>
 }

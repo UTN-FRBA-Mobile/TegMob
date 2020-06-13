@@ -7,5 +7,6 @@ object UserDTOs {
         val username: String, val password: String,
         val firstName: String, val lastName: String
     )
+    data class UserResponseDTO(val username: String)
     data class LoggedUserResponseDTO(val id: String)
 }

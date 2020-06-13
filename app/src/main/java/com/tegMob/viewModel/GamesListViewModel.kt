@@ -34,7 +34,7 @@ class GamesListViewModel : MyViewModel() {
 
     fun loadDummyGameList() {
         gamesAdapter = GamesAdapter(
-            RandomGames.gamesList,
+            RandomGames.GAMES_LIST_DTO,
             this
         )
         myFragment.gamesList.apply {
@@ -51,8 +51,8 @@ class GamesListViewModel : MyViewModel() {
     fun getGames(){
         val call = matchesClient.getGamesList()
         gamesAdapter = GamesAdapter(listOf(), this)
-        call.enqueue(object : Callback<List<MatchDTOs.MatchListItem>> {
-            override fun onResponse(call: Call<List<MatchDTOs.MatchListItem>>, response: Response<List<MatchDTOs.MatchListItem>>) {
+        call.enqueue(object : Callback<List<MatchDTOs.MatchListItemDTO>> {
+            override fun onResponse(call: Call<List<MatchDTOs.MatchListItemDTO>>, response: Response<List<MatchDTOs.MatchListItemDTO>>) {
                 if (response.isSuccessful){
                     myFragment.progressBar.visibility = View.GONE
                     gamesAdapter.games = response.body()!!
@@ -62,7 +62,7 @@ class GamesListViewModel : MyViewModel() {
                     }
                 }
             }
-            override fun onFailure(call: Call<List<MatchDTOs.MatchListItem>>, error: Throwable) {
+            override fun onFailure(call: Call<List<MatchDTOs.MatchListItemDTO>>, error: Throwable) {
                 Toast.makeText(myContext, "No games founds!", Toast.LENGTH_SHORT).show()
             }
         })
@@ -70,8 +70,8 @@ class GamesListViewModel : MyViewModel() {
 
     fun search(newText: String?)= gamesAdapter.search(newText)
 
-    fun joinMatch(game: MatchDTOs.MatchListItem) {
-        val call = matchesClient.addPlayer(game.name, MatchDTOs.MatchPlayerAddDTO(userName))
+    fun joinMatch(game: MatchDTOs.MatchListItemDTO) {
+        val call = matchesClient.addPlayer(game.matchname, MatchDTOs.MatchPlayerAddDTO(userName))
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 //TODO CHANGE CODE 400 WHEN IT WORKS IN SERVER

@@ -1,6 +1,5 @@
 package com.tegMob.connectivity.routers
 import com.tegMob.connectivity.dtos.MatchDTOs
-import com.tegMob.models.Game
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -8,10 +7,13 @@ interface MatchesRouter {
 
     @Headers("Content-Type: application/json")
     @POST("match/create")
-    fun createMatch(@Body matchInformation: MatchDTOs.MatchCreationDTO): Call<Unit>
+    fun createMatch(@Body matchInformation: MatchDTOs.MatchCreationDTO): Call<MatchDTOs.MatchCreationResponseDTO>
 
     @GET("match/")
-    fun getGamesList(): Call<List<MatchDTOs.MatchListItem>>
+    fun getGamesList(): Call<List<MatchDTOs.MatchListItemDTO>>
+
+    @GET("match/{match_id}")
+    fun getMatchById(@Path("match_id") matchId: String): Call<MatchDTOs.MatchListItemDTO>
 
     @Headers("Content-Type: application/json")
     @PUT("match/leave/{match_id}")

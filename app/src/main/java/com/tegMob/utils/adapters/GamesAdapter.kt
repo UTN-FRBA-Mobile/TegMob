@@ -14,10 +14,10 @@ import kotlinx.android.synthetic.main.list_item_game.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GamesAdapter(var games: List<MatchDTOs.MatchListItem>, val viewModel: GamesListViewModel) :
+class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: GamesListViewModel) :
     RecyclerView.Adapter<GamesAdapter.ViewHolder>(), Filterable {
 
-    private var filteredGames: List<MatchDTOs.MatchListItem>
+    private var filteredGames: List<MatchDTOs.MatchListItemDTO>
 
     init {
         filteredGames = games
@@ -44,9 +44,8 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItem>, val viewModel: Game
         private val gameName: TextView = itemView.gameName
         private val gameDescription: TextView = itemView.gameDescription
 
-        fun bind(game: MatchDTOs.MatchListItem) {
-            gameName.text = game.name
-            gameDescription.text = game.description
+        fun bind(game: MatchDTOs.MatchListItemDTO) {
+            gameName.text = game.matchname
         }
     }
 
@@ -55,19 +54,19 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItem>, val viewModel: Game
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val charSearch = constraint.toString()
-            val resultGamesList: ArrayList<MatchDTOs.MatchListItem> = ArrayList()
+            val resultGamesListDTO: ArrayList<MatchDTOs.MatchListItemDTO> = ArrayList()
 
             filteredGames =
                 if (charSearch.isEmpty()) {
                     games
                 } else {
                     for (game in games) {
-                        if (charSearch.toLowerCase(Locale.ROOT) in game.name.toLowerCase(Locale.ROOT)) {
-                            resultGamesList.add(game)
+                        if (charSearch.toLowerCase(Locale.ROOT) in game.matchname.toLowerCase(Locale.ROOT)) {
+                            resultGamesListDTO.add(game)
 
                         }
                     }
-                    resultGamesList.toList()
+                    resultGamesListDTO.toList()
                 }
 
             val filterResults = FilterResults()
@@ -79,7 +78,7 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItem>, val viewModel: Game
 
         @Suppress("UNCHECKED_CAST")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            filteredGames = results?.values as List<MatchDTOs.MatchListItem>
+            filteredGames = results?.values as List<MatchDTOs.MatchListItemDTO>
             notifyDataSetChanged()
         }
 
