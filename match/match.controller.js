@@ -5,8 +5,8 @@ const matchService = require('./match.service');
 router.post('/create', create);
 router.get('/', getAll);
 router.get('/:id', getById);
-router.put('/:id', join);
-router.put('/:id', leave);
+router.put('/join/:id', join);
+router.put('/leave/:id', leave);
 router.delete('/:id', _delete);
 
 module.exports = router;
