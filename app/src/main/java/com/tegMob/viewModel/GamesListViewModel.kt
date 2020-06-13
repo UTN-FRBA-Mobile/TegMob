@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.TegMobClient
 import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.models.RandomGames
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
@@ -82,12 +83,11 @@ class GamesListViewModel : MyViewModel() {
         val call = matchesClient.addPlayer(game.matchname, MatchDTOs.MatchPlayerAddDTO(userName))
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                //TODO CHANGE CODE 400 WHEN IT WORKS IN SERVER
-                if (response.isSuccessful && response.code() == 200 || response.code() == 400){
-                    //TODO MAKE A SOCKET CONNECTION WITH game.socket ATTRIBUTE
+                if (response.isSuccessful && response.code() == 200){
+                    MatchHandler.connectToServer()
                     myFragment.listener!!.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
                 } else {
-                    Toast.makeText(myContext, "Hubo un error al unirse a la partida", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(myContext, "Hubo un error al intentar unirse a la partida", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<Unit>, error: Throwable) {

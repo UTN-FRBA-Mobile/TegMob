@@ -81,7 +81,7 @@ class MapViewModel : MyViewModel() {
     }
 
     private fun eventSubscriptions() {
-        MatchHandler.getSocket()!!.on("match_start", onMatchStart)
+        MatchHandler.getSocket()!!.on("MATCH_START", onMatchStart)
     }
 
     /**

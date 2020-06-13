@@ -7,13 +7,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.TegMobClient
-import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.connectivity.dtos.UserDTOs
+import com.tegMob.connectivity.routers.MatchesRouter
 import com.tegMob.connectivity.routers.UsersRouter
 import com.tegMob.connectivity.socket.MatchHandler
-import com.tegMob.connectivity.socket.MatchHandler.getSocket
-import com.tegMob.connectivity.socket.MatchHandler.sendIdentity
 import com.tegMob.models.Player
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
@@ -258,7 +256,6 @@ class CreateNewGameViewModel : MyViewModel() {
 
     fun startNewGame() {
         MatchHandler.connectToServer()
-        getSocket()!!.on("whoru", sendIdentity(userName))
         MatchHandler.startMatch(tableName)
         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }

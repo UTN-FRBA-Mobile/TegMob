@@ -30,11 +30,7 @@ object MatchHandler {
     }
 
     fun startMatch(matchId: String): Emitter.Listener? {
-       return Emitter.Listener { mSocket!!.emit("match_init", matchId) }
-    }
-
-    fun sendIdentity(username: String): Emitter.Listener? {
-        return Emitter.Listener { mSocket!!.emit("iam", username)}
+       return Emitter.Listener { mSocket!!.emit("MATCH_INIT", matchId) }
     }
 
 }

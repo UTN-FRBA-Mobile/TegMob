@@ -13,5 +13,5 @@ object MatchDTOs {
     
     data class MatchListItemDTO(val id: String, val matchname: String, val owner: String, val size: Int, val players: List<MatchPlayerDTO>, val stage: String)
 
-    data class MatchPlayerAddDTO(val user_to_add: String)
+    data class MatchPlayerAddDTO(val userToAdd: String)
 }
