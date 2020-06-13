@@ -15,13 +15,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: GamesListViewModel) :
-    RecyclerView.Adapter<GamesAdapter.ViewHolder>(), Filterable {
-
-    private var filteredGames: List<MatchDTOs.MatchListItemDTO>
-
-    init {
-        filteredGames = games
-    }
+    RecyclerView.Adapter<GamesAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -30,10 +24,10 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: G
         return ViewHolder(itemView)
     }
 
-    override fun getItemCount() = filteredGames.size
+    override fun getItemCount() = games.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val game = filteredGames[position]
+        val game = games[position]
 
         holder.bind(game)
         holder.itemView.setOnClickListener { viewModel.joinMatch(game) }
@@ -42,15 +36,14 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: G
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val gameName: TextView = itemView.gameName
-        private val gameDescription: TextView = itemView.gameDescription
 
         fun bind(game: MatchDTOs.MatchListItemDTO) {
             gameName.text = game.matchname
         }
     }
 
-    fun search(newText: String?) = this.filter.filter(newText)
-
+    //fun search(newText: String?) = this.filter.filter(newText)
+/*
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val charSearch = constraint.toString()
@@ -81,7 +74,6 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: G
             filteredGames = results?.values as List<MatchDTOs.MatchListItemDTO>
             notifyDataSetChanged()
         }
-
-    }
+*/
 
 }

@@ -22,7 +22,7 @@ import retrofit2.Response
 
 class GamesListViewModel : MyViewModel() {
     var imageURI = ""
-    var userId = 0
+    var userId = ""
     var userName = ""
     private val TAG_MAP_FRAGMENT = "map_fragment"
     private var gamesAdapter: GamesAdapter = GamesAdapter(listOf(), this)
@@ -32,7 +32,7 @@ class GamesListViewModel : MyViewModel() {
         TODO("Not yet implemented")
     }
 
-    fun loadDummyGameList() {
+    /*fun loadDummyGameList() {
         gamesAdapter = GamesAdapter(
             RandomGames.GAMES_LIST_DTO,
             this
@@ -45,30 +45,38 @@ class GamesListViewModel : MyViewModel() {
         myFragment.progressBar.visibility = GONE
         myFragment.gamesList.visibility = VISIBLE
 
-    }
+    }*/
 
-    //TODO replace loadDummyGamesList for real on server
     fun getGames(){
         val call = matchesClient.getGamesList()
         gamesAdapter = GamesAdapter(listOf(), this)
         call.enqueue(object : Callback<List<MatchDTOs.MatchListItemDTO>> {
             override fun onResponse(call: Call<List<MatchDTOs.MatchListItemDTO>>, response: Response<List<MatchDTOs.MatchListItemDTO>>) {
-                if (response.isSuccessful){
-                    myFragment.progressBar.visibility = View.GONE
-                    gamesAdapter.games = response.body()!!
-                    myFragment.gamesList.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = gamesAdapter
-                    }
+                if (response.isSuccessful && response.code() == 200){
+                    checkForNewGamesAndAddThem(response)
+                } else {
+                    Toast.makeText(myContext, "No games found", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<List<MatchDTOs.MatchListItemDTO>>, error: Throwable) {
-                Toast.makeText(myContext, "No games founds!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(myContext, "No games found", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    fun search(newText: String?)= gamesAdapter.search(newText)
+    private fun checkForNewGamesAndAddThem(response: Response<List<MatchDTOs.MatchListItemDTO>>) {
+        val gamesToAdd = response.body()!!.filter { g -> g.stage == "CREATED" && !gamesAdapter.games.map { it.id }.contains(g.id) }
+        gamesToAdd.forEach { game ->
+            gamesAdapter.games = gamesAdapter.games.plus(game)
+            myFragment.gamesList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = gamesAdapter
+                //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            }
+        }
+    }
+
+    //fun search(newText: String?)= gamesAdapter.search(newText)
 
     fun joinMatch(game: MatchDTOs.MatchListItemDTO) {
         val call = matchesClient.addPlayer(game.matchname, MatchDTOs.MatchPlayerAddDTO(userName))
