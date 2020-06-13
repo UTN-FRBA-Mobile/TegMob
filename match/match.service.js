@@ -52,7 +52,7 @@ async function join(id, matchParam) {
     
     if (!user) throw 'Invalid User';
 
-    if (match.players.some(p => p.user === userToAdd)) throw 'User already in match';
+    if (match.players.some(p => p.user === matchParam.userToAdd)) throw 'User already in match';
 
     switch (match.players.size()) {
         case 1:
@@ -90,7 +90,7 @@ async function leave(id, matchParam) {
 
     if (matchParam.userToRemove === match.owner) throw "Owner can't leave match"
 
-    const _players = match.players.filter(p => p.user !== userToRemove)
+    const _players = match.players.filter(p => p.user !== matchParam.userToRemove)
 
     match.players = _players;
 
