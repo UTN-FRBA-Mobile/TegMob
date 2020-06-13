@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
+import android.media.Image
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -34,7 +35,6 @@ class MapFragment : MyFragment() {
     private lateinit var countryObjects: Map<String, Map<String, Any>>
     private lateinit var countriesStateArray: JSONArray
     lateinit var currentPlayer: String
-
     private var windowHeight: Int = 0
     private var windowWidth: Int = 0
     private val displayMetrics = DisplayMetrics()
@@ -62,6 +62,9 @@ class MapFragment : MyFragment() {
             arguments = Bundle()
         }
     }
+
+    override fun getCountryImages() = listOf<ImageView>(imageChile, imageBrazil, imageUruguay, imageArgentina, imageColombia, imagePeru, imageSahara, imageZaire, imageMadagascar, imageEthiopia, imageSouthafrica, imageEgypt)
+    override fun getCountryNumbers() = listOf<TextView>(numberChile, numberBrazil, numberUruguay, numberArgentina, numberColombia, numberPeru, numberSahara, numberZaire, numberMadagascar, numberEthiopia, numberSouthafrica, numberEgypt)
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
