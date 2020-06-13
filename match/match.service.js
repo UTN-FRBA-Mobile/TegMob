@@ -46,7 +46,7 @@ async function join(id, matchParam) {
 
     if (match.stage !== "CREATED") throw 'Match already started'
 
-    if (match.players.size() = match.size) throw 'Match full';
+    if (match.players.length === match.size) throw 'Match full';
 
     const user = await users.getById(matchParam.userToAdd);
     
@@ -54,7 +54,7 @@ async function join(id, matchParam) {
 
     if (match.players.some(p => p.user === matchParam.userToAdd)) throw 'User already in match';
 
-    switch (match.players.size()) {
+    switch (match.players.length) {
         case 1:
             match.players.push({ color: "green", user: matchParam.userToAdd, armies: 0 });
             break;
@@ -73,6 +73,8 @@ async function join(id, matchParam) {
     }
 
     await match.save();
+
+    return match;
 }
 
 async function leave(id, matchParam) {
@@ -81,8 +83,6 @@ async function leave(id, matchParam) {
     if (!match) throw 'Match not found';
 
     if (match.stage !== "CREATED") throw 'Match already started'
-
-    if (match.players.size() = match.size) throw 'Match full';
 
     const user = await users.getById(matchParam.userToRemove);
     
@@ -95,6 +95,8 @@ async function leave(id, matchParam) {
     match.players = _players;
 
     await match.save();
+
+    return match;
 }
 
 async function _delete(id) {
@@ -119,11 +121,11 @@ async function start(id) {
     const countriestemp = Object.entries(match.countries);
     const countriestemp2 = Object.entries(match.countries);
 
-    const promedio = Math.trunc(countriestemp.size()/match.players.size());
+    const promedio = Math.trunc(countriestemp.length/match.players.length);
 
     match.players.forEach(p => {
         for (let i = 0; i < promedio; i++) {
-            const num = utils.getRndInteger(0,countriestemp.size()-1);
+            const num = utils.getRndInteger(0,countriestemp.length-1);
             const name = countriestemp[num][0]
             const where = countriestemp2.findIndex(c => c[0] === name);
             countriestemp2[where][1].owner = p.username;
@@ -133,7 +135,7 @@ async function start(id) {
     });
 
     match.players.forEach(p => {
-        if (countriestemp.size()>0) {
+        if (countriestemp.length>0) {
             const name = countriestemp[0][0]
             const where = countriestemp2.findIndex(c => c[0] === name);
             countriestemp2[where][1].owner = p.username;
@@ -146,7 +148,7 @@ async function start(id) {
 
     match.countries = Object.fromEntries(countriestemp2);
 
-    match.currentPlayer = match.players[utils.getRndInteger(0,countriestemp2.size()-1)].username;
+    match.currentPlayer = match.players[utils.getRndInteger(0,countriestemp2.length-1)].username;
 
     await match.save();
 

@@ -31,13 +31,13 @@ function getById(req, res, next) {
 
 function join(req, res, next) {
     matchService.join(req.params.id, req.body)
-        .then(() => res.json({}))
+        .then(match => res.json(match))
         .catch(err => next(err));
 }
 
 function leave(req, res, next) {
     matchService.leave(req.params.id, req.body)
-        .then(() => res.json({}))
+        .then(match => res.json(match))
         .catch(err => next(err));
 }
 
