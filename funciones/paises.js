@@ -22,9 +22,54 @@ module.exports = {
     // Paises que declaramos estan dispobles en la APP
     es_utilizado: function ( pais ){
         return(paises_usados_por_nosotros.includes(pais));
-    }
+	},
+	
+	// Crea el mapa inicial, recibe el numero de jugadores
+	getMapaInicial: function ( n = 6 ){
+		var mapa_ini = {}
+		var colores = this.shuffleArray( this.getNColoresPosibles(n) )
+		var rondas_extra = 2
+
+		paises_usados_por_nosotros.forEach(pais => {
+			mapa_ini[pais] = {'owner': colores.pop()}
+			if( rondas_extra > 0 ) // paises con mas ejercito para atacar
+				mapa_ini[pais].armies = 5
+			else
+				mapa_ini[pais].armies = 1
+			if( colores.length < 1 ){
+				colores = this.shuffleArray( this.getNColoresPosibles(n) )
+				rondas_extra -= 1
+			}
+		});
+		return mapa_ini;
+	},
+
+	shuffleArray: function(array) {
+		for (var i = array.length - 1; i > 0; i--) {
+			var j = Math.floor(Math.random() * (i + 1));
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+		return array;
+	},
+
+	// Colores disponibles
+	getNColoresPosibles: function (n = 6){
+		return colores.slice(0,n)
+	}
 
 }
+
+// Colores posibles
+var colores = [
+	"green",
+	"yellow",
+	"black",
+	"red",
+	"magenta",
+	"cyan"
+]
 
 // Actualizar segun tengamos disponibles en el mapa.
 // Case sensitive.
@@ -34,7 +79,13 @@ var paises_usados_por_nosotros = [
     'Chile',
     'Colombia',
 	'Uruguay',
-	'Peru'
+	'Peru',
+	'Egipto',
+	'Etiopia',
+	'Madagascar',
+	'Sahara',
+	'Sudafrica',
+	'Zaire'
 ];
 
 var paises_por_continente = {
