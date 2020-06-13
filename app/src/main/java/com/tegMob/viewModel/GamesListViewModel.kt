@@ -67,16 +67,16 @@ class GamesListViewModel : MyViewModel() {
     private fun checkForNewGamesAndAddThem(response: Response<List<MatchDTOs.MatchListItemDTO>>) {
         val gamesToAdd = response.body()!!.filter { g -> g.stage == "CREATED" && !gamesAdapter.games.map { it.id }.contains(g.id) }
         gamesToAdd.forEach { game ->
-            gamesAdapter.games = gamesAdapter.games.plus(game)
+            gamesAdapter.filteredGames = gamesAdapter.filteredGames.plus(game)
+            gamesAdapter.games = gamesAdapter.filteredGames
             myFragment.gamesList.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = gamesAdapter
-                //addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         }
     }
 
-    //fun search(newText: String?)= gamesAdapter.search(newText)
+    fun search(newText: String?)= gamesAdapter.search(newText)
 
     fun joinMatch(game: MatchDTOs.MatchListItemDTO) {
         val call = matchesClient.addPlayer(game.matchname, MatchDTOs.MatchPlayerAddDTO(userName))

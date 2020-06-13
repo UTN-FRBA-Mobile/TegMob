@@ -15,7 +15,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: GamesListViewModel) :
-    RecyclerView.Adapter<GamesAdapter.ViewHolder>(){
+    RecyclerView.Adapter<GamesAdapter.ViewHolder>(), Filterable {
+
+    var filteredGames: List<MatchDTOs.MatchListItemDTO>
+
+    init {
+        filteredGames = games
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -24,10 +30,10 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: G
         return ViewHolder(itemView)
     }
 
-    override fun getItemCount() = games.size
+    override fun getItemCount() = filteredGames.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val game = games[position]
+        val game = filteredGames[position]
 
         holder.bind(game)
         holder.itemView.setOnClickListener { viewModel.joinMatch(game) }
@@ -42,8 +48,8 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: G
         }
     }
 
-    //fun search(newText: String?) = this.filter.filter(newText)
-/*
+    fun search(newText: String?) = this.filter.filter(newText)
+
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val charSearch = constraint.toString()
@@ -74,6 +80,7 @@ class GamesAdapter(var games: List<MatchDTOs.MatchListItemDTO>, val viewModel: G
             filteredGames = results?.values as List<MatchDTOs.MatchListItemDTO>
             notifyDataSetChanged()
         }
-*/
 
+
+    }
 }

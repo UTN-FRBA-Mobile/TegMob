@@ -52,7 +52,7 @@ class GamesListFragment : MyFragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-               //viewModel.search(newText)
+               viewModel.search(newText)
                 return false
             }
         }
