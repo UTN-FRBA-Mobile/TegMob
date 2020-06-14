@@ -31,6 +31,10 @@ async function getById(id) {
     return await User.findById(id);
 }
 
+async function getByName(id) {
+    return await Match.findById(id);
+}
+
 async function create(userParam) {
     if (await User.findOne({ username: userParam.username })) {
         throw 'Username "' + userParam.username + '" is already taken';

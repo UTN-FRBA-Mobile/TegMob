@@ -54,46 +54,6 @@ socket_server.on("connection", (socket) => {
 		});
     });
 
-		//player added to match
-		// socket.on("NEW_PLAYER", new_player => {
-		// 	player = new Player(new_player.id, new_player.socket);
-		// 	console.log("New player: " + player);
-		// 	match.players.push(player);
-		// 	console.log("Match status: ");
-		// 	console.log(match);
-		// 	console.log("");
-		// });
-
-		//skynet added to match
-		// socket.on("NEW_AI_PLAYER", data =>{
-		// 	skynet = new Skynet(data.ai_player);
-
-		// 	console.log("Received new IA player on match number " + data.match_id + ":");
-		// 	console.log(skynet);
-		// 	console.log("");
-
-
-			//server checks match is full and orders start command
-		// 	startMatch()
-		// });
-
-		// socket.on("TRY_ATTACK", data => {
-		// 	console.log("Trying attack on country "+ data.country +
-		// 	" with dices " + data.dices);
-		// 	console.log("");
-		// 	//FIGHT_ATTACK should go here
-
-		// });
-
-		// socket.on("MAP_CHANGE", data => {
-		// 	nextTurn()
-		// });
-
-		// socket.on("INVASION", data => {
-		// 	console.log("Trying to invade " + data.player);
-		// 	console.log("");
-		// });
-
     // when socket disconnects, remove it from the list:
     socket.on("disconnect", () => {
 		console.log("Client desconectado");
@@ -102,5 +62,65 @@ socket_server.on("connection", (socket) => {
 		// SI NO HAY MAS JUGADORES RENOVAR LISTA DE COLORES!!!
 		if(jugadores.length < 1)
 			colores = paises.getNColoresPosibles();
-    });
+	});
+	
+	/*	
+	io.on('connection', (socket) => {
+		console.log(socket);
+		socket.emit('whoru');
+		socket.on('iam', (data) => {
+			games.addPlayerSocket(data.userid,socket);
+		});
+		socket.on('MATCH_INIT', (data) => {
+			io.to(data.matchid).emit('MATCH_START', games.startMatch(data.matchid));
+		});
+		socket.on('disconnect', () => {
+			games.removePlayerSocket(socket);
+		});
+	});
+	*/
+
+	/***
+	 * Objeto de Conexión
+	 * {
+	 *  userid: userid
+	 * }
+	 * 
+	 * Match Init
+	 * {
+	 * 	userid: userid,
+	 *  matchid: matchid
+	 * }
+	 * 
+	 * Attack
+	 * {
+	 * 	userid: userid,
+	 *  matchid: matchid
+	 * 	from: "Argentina"
+	 * 	to: "Uruguay"
+	 * }
+	 * <--
+	 * attack_result
+	 * {
+	 * 	dados: {
+	 * 	from: [6, 3 , 2]
+	 * 	to: [2, 1]
+	 * 	countries: {}
+	 * }
+	 * 
+	 * Regroup
+	 * {
+	 * 	userid,
+	 * 	matchid,
+	 * 	countries: [argentina: 3, brazil: 3, uruguay: 2] -->> Cantidad a agregar por pais
+	 * }
+	 * <--
+	 * regroup_result
+	 * {
+	 * 	countries: {}
+	 *  
+	 * }
+	 * 
+	 */
+
 });

@@ -3,7 +3,6 @@ const Match = db.Match;
 const users = require('users/user.service');
 const utils = require('_helpers/utils');
 
-
 module.exports = {
     getAll,
     getById,
@@ -19,6 +18,10 @@ async function getAll() {
 }
 
 async function getById(id) {
+    return await Match.findById(id);
+}
+
+async function getByName(id) {
     return await Match.findById(id);
 }
 
