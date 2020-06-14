@@ -3,21 +3,16 @@ package com.tegMob.viewModel
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.media.AsyncPlayer
 import android.os.Bundle
-import android.util.JsonReader
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.JsonParser
 import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyViewModel
+import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 /*
@@ -73,11 +68,27 @@ class MapViewModel : MyViewModel() {
 
     }
 
+    private fun hideWaitingImage() {
+        myFragment.logoTegWait.visibility = View.GONE
+        myFragment.waitingBackground.visibility = View.GONE
+        myFragment.waitingText.visibility = View.GONE
+    }
+
+    private fun showMap() {
+        myFragment.getCountryImages().forEach { it.visibility = View.VISIBLE }
+        myFragment.getCountryNumbers().forEach { it.visibility = View.VISIBLE }
+        myFragment.backgroundMap.visibility = View.VISIBLE
+        myFragment.textCurrentPlayer.visibility = View.VISIBLE
+        myFragment.textCurrentRound.visibility = View.VISIBLE
+    }
+
     private val onMatchStart = Emitter.Listener {
         //val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
         val countries = JsonParser().parse(it[0].toString())
         Log.d("MAP_DATA", countries.toString())
         Log.d("RECEIVE", "MATCH START EVENT ARRIVED FROM SERVER")
+        hideWaitingImage()
+        showMap()
     }
 
     private fun eventSubscriptions() {

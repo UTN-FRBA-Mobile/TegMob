@@ -52,5 +52,6 @@
     <string name="noNeighbourCountryError">País no limítrofe</string>
     <string name="errorAttackingOwnCountry">No puede atacar a un país suyo</string>
     <string name="errorNotEnoughArmies">No se puede atacar con 1 ejército</string>
+    <string name="waiting_match_start">ESPERANDO QUE COMIENCE LA PARTIDA</string>
 
 </resources>

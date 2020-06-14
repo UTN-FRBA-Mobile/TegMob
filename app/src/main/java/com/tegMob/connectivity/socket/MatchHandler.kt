@@ -7,7 +7,7 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 object MatchHandler {
-    private val URL = "http://tegmobapp.eba-2psmvpsn.us-east-1.elasticbeanstalk.com:8000/"
+    private val URL = "http://tegmobapp.eba-2psmvpsn.us-east-1.elasticbeanstalk.com:80/"
     private var mSocket: Socket? = null
 
     private fun connect() {

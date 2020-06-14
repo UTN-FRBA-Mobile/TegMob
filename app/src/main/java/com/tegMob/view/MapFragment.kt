@@ -175,7 +175,6 @@ class MapFragment : MyFragment() {
         )
         initViewModel()
         initMapData = initMapData()
-
         view.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 screenTouched(v, event)
