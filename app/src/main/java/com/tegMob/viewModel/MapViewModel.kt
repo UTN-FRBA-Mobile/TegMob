@@ -60,12 +60,15 @@ class MapViewModel : MyViewModel() {
         setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
         //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
+        //        if (windowWidthHeightRelation > 1.8F)
+        //            println("formato 18:9")
+        //        else
+        //            println("formato 16:9")
         var widthRelation: Float = windowWidth / 800F
         var heightRelation: Float = windowHeight / 480F
         var xRelation: Float = widthRelation
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
-
     }
 
     /**

@@ -350,17 +350,10 @@ class MapFragment : MyFragment() {
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         windowWidth = displayMetrics.widthPixels
         windowHeight = displayMetrics.heightPixels
-
+//        println("ancho: " + windowWidth)
+//        println("alto: " + windowHeight)
+//        println(windowWidth.toFloat() / windowHeight.toFloat())
         viewModel.run { Map(view, windowWidth, windowHeight, initMapData) }
-        /*        windowWidth = mapaBack.layoutParams.width
-                windowHeight = mapaBack.layoutParams.height
-
-
-                if (windowWidthHeightRelation > 1.8F) {
-                    widthRelation = windowWidth / 703F
-                    xRelation = windowWidth / 810F
-                }*/
-
     }
 
     /**
