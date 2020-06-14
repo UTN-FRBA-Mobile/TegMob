@@ -2,6 +2,7 @@ package com.tegMob.viewModel
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -256,7 +257,7 @@ class CreateNewGameViewModel : MyViewModel() {
 
     fun startNewGame() {
         MatchHandler.connectToServer()
-        MatchHandler.startMatch(tableName)
+        MatchHandler.startMatch(matchId)
         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
     }
 }

@@ -75,12 +75,11 @@ class MapViewModel : MyViewModel() {
     }
 
     private fun showMap() {
-        myFragment.getCountryImages().forEach { it.visibility = View.VISIBLE }
-        myFragment.getCountryNumbers().forEach { it.visibility = View.VISIBLE }
-        myFragment.backgroundMap.visibility = View.VISIBLE
-        myFragment.textCurrentPlayer.visibility = View.VISIBLE
-        myFragment.textCurrentRound.visibility = View.VISIBLE
+        val mapFieldsToShow = myFragment.getCountryImages() + myFragment.getCountryImages() + listOf(myFragment.backgroundMap, myFragment.textCurrentPlayer, myFragment.textCurrentRound)
+        show(mapFieldsToShow)
     }
+
+    private fun show(items: List<View>) = items.forEach { it.visibility = View.VISIBLE }
 
     private val onMatchStart = Emitter.Listener {
         //val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)

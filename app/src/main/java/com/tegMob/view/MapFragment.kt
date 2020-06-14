@@ -365,36 +365,24 @@ class MapFragment : MyFragment() {
 
     }
 
+    private fun hide(items: List<View>) = items.forEach { it.visibility = View.INVISIBLE }
+
     /**
      * resetea los parámetros y elementos que se usan para los ataques para poder usarlos en un ataque futuro
      */
     private fun resetAttack() {
         attackerCountry = null
         defenderCountry = null
-        attacker.visibility = View.INVISIBLE
-        defender.visibility = View.INVISIBLE
-        attackTitle.visibility = View.INVISIBLE
-        //        movingDicesAttacker.visibility = View.INVISIBLE
-        //        movingDicesDefender.visibility = View.INVISIBLE
-        movingDicesAttacker1.visibility = View.INVISIBLE
-        movingDicesAttacker2.visibility = View.INVISIBLE
-        movingDicesAttacker3.visibility = View.INVISIBLE
-        movingDicesDefender1.visibility = View.INVISIBLE
-        movingDicesDefender2.visibility = View.INVISIBLE
-        movingDicesDefender3.visibility = View.INVISIBLE
-        btnAccept.visibility = View.INVISIBLE
-        btnAtack.visibility = View.INVISIBLE
-        btnStop.visibility = View.INVISIBLE
+        val attackItems = listOf(attacker, defender, attackTitle, movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3, movingDicesDefender1, movingDicesDefender2, movingDicesDefender3, btnAccept, btnAtack, btnStop)
+        hide(attackItems)
     }
 
     /**
      * define las acciones al tocar la pantalla
      */
     private fun screenTouched(view: View, event: MotionEvent): Boolean {
-        errorNoOwnCountry.visibility = View.INVISIBLE
-        errorNoNeighbourCountry.visibility = View.INVISIBLE
-        errorAttackingOwnCountry.visibility = View.INVISIBLE
-        errorNotEnoughArmies.visibility = View.INVISIBLE
+        val errorMessages = listOf(errorNoOwnCountry, errorNoNeighbourCountry, errorAttackingOwnCountry, errorNotEnoughArmies)
+        hide(errorMessages)
 
         val touchedCountryName = viewModel.getCountryImageTouched(view, event)  //puede ser nulo si toco el mar o los bordes de los países
 
