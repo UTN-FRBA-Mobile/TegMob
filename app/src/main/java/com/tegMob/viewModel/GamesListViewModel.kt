@@ -78,7 +78,7 @@ class GamesListViewModel : MyViewModel() {
     fun search(newText: String?)= gamesAdapter.search(newText)
 
     fun joinMatch(game: MatchDTOs.MatchListItemDTO) {
-        val call = matchesClient.addPlayer(game.matchname, MatchDTOs.MatchPlayerAddDTO(userName))
+        val call = matchesClient.addPlayer(game.id, MatchDTOs.MatchPlayerAddDTO(userId))
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful && response.code() == 200){
