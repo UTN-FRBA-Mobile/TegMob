@@ -1,8 +1,11 @@
 package com.tegMob.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import com.tegMob.R
@@ -28,13 +31,13 @@ class GamesListFragment : MyFragment() {
         getPassedData()
         gamesList.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
-        viewModel.loadDummyGameList()
+        fetchGames()
         initSearchBar()
     }
 
     override fun getPassedData() {
         viewModel.imageURI = arguments?.getString("imageURI").toString()
-        viewModel.userId = arguments?.getInt("userId")!!
+        viewModel.userId = arguments?.getString("userId")!!
         viewModel.userName = arguments?.getString("user").toString()
     }
 
@@ -49,26 +52,27 @@ class GamesListFragment : MyFragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.search(newText)
+               viewModel.search(newText)
                 return false
             }
         }
         )
     }
 
-    /*override fun onStart() {
-        super.onStart()
-
+    private fun fetchGames() {
+        viewModel.getGames()
+        progressBar.visibility = GONE
+        gamesList.visibility = VISIBLE
         val handler = Handler()
-        val delay: Long = 1000 //milliseconds
+        val delay: Long = 10000 //milliseconds
 
         handler.postDelayed(object : Runnable {
             override fun run() {
-                viewModel.loadDummyGameList()
+                if (isVisible) viewModel.getGames()
                 handler.postDelayed(this, delay)
             }
         }, delay)
-    }*/
+    }
 
    companion object {
         @JvmStatic

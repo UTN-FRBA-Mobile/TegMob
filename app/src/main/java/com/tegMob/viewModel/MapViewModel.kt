@@ -5,12 +5,17 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.media.AsyncPlayer
 import android.os.Bundle
+import android.util.JsonReader
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.google.gson.JsonParser
+import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyViewModel
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -55,7 +60,7 @@ class MapViewModel : MyViewModel() {
         )
 
 
-
+        eventSubscriptions()
         setCurrentRoundText()
         setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
@@ -69,6 +74,17 @@ class MapViewModel : MyViewModel() {
         var xRelation: Float = widthRelation
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
+    }
+
+    private val onMatchStart = Emitter.Listener {
+        //val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        val countries = JsonParser().parse(it[0].toString())
+        Log.d("MAP_DATA", countries.toString())
+        Log.d("RECEIVE", "MATCH START EVENT ARRIVED FROM SERVER")
+    }
+
+    private fun eventSubscriptions() {
+        MatchHandler.getSocket()!!.on("MATCH_START", onMatchStart)
     }
 
     /**
@@ -107,39 +123,26 @@ class MapViewModel : MyViewModel() {
     /**
      * setea el color y la cantidad de ejércitos que tiene cada país
      */
+
     private fun setCountriesData() {
-        //América del sur
-        myFragment.imageChile.setColorFilter(playerColors[countriesData.getJSONObject("chile").getString("owner")]!!)
-        myFragment.imageBrazil.setColorFilter(playerColors[countriesData.getJSONObject("brazil").getString("owner")]!!)
-        myFragment.imageUruguay.setColorFilter(playerColors[countriesData.getJSONObject("uruguay").getString("owner")]!!)
-        myFragment.imageArgentina.setColorFilter(playerColors[countriesData.getJSONObject("argentina").getString("owner")]!!)
-        myFragment.imageColombia.setColorFilter(playerColors[countriesData.getJSONObject("colombia").getString("owner")]!!)
-        myFragment.imagePeru.setColorFilter(playerColors[countriesData.getJSONObject("peru").getString("owner")]!!)
-        myFragment.numberChile.setText(countriesData.getJSONObject("chile").getString("armies"))
-        myFragment.numberPeru.setText(countriesData.getJSONObject("peru").getString("armies"))
-        myFragment.numberBrazil.setText(countriesData.getJSONObject("brazil").getString("armies"))
-        myFragment.numberColombia.setText(countriesData.getJSONObject("colombia").getString("armies"))
-        myFragment.numberArgentina.setText(countriesData.getJSONObject("argentina").getString("armies"))
-        myFragment.numberUruguay.setText(countriesData.getJSONObject("uruguay").getString("armies"))
+        //América del sur y Africa
+        val countryTexts = listOf("chile", "brazil", "uruguay", "argentina", "colombia", "peru", "sahara", "zaire", "madagascar", "ethiopia", "southafrica", "egypt")
+
+        myFragment.getCountryImages().zip(countryTexts).forEach {
+                (img, text) ->
+            img.setColorFilter(playerColors[countriesData.getJSONObject(text).getString("owner")]!!)
+        }
+
+        myFragment.getCountryNumbers().zip(countryTexts).forEach {
+            (numb , text) ->
+            numb.text = countriesData.getJSONObject(text).getString("armies")
+        }
 
         //África
         //        unwrappedDrawable = AppCompatResources.getDrawable(myContext!!, R.drawable.sahara_white)
         //        wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
         //        DrawableCompat.setTint(wrappedDrawable, playerColors[countriesData.getJSONObject("sahara").getString("owner")]!!)
         //        myFragment.imageSahara.setImageResource(R.drawable.sahara_white)
-        myFragment.imageSahara.setColorFilter(playerColors[countriesData.getJSONObject("sahara").getString("owner")]!!)
-        myFragment.imageZaire.setColorFilter(playerColors[countriesData.getJSONObject("zaire").getString("owner")]!!)
-        myFragment.imageMadagascar.setColorFilter(playerColors[countriesData.getJSONObject("madagascar").getString("owner")]!!)
-        myFragment.imageEthiopia.setColorFilter(playerColors[countriesData.getJSONObject("ethiopia").getString("owner")]!!)
-        myFragment.imageSouthafrica.setColorFilter(playerColors[countriesData.getJSONObject("southafrica").getString("owner")]!!)
-        myFragment.imageEgypt.setColorFilter(playerColors[countriesData.getJSONObject("egypt").getString("owner")]!!)
-        myFragment.numberZaire.setText(countriesData.getJSONObject("zaire").getString("armies"))
-        myFragment.numberSouthafrica.setText(countriesData.getJSONObject("southafrica").getString("armies"))
-        myFragment.numberEgypt.setText(countriesData.getJSONObject("egypt").getString("armies"))
-        myFragment.numberEthiopia.setText(countriesData.getJSONObject("ethiopia").getString("armies"))
-        myFragment.numberSahara.setText(countriesData.getJSONObject("sahara").getString("armies"))
-        myFragment.numberMadagascar.setText(countriesData.getJSONObject("madagascar").getString("armies"))
-
     }
 
     /**

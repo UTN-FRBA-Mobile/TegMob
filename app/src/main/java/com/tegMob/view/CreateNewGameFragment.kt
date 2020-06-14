@@ -40,6 +40,7 @@ class CreateNewGameFragment : MyFragment() {
         viewModel = CreateNewGameViewModel()
         context?.let { viewModel.init(this, listener, it) }
         viewModel.userName = arguments?.getString("user")?: "PlayerName error"
+        viewModel.userId = arguments?.getString("userId")?: ""
     }
 
     companion object {
