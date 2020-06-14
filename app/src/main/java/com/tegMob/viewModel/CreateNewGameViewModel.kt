@@ -114,7 +114,7 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun addNewPlayer() {
-        if (playersAdapter.players.size < matchPlayersSize.toInt() - 1) {
+        if (playersAdapter.players.size <= matchPlayersSize.toInt() - 1) {
             playersAdapter.players = playersAdapter.players.plus(getFakePlayerFromServer())
             refreshPlayersList()
         } else {
