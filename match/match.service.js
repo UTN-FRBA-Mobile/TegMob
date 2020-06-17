@@ -10,7 +10,8 @@ module.exports = {
     join,
     leave,
     delete: _delete,
-    start
+    start,
+    getByName
 };
 
 async function getAll() {
@@ -21,8 +22,8 @@ async function getById(id) {
     return await Match.findById(id);
 }
 
-async function getByName(id) {
-    return await Match.findById(id);
+async function getByName(name) {
+    return await Match.findOne(m => m.matchname === name);
 }
 
 async function create(matchParam) {
