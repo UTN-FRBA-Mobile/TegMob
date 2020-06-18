@@ -2,10 +2,13 @@ const db = require('_helpers/db');
 const Match = db.Match;
 const users = require('users/user.service');
 const utils = require('_helpers/utils');
+const { addListener } = require('../users/user.model');
+const paises = require('funciones/paises')
 
 module.exports = {
     getAll,
     getById,
+    getByUser,
     create,
     join,
     leave,
@@ -16,6 +19,11 @@ module.exports = {
 
 async function getAll() {
     return await Match.find();
+}
+
+async function getByUser(id) {
+    var consulta = { "players.user": id}
+    return await Match.find(consulta);
 }
 
 async function getById(id) {
@@ -114,45 +122,47 @@ async function _delete(id) {
 }
 
 async function start(id) {
+
     const match = await Match.findById(id);
 
     if (!match) throw 'Match not found';
-
     if (match.stage !== "CREATED") throw 'Match already started'
 
     match.stage = "STARTED";
 
-    const countriestemp = Object.entries(match.countries);
-    const countriestemp2 = Object.entries(match.countries);
+    match.countries = paises.getMapaInicial(match.size)
 
-    const promedio = Math.trunc(countriestemp.length/match.players.length);
+    // const countriestemp = Object.entries(match.countries);
+    // const countriestemp2 = Object.entries(match.countries);
 
-    match.players.forEach(p => {
-        for (let i = 0; i < promedio; i++) {
-            const num = utils.getRndInteger(0,countriestemp.length-1);
-            const name = countriestemp[num][0]
-            const where = countriestemp2.findIndex(c => c[0] === name);
-            countriestemp2[where][1].owner = p.username;
-            countriestemp2[where][1].armies = 3;
-            countriestemp.splice(num,1);
-        }
-    });
+    // const promedio = Math.trunc(countriestemp.length/match.players.length);
 
-    match.players.forEach(p => {
-        if (countriestemp.length>0) {
-            const name = countriestemp[0][0]
-            const where = countriestemp2.findIndex(c => c[0] === name);
-            countriestemp2[where][1].owner = p.username;
-            countriestemp2[where][1].armies = 3;
-            countriestemp.splice(num,1);
-        } else {
-            break;
-        }
-    })
+    // match.players.forEach(p => {
+    //     for (let i = 0; i < promedio; i++) {
+    //         const num = utils.getRndInteger(0,countriestemp.length-1);
+    //         const name = countriestemp[num][0]
+    //         const where = countriestemp2.findIndex(c => c[0] === name);
+    //         countriestemp2[where][1].owner = p.username;
+    //         countriestemp2[where][1].armies = 3;
+    //         countriestemp.splice(num,1);
+    //     }
+    // });
 
-    match.countries = Object.fromEntries(countriestemp2);
+    // match.players.forEach(p => {
+    //     if (countriestemp.length>0) {
+    //         const name = countriestemp[0][0]
+    //         const where = countriestemp2.findIndex(c => c[0] === name);
+    //         countriestemp2[where][1].owner = p.username;
+    //         countriestemp2[where][1].armies = 3;
+    //         countriestemp.splice(num,1);
+    //     } else {
+    //         break;
+    //     }
+    // })
 
-    match.currentPlayer = match.players[utils.getRndInteger(0,countriestemp2.length-1)].username;
+    // match.countries = Object.fromEntries(countriestemp2);
+
+    match.currentPlayer = match.players[0].user;
 
     await match.save();
 

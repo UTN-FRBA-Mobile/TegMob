@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const User = db.User;
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
     authenticate,
@@ -10,8 +10,16 @@ module.exports = {
     create,
     update,
     delete: _delete,
-    getByName
+    getByName,
+    setSocket
 };
+
+async function setSocket(id_user, socket){
+    var xuser = await User.findById(id_user)
+    xuser.socket = socket
+    // no funciona, hay q tocar el objeto socket
+    await xuser.save()
+}
 
 async function authenticate({ username, password }) {
     const user = await User.findOne({ username });
