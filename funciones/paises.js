@@ -24,20 +24,22 @@ module.exports = {
         return(paises_usados_por_nosotros.includes(pais));
 	},
 	
-	// Crea el mapa inicial, recibe el numero de jugadores
-	getMapaInicial: function ( n = 6 ){
+	// Crea el mapa inicial, recibe lista de colores
+	// n: numero de colores
+	// c_list: lista de colores pasada por parametro
+	getMapaInicial: function ( c_list ){
 		var mapa_ini = {}
-		var colores = this.shuffleArray( this.getNColoresPosibles(n) )
+		var colores = c_list.slice()
 		var rondas_extra = 2
 
-		paises_usados_por_nosotros.forEach(pais => {
+		this.shuffleArray(paises_usados_por_nosotros).slice().forEach(pais => {
 			mapa_ini[pais] = {'owner': colores.pop()}
 			if( rondas_extra > 0 ) // paises con mas ejercito para atacar
-				mapa_ini[pais].armies = 5
+				mapa_ini[pais].armies = 5;
 			else
-				mapa_ini[pais].armies = 1
+				mapa_ini[pais].armies = 1;
 			if( colores.length < 1 ){
-				colores = this.shuffleArray( this.getNColoresPosibles(n) )
+				colores = c_list.slice()
 				rondas_extra -= 1
 			}
 		});

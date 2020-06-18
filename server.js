@@ -21,7 +21,7 @@ const io = require('socket.io');
 
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 var socket_server = io.listen(port);
-console.log('Recibiendo conexion socket por puerto: ' + port)
+console.log('Servidor de websockets escuchando en: http://<ip>:' + port)
 
 app.get('/', (req, res) => {
 	res.sendFile(`${__dirname}/public/index.html`);
@@ -32,7 +32,8 @@ var conectados = []
 socket_server.on("connection", (socket) => {
 	var this_conn = null
 
-	console.log("Nuevo jugador conectado");
+	console.log("Jugador conectado");
+	socket.emit('WHORU');
 	// Ya no se crea un juego nuevo, ya esta creado desde antes
 	// var index_jugador = jugadores.push({'color': colores.shift(),'socket': socket}) - 1
 	// si se conecta luego de iniciada la partida se le tiene q pasar el juego
@@ -40,6 +41,7 @@ socket_server.on("connection", (socket) => {
 	// El socket tiene que identificarse, asociarse a un usuario
 	socket.on('IAM', (data) => {
 		this_conn =	conectados.push({'id_user': data.userid, 'socket': socket}) - 1
+		console.log('Jugador identificado')
 	})
 
 	//Owner inicia la partida
@@ -68,7 +70,7 @@ socket_server.on("connection", (socket) => {
 
     // when socket disconnects, remove it from the list:
     socket.on("disconnect", () => {
-		console.log("Client desconectado");
+		console.log("Jugador desconectado");
 		conectados.splice(this_conn, 1)
 		//games.removePlayerSocket(conectados); // NO FUNCIONAAAAAAAAAAAAAAAAAA
 		// Saco el socket de la lista de jugadores conectados

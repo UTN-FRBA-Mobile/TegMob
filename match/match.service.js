@@ -122,7 +122,6 @@ async function _delete(id) {
 }
 
 async function start(id) {
-
     const match = await Match.findById(id);
 
     if (!match) throw 'Match not found';
@@ -130,7 +129,13 @@ async function start(id) {
 
     match.stage = "STARTED";
 
-    match.countries = paises.getMapaInicial(match.size)
+    var colores = paises.getNColoresPosibles(match.players.length)
+    var p_temp = [] // si no lo actualizas por completo no escribe
+    for( var i = 0; i < match.players.length; i++ ){
+        p_temp[i] = {'color': colores[i], 'user': match.players[i].user, 'armies': match.players[i].armies}
+    };
+    match.players = p_temp
+    match.countries = paises.getMapaInicial(colores)
 
     // const countriestemp = Object.entries(match.countries);
     // const countriestemp2 = Object.entries(match.countries);
