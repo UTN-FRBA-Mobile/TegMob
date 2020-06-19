@@ -19,6 +19,7 @@ import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
 import org.json.JSONObject
+import kotlin.random.Random
 
 /*
 colores de países
@@ -39,6 +40,18 @@ class MapViewModel : MyViewModel() {
     private lateinit var bitMapFullView: Bitmap
     private lateinit var countriesData: JSONObject
     private lateinit var currentRound: String
+    private lateinit var sensorMovements: FloatArray
+
+    /* ************ acelerómetro ******************/
+    fun sensorMovements(_sensorMovements: FloatArray) {
+        sensorMovements = _sensorMovements
+        println("coordenadas X: "+sensorMovements[0])
+        println("coordenadas Y: "+sensorMovements[1])
+        println("coordenadas Z: "+sensorMovements[2])
+        println("random number: "+ Random(5))
+        //        invalidate()
+    }
+    /* ************ acelerómetro ******************/
 
     fun Map(view: View, windowWidth: Int, windowHeight: Int, initMapData: JSONObject) {
         countriesData = initMapData.getJSONObject("countries")
