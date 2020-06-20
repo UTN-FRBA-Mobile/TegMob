@@ -14,7 +14,8 @@ module.exports = {
     leave,
     delete: _delete,
     start,
-    getByName
+    getByName,
+    getCurrentTurn
 };
 
 async function getAll() {
@@ -137,39 +138,15 @@ async function start(id) {
     match.players = p_temp
     match.countries = paises.getMapaInicial(colores)
 
-    // const countriestemp = Object.entries(match.countries);
-    // const countriestemp2 = Object.entries(match.countries);
-
-    // const promedio = Math.trunc(countriestemp.length/match.players.length);
-
-    // match.players.forEach(p => {
-    //     for (let i = 0; i < promedio; i++) {
-    //         const num = utils.getRndInteger(0,countriestemp.length-1);
-    //         const name = countriestemp[num][0]
-    //         const where = countriestemp2.findIndex(c => c[0] === name);
-    //         countriestemp2[where][1].owner = p.username;
-    //         countriestemp2[where][1].armies = 3;
-    //         countriestemp.splice(num,1);
-    //     }
-    // });
-
-    // match.players.forEach(p => {
-    //     if (countriestemp.length>0) {
-    //         const name = countriestemp[0][0]
-    //         const where = countriestemp2.findIndex(c => c[0] === name);
-    //         countriestemp2[where][1].owner = p.username;
-    //         countriestemp2[where][1].armies = 3;
-    //         countriestemp.splice(num,1);
-    //     } else {
-    //         break;
-    //     }
-    // })
-
-    // match.countries = Object.fromEntries(countriestemp2);
-
-    match.currentPlayer = match.players[0].user;
+    match.currentPlayer = match.players[1].user;
+    match.turn = 1;
 
     await match.save();
 
     return match;
+}
+
+async function getCurrentTurn(id){
+   let partida = await getById(id)
+   return {'id': id, 'turn': partida.turn, 'currentPlayer': partida.players[partida.turn % partida.players.length]}
 }

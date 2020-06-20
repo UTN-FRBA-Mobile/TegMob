@@ -27,57 +27,46 @@ app.get('/', (req, res) => {
 	res.sendFile(`${__dirname}/public/index.html`);
   });
 
-var conectados = []
+var conectados = [] //[{'id_user': 'da87s7', 'socket': {}}]
 
 socket_server.on("connection", (socket) => {
 	var this_conn = null
 
 	console.log("Jugador conectado");
 	socket.emit('WHORU');
-	// Ya no se crea un juego nuevo, ya esta creado desde antes
-	// var index_jugador = jugadores.push({'color': colores.shift(),'socket': socket}) - 1
-	// si se conecta luego de iniciada la partida se le tiene q pasar el juego
-
-	// El socket tiene que identificarse, asociarse a un usuario
+	
 	socket.on('IAM', (data) => {
 		this_conn =	conectados.push({'id_user': data.userid, 'socket': socket}) - 1
 		console.log('Jugador identificado')
 	})
 
-	//Owner inicia la partida
-	//Devolvemos mapa inicial
 	socket.on('MATCH_INIT', (data) => {
 		games.startMatch(data.match_id)
 			.then(v =>{
 				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries})
 			})
 			.catch(e => console.log(e))
+		games.getCurrentTurn(data.match_id)
+			.then(v => {
+				sendMultipleMessage([v.currentPlayer], 'START_TURN', v.currentPlayer.color)
+			})
+			.catch(e => console.log(e))
 	})
 
+	socket.on('TRY_ATTACK', (attack) => {
+		games.tryAttack(conectados[this_conn].id_user, attack)
+			.then(resp =>{
+				sendMultipleMessage(resp.start_turn.players, 'MAP_CHANGE', resp.map_change)
+				games.getCurrentTurn(resp.start_turn.id_match).then(proximo_turno =>{
+					sendMultipleMessage([proximo_turno.currentPlayer], 'START_TURN', proximo_turno.currentPlayer.color)
+				})
+			})
+			.catch(e => console.log(e))
+	})
 
-    // socket.on("MATCH_INIT", id =>{
-	// 	console.log("Nuevo juego:" + id);
-	// 	console.log("Usuarios en la partida: " + jugadores.length)
-	// 	// seteo primer turno
-	// 	juego.currentPlayer = jugadores[0].color
-	// 	// genero mapa inicial
-	// 	juego.countries = paises.getMapaInicial( jugadores.length )
-	// 	// Informo a los conectados el inicio del juego
-	// 	jugadores.forEach(jugador => {
-	// 		jugador.socket.emit("MATCH_START", juego );
-	// 	});
-    // });
-
-    // when socket disconnects, remove it from the list:
     socket.on("disconnect", () => {
 		console.log("Jugador desconectado");
 		conectados.splice(this_conn, 1)
-		//games.removePlayerSocket(conectados); // NO FUNCIONAAAAAAAAAAAAAAAAAA
-		// Saco el socket de la lista de jugadores conectados
-		//jugadores.splice(index_jugador, 1);
-		// SI NO HAY MAS JUGADORES RENOVAR LISTA DE COLORES!!!
-		//if(jugadores.length < 1)
-		//	colores = paises.getNColoresPosibles();
 	});
 	
 	/*	
