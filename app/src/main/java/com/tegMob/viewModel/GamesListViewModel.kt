@@ -82,7 +82,7 @@ class GamesListViewModel : MyViewModel() {
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful && response.code() == 200){
-                    MatchHandler.connectToServer()
+                    MatchHandler.connectToServerAndDoHandShake(userId)
                     myFragment.listener!!.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
                 } else {
                     Toast.makeText(myContext, "Hubo un error al intentar unirse a la partida", Toast.LENGTH_SHORT).show()

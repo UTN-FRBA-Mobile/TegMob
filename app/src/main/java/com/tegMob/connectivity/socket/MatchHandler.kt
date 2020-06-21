@@ -1,13 +1,12 @@
 package com.tegMob.connectivity.socket
 
 import android.util.Log
-import com.tegMob.viewModel.CreateNewGameViewModel
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 object MatchHandler {
-    private val URL = "http://tegmobapp.eba-2psmvpsn.us-east-1.elasticbeanstalk.com:80/"
+    private val URL = "http://192.168.1.110:4000/"
     private var mSocket: Socket? = null
 
     private fun connect() {
@@ -25,12 +24,17 @@ object MatchHandler {
         return mSocket
     }
 
-    fun connectToServer() {
+    fun iam(userId: String) = Emitter.Listener { mSocket!!.emit("IAM", EventIAMData(userId)) }
+
+    fun connectToServerAndDoHandShake(userId: String) {
         connect()
+        mSocket!!.on("WHORU", iam(userId))
     }
 
     fun startMatch(matchId: String): Emitter.Listener? {
        return Emitter.Listener { mSocket!!.emit("MATCH_INIT", matchId) }
     }
+
+    data class EventIAMData(val userid: String)
 
 }
