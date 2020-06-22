@@ -17,6 +17,7 @@ import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.MapFragment
 import kotlinx.android.synthetic.main.new_game_fragment.*
+import kotlinx.coroutines.delay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

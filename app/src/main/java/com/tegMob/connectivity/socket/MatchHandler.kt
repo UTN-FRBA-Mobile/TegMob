@@ -1,9 +1,12 @@
 package com.tegMob.connectivity.socket
 
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import java.lang.Appendable
 
 object MatchHandler {
     private val URL = "http://192.168.1.110:4000/"
@@ -24,17 +27,15 @@ object MatchHandler {
         return mSocket
     }
 
-    fun iam(userId: String) = Emitter.Listener { mSocket!!.emit("IAM", EventIAMData(userId)) }
+    fun iam(userId: String) = Emitter.Listener { mSocket!!.emit("IAM", userId) }
 
     fun connectToServerAndDoHandShake(userId: String) {
         connect()
         mSocket!!.on("WHORU", iam(userId))
     }
 
-    fun startMatch(matchId: String): Emitter.Listener? {
-       return Emitter.Listener { mSocket!!.emit("MATCH_INIT", matchId) }
+    fun startMatch(matchId: String) {
+       mSocket!!.emit("MATCH_INIT", matchId)
     }
-
-    data class EventIAMData(val userid: String)
 
 }
