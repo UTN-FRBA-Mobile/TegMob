@@ -29,24 +29,31 @@ app.get('/', (req, res) => {
 
 var conectados = [] //[{'id_user': 'da87s7', 'socket': {}}]
 
+class User {
+	constructor(userid) {
+		this.userid = userid
+	}
+}
+
 socket_server.on("connection", (socket) => {
 	var this_conn = null
 
 	console.log("Jugador conectado");
 	socket.emit('WHORU');
 	
-	socket.on('IAM', (data) => {
-		this_conn =	conectados.push({'id_user': data.userid, 'socket': socket}) - 1
+	socket.on('IAM', (userid) => {
+		this_conn =	conectados.push({'id_user': userid, 'socket': socket}) - 1
 		console.log('Jugador identificado')
 	})
 
-	socket.on('MATCH_INIT', (data) => {
-		games.startMatch(data.match_id)
+	socket.on('MATCH_INIT', (match_id) => {
+		games.startMatch(match_id)
 			.then(v =>{
 				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries})
+				console.log('MATCH START ENVIADO')
 			})
 			.catch(e => console.log(e))
-		games.getCurrentTurn(data.match_id)
+		games.getCurrentTurn(match_id)
 			.then(v => {
 				sendMultipleMessage([v.currentPlayer], 'START_TURN', v.currentPlayer.color)
 			})
