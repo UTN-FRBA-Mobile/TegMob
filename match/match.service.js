@@ -138,7 +138,7 @@ async function start(id) {
     match.players = p_temp
     match.countries = paises.getMapaInicial(colores)
 
-    match.currentPlayer = match.players[0].user;
+    match.currentPlayer = match.players[1].user;
     match.turn = 1;
 
     await match.save();
