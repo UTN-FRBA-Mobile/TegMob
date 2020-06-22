@@ -2,6 +2,7 @@ package com.tegMob
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -9,16 +10,18 @@ import androidx.fragment.app.FragmentManager
 import com.tegMob.utils.MyFragment
 import com.tegMob.view.InitialFragment
 import com.tegMob.view.MapFragment
+import kotlinx.coroutines.delay
+import java.sql.Time
 
 class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListener {
 
-    private lateinit var fragment : MyFragment
+    private lateinit var fragment: MyFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragment = if (savedInstanceState != null ) { // saved instance state, fragment may exist
+        fragment = if (savedInstanceState != null) { // saved instance state, fragment may exist
             // look up the instance that already exists by tag
             (supportFragmentManager.findFragmentByTag(TAG_MAP_FRAGMENT) as MapFragment?)!!
         } else {
@@ -30,9 +33,9 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         );
         //        DESCOMENTO ESTO PARA INICIAR EL PARTIDO SIN LAS PANTALLAS PREVIAS CADA VEZ QUE QUIERO PROBAR (Guille)
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.container, MapFragment.newInstance())
-//                    .commitNow()
+        //                supportFragmentManager.beginTransaction()
+        //                    .replace(R.id.container, MapFragment.newInstance())
+        //                    .commitNow()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(BACK_STACK_ROOT_TAG)
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             .commit()
     }
 
-    override fun showFragment(fragment: Fragment, tag : String) {
+    override fun showFragment(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
             //.addToBackStack(null)
             //.setCustomAnimations(R.anim.fragment_push_enter, R.anim.fragment_push_exit, R.anim.fragment_pop_enter, R.anim.fragment_pop_exit)
@@ -73,4 +76,35 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
         private const val BACK_STACK_ROOT_TAG = "root_fragment" //tag activity as root in stack
         private const val TAG_MAP_FRAGMENT = "map_fragment"
     }
+
+    //    override fun onWindowFocusChanged(hasFocus: Boolean) {
+    //        super.onWindowFocusChanged(hasFocus)
+    //        if (hasFocus) hideSystemUI()
+    //    }
+
+    fun hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
+    // Shows the system bars by removing all the flags
+    // except for the ones that make the content appear under the system bars.
+    private fun showSystemUI() {
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+
+
+
 }

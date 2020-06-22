@@ -9,12 +9,10 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import com.tegMob.MainActivity
 import com.tegMob.R
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.MapViewModel
@@ -22,7 +20,6 @@ import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.abs
-import kotlin.random.Random
 
 
 class MapFragment : MyFragment(), SensorEventListener {
@@ -37,8 +34,6 @@ class MapFragment : MyFragment(), SensorEventListener {
     private lateinit var countryObjects: Map<String, Map<String, Any>>
     private lateinit var countriesStateArray: JSONArray
     lateinit var currentPlayer: String
-    private var windowHeight: Int = 0
-    private var windowWidth: Int = 0
     private val displayMetrics = DisplayMetrics()
     private var attackerCountry: String? = null
     private var defenderCountry: String? = null
@@ -46,7 +41,6 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     private lateinit var mySensorManager: SensorManager
     private lateinit var mySensor: Sensor
-
 
     private var countriesOwners: MutableMap<ImageView, String?> = mutableMapOf(
         imageArgentina to null,
@@ -70,6 +64,189 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mySensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager  //accede al servicio de sensores
+        mySensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        (activity as MainActivity).hideSystemUI()
+        //        var lado=resources.getDimensionPixelSize(view)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        if (activity?.requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+        return inflater.inflate(R.layout.map_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dice1 = movingDicesAttacker1.background as AnimationDrawable
+        dice2 = movingDicesAttacker2.background as AnimationDrawable
+        dice3 = movingDicesAttacker3.background as AnimationDrawable
+        dice4 = movingDicesDefender1.background as AnimationDrawable
+        dice5 = movingDicesDefender2.background as AnimationDrawable
+        dice6 = movingDicesDefender3.background as AnimationDrawable
+
+        countriesNeighbours = mapOf(
+            imageArgentina to listOf<ImageView>(
+                imageUruguay, imageBrazil, imageChile, imagePeru
+            ),
+            imageChile to listOf<ImageView>(
+                imagePeru, imageArgentina, imageMadagascar
+            ),
+            imagePeru to listOf<ImageView>(
+                imageArgentina, imageChile, imageColombia, imageBrazil
+            ),
+            imageBrazil to listOf<ImageView>(
+                imageUruguay, imageArgentina, imagePeru, imageColombia, imageSahara
+            ),
+            imageUruguay to listOf<ImageView>(
+                imageBrazil, imageArgentina
+            ),
+            imageColombia to listOf<ImageView>(
+                imagePeru, imageBrazil, imageEgypt
+            ),
+            imageSahara to listOf<ImageView>(
+                imageBrazil, imageEgypt, imageEthiopia, imageZaire
+            ),
+            imageZaire to listOf<ImageView>(
+                imageSahara, imageSouthafrica, imageEthiopia
+            ),
+            imageEthiopia to listOf<ImageView>(
+                imageSahara, imageZaire, imageSouthafrica, imageEgypt
+            ),
+            imageEgypt to listOf<ImageView>(
+                imageColombia, imageSahara, imageEthiopia, imageMadagascar
+            ),
+            imageSouthafrica to listOf<ImageView>(
+                imageZaire, imageEthiopia, imageMadagascar
+            ),
+            imageMadagascar to listOf<ImageView>(
+                imageChile, imageZaire, imageEgypt, imageSouthafrica
+            )
+        )
+
+        countryObjects = mapOf(
+            "colombia" to mapOf(
+                "image" to imageColombia,
+                "number" to numberColombia
+            ),
+            "peru" to mapOf(
+                "image" to imagePeru,
+                "number" to numberPeru
+            ),
+            "argentina" to mapOf(
+                "image" to imageArgentina,
+                "number" to numberArgentina
+            ),
+            "brazil" to mapOf(
+                "image" to imageBrazil,
+                "number" to numberBrazil
+            ),
+            "chile" to mapOf(
+                "image" to imageChile,
+                "number" to numberChile
+            ),
+            "uruguay" to mapOf(
+                "image" to imageUruguay,
+                "number" to numberUruguay
+            ),
+            "zaire" to mapOf(
+                "image" to imageZaire,
+                "number" to numberZaire
+            ),
+            "sahara" to mapOf(
+                "image" to imageSahara,
+                "number" to numberSahara
+            ),
+            "egypt" to mapOf(
+                "image" to imageEgypt,
+                "number" to numberEgypt
+            ),
+            "southafrica" to mapOf(
+                "image" to imageSouthafrica,
+                "number" to numberSouthafrica
+            ),
+            "madagascar" to mapOf(
+                "image" to imageMadagascar,
+                "number" to numberMadagascar
+            ),
+            "ethiopia" to mapOf(
+                "image" to imageEthiopia,
+                "number" to numberEthiopia
+            )
+
+
+        )
+
+        initViewModel()
+
+        initMapData = initMapData()
+
+        view.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                screenTouched(v, event)
+            }
+            true
+        }
+
+        btnAttack.setOnClickListener {
+            startMovingDices()
+        }
+
+        /*
+        reemplazar el listener del botón por el socket que manda el resultado del ataque
+         */
+        btnStop.setOnClickListener {
+            showDicesResult()
+        }
+
+        btnAccept.setOnClickListener {
+            acceptAttackResult()
+        }
+
+        locationIcon.setOnClickListener() {
+            if (countryNames.visibility == View.VISIBLE)
+                countryNames.visibility = View.INVISIBLE
+            else
+                countryNames.visibility = View.VISIBLE
+        }
+
+        changePlayerIcon.setOnClickListener() {
+            when (currentPlayer) {
+                "cyan" -> {
+                    currentPlayer = "magenta"
+                }
+                "magenta" -> {
+                    currentPlayer = "red"
+                }
+                "red" -> {
+                    currentPlayer = "black"
+                }
+                "black" -> {
+                    currentPlayer = "yellow"
+                }
+                "yellow" -> {
+                    currentPlayer = "green"
+                }
+                "green" -> {
+                    currentPlayer = "cyan"
+                }
+            }
+            viewModel.setCurrentPlayerText(currentPlayer)
+        }
+
+        activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        viewModel.run { Map(view, displayMetrics, initMapData) }
+    }
+
+    override fun initViewModel() {
+        viewModel = MapViewModel()
+        context?.let { viewModel.init(this, listener, it) }
+    }
+
 
     override fun getCountryImages() =
         listOf<ImageView>(imageChile, imageBrazil, imageUruguay, imageArgentina, imageColombia, imagePeru, imageSahara, imageZaire, imageMadagascar, imageEthiopia, imageSouthafrica, imageEgypt)
@@ -77,13 +254,6 @@ class MapFragment : MyFragment(), SensorEventListener {
     override fun getCountryNumbers() =
         listOf<TextView>(numberChile, numberBrazil, numberUruguay, numberArgentina, numberColombia, numberPeru, numberSahara, numberZaire, numberMadagascar, numberEthiopia, numberSouthafrica, numberEgypt)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mySensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager  //accede al servicio de sensores
-        mySensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        println("Sensor: " + Sensor.TYPE_ACCELEROMETER)
-        //        var lado=resources.getDimensionPixelSize(view)
-    }
 
     /* ************ acelerómetro ******************/
     //    override fun onResume() {
@@ -102,35 +272,17 @@ class MapFragment : MyFragment(), SensorEventListener {
     var sensorReadingsQuant: Int = 0
 
     override fun onSensorChanged(event: SensorEvent?) {
-        //        viewModel.sensorMovements(event!!.values)
-
-        // alpha is calculated as t / (t + dT)
-        // with t, the low-pass filter's time-constant
-        // and dT, the event delivery rate
-
-        //        println("values 0: " + event!!.values[0])
-        //        println("values 1: " + event!!.values[1])
-        //        println("values 2: " + event!!.values[2])
-
         gravity[0] = alpha * gravity[0] + (1F - alpha) * event!!.values[0];
         gravity[1] = alpha * gravity[1] + (1F - alpha) * event!!.values[1];
         gravity[2] = alpha * gravity[2] + (1F - alpha) * event!!.values[2];
-
-        //        println("gravity 0: " + gravity[0])
-        //        println("gravity 1: " + gravity[1])
-        //        println("gravity 2: " + gravity[2])
 
         linearAcceleration[0] = event!!.values[0] - gravity[0];
         linearAcceleration[1] = event!!.values[1] - gravity[1];
         linearAcceleration[2] = event!!.values[2] - gravity[2];
 
-        println("accel 0: " + linearAcceleration[0])
-        println("accel 1: " + linearAcceleration[1])
-        println("accel 2: " + linearAcceleration[2])
         val accelSensitivity = 1F
         sensorReadingsQuant++
         if (sensorReadingsQuant > 10 && (abs(linearAcceleration[0]) > accelSensitivity || abs(linearAcceleration[1]) > accelSensitivity || abs(linearAcceleration[2]) > accelSensitivity))
-        //            println("moví el teléfono " + sensorReadingsQuant)
             startMovingDices()
     }
 
@@ -144,12 +296,6 @@ class MapFragment : MyFragment(), SensorEventListener {
     }
     /* ************ acelerómetro ******************/
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        if (activity?.requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
-        return inflater.inflate(R.layout.map_fragment, container, false)
-    }
 
     fun startMovingDices() {
         turnOffDicesSensor()
@@ -260,7 +406,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         btnStop.visibility = View.INVISIBLE
     }
 
-    fun acceptAttackResult(){
+    fun acceptAttackResult() {
         resetAttack()
         val updateData = JSONObject(mockupCountriesDataUpdate())
         //            val updateData = JSONObject(mockupCountriesDataUpdate())
@@ -284,169 +430,6 @@ class MapFragment : MyFragment(), SensorEventListener {
         //            viewModel.updateData(updateData.getJSONArray("countries"))
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dice1 = movingDicesAttacker1.background as AnimationDrawable
-        dice2 = movingDicesAttacker2.background as AnimationDrawable
-        dice3 = movingDicesAttacker3.background as AnimationDrawable
-        dice4 = movingDicesDefender1.background as AnimationDrawable
-        dice5 = movingDicesDefender2.background as AnimationDrawable
-        dice6 = movingDicesDefender3.background as AnimationDrawable
-        countriesNeighbours = mapOf(
-            imageArgentina to listOf<ImageView>(
-                imageUruguay, imageBrazil, imageChile, imagePeru
-            ),
-            imageChile to listOf<ImageView>(
-                imagePeru, imageArgentina, imageMadagascar
-            ),
-            imagePeru to listOf<ImageView>(
-                imageArgentina, imageChile, imageColombia, imageBrazil
-            ),
-            imageBrazil to listOf<ImageView>(
-                imageUruguay, imageArgentina, imagePeru, imageColombia, imageSahara
-            ),
-            imageUruguay to listOf<ImageView>(
-                imageBrazil, imageArgentina
-            ),
-            imageColombia to listOf<ImageView>(
-                imagePeru, imageBrazil, imageEgypt
-            ),
-            imageSahara to listOf<ImageView>(
-                imageBrazil, imageEgypt, imageEthiopia, imageZaire
-            ),
-            imageZaire to listOf<ImageView>(
-                imageSahara, imageSouthafrica, imageEthiopia
-            ),
-            imageEthiopia to listOf<ImageView>(
-                imageSahara, imageZaire, imageSouthafrica, imageEgypt
-            ),
-            imageEgypt to listOf<ImageView>(
-                imageColombia, imageSahara, imageEthiopia, imageMadagascar
-            ),
-            imageSouthafrica to listOf<ImageView>(
-                imageZaire, imageEthiopia, imageMadagascar
-            ),
-            imageMadagascar to listOf<ImageView>(
-                imageChile, imageZaire, imageEgypt, imageSouthafrica
-            )
-        )
-
-        countryObjects = mapOf(
-            "colombia" to mapOf(
-                "image" to imageColombia,
-                "number" to numberColombia
-            ),
-            "peru" to mapOf(
-                "image" to imagePeru,
-                "number" to numberPeru
-            ),
-            "argentina" to mapOf(
-                "image" to imageArgentina,
-                "number" to numberArgentina
-            ),
-            "brazil" to mapOf(
-                "image" to imageBrazil,
-                "number" to numberBrazil
-            ),
-            "chile" to mapOf(
-                "image" to imageChile,
-                "number" to numberChile
-            ),
-            "uruguay" to mapOf(
-                "image" to imageUruguay,
-                "number" to numberUruguay
-            ),
-            "zaire" to mapOf(
-                "image" to imageZaire,
-                "number" to numberZaire
-            ),
-            "sahara" to mapOf(
-                "image" to imageSahara,
-                "number" to numberSahara
-            ),
-            "egypt" to mapOf(
-                "image" to imageEgypt,
-                "number" to numberEgypt
-            ),
-            "southafrica" to mapOf(
-                "image" to imageSouthafrica,
-                "number" to numberSouthafrica
-            ),
-            "madagascar" to mapOf(
-                "image" to imageMadagascar,
-                "number" to numberMadagascar
-            ),
-            "ethiopia" to mapOf(
-                "image" to imageEthiopia,
-                "number" to numberEthiopia
-            )
-
-
-        )
-        initViewModel()
-        initMapData = initMapData()
-
-        view.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                screenTouched(v, event)
-            }
-            true
-        }
-
-        btnAttack.setOnClickListener {
-            startMovingDices()
-        }
-
-        /*
-        reemplazar el listener del botón por el socket que manda el resultado del ataque
-         */
-        btnStop.setOnClickListener {
-            showDicesResult()
-        }
-
-        btnAccept.setOnClickListener {
-            acceptAttackResult()
-        }
-
-        locationIcon.setOnClickListener() {
-            if (countryNames.visibility == View.VISIBLE)
-                countryNames.visibility = View.INVISIBLE
-            else
-                countryNames.visibility = View.VISIBLE
-        }
-
-        changePlayerIcon.setOnClickListener() {
-            when (currentPlayer) {
-                "cyan" -> {
-                    currentPlayer = "magenta"
-                }
-                "magenta" -> {
-                    currentPlayer = "red"
-                }
-                "red" -> {
-                    currentPlayer = "black"
-                }
-                "black" -> {
-                    currentPlayer = "yellow"
-                }
-                "yellow" -> {
-                    currentPlayer = "green"
-                }
-                "green" -> {
-                    currentPlayer = "cyan"
-                }
-            }
-            viewModel.setCurrentPlayerText(currentPlayer)
-        }
-
-        activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-        windowWidth = displayMetrics.widthPixels
-        windowHeight = displayMetrics.heightPixels
-        //        println("ancho: " + windowWidth)
-        //        println("alto: " + windowHeight)
-        //        println(windowWidth.toFloat() / windowHeight.toFloat())
-        viewModel.run { Map(view, windowWidth, windowHeight, initMapData) }
-    }
 
     /**
      * resetea los parámetros y elementos que se usan para los ataques para poder usarlos en un ataque futuro
@@ -476,6 +459,8 @@ class MapFragment : MyFragment(), SensorEventListener {
      * define las acciones al tocar la pantalla
      */
     private fun screenTouched(view: View, event: MotionEvent): Boolean {
+        (activity as MainActivity).hideSystemUI()
+
         turnOffDicesSensor()
         if (attackInCourse)    //si hay una ataque en curso no se deja hacer nada al tocar la pantalla
             return false
@@ -533,6 +518,7 @@ class MapFragment : MyFragment(), SensorEventListener {
     private fun initMapData(): JSONObject {
         //llama al servicio del backend
         val receivedData: String = mockupDataInit()
+
         //        val receivedObj = JSONObject(receivedData)
         val jsonObjData = JSONObject(receivedData)
         val countriesData = jsonObjData.getJSONObject("countries")
@@ -560,10 +546,6 @@ class MapFragment : MyFragment(), SensorEventListener {
         TODO("Not yet implemented")
     }
 
-    override fun initViewModel() {
-        viewModel = MapViewModel()
-        context?.let { viewModel.init(this, listener, it) }
-    }
 
     /**
      * simulador de backend
@@ -675,6 +657,12 @@ class MapFragment : MyFragment(), SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
 
     }
+
+    /* fun startNewGame() {
+         MatchHandler.connectToServer()
+         MatchHandler.startMatch(tableName)
+         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
+     }*/
 
 
 }

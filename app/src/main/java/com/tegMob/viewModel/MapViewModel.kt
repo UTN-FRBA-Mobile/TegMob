@@ -5,10 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.media.AsyncPlayer
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.JsonReader
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -40,28 +42,31 @@ class MapViewModel : MyViewModel() {
     private lateinit var bitMapFullView: Bitmap
     private lateinit var countriesData: JSONObject
     private lateinit var currentRound: String
-    private lateinit var sensorMovements: FloatArray
+    private var densityDpi: Int = 160
+    //    private lateinit var sensorMovements: FloatArray
 
-    /* ************ acelerómetro ******************/
-    fun sensorMovements(_sensorMovements: FloatArray) {
-        sensorMovements = _sensorMovements
-        println("coordenadas X: "+sensorMovements[0])
-        println("coordenadas Y: "+sensorMovements[1])
-        println("coordenadas Z: "+sensorMovements[2])
-        println("random number: "+ Random(5))
-        //        invalidate()
-    }
-    /* ************ acelerómetro ******************/
+    fun Map(view: View, displayMetrics: DisplayMetrics, initMapData: JSONObject) {
 
-    fun Map(view: View, windowWidth: Int, windowHeight: Int, initMapData: JSONObject) {
+        densityDpi = displayMetrics.densityDpi
+        var windowWidth = displayMetrics.widthPixels
+        var windowHeight = displayMetrics.heightPixels
+        val navBarId: Int = myContext!!.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+
+        if (!ViewConfiguration.get(myContext).hasPermanentMenuKey()) {
+            windowWidth += myContext!!.resources.getDimensionPixelSize(navBarId)
+        }
+
         countriesData = initMapData.getJSONObject("countries")
         currentRound = initMapData.getString("currentRound")
+        myFragment.baseLayout.layoutParams.width = (windowHeight * 800F / 480F).toInt()
+        myFragment.backgroundMap.layoutParams.width = myFragment.baseLayout.layoutParams.width
+
         bitMapFullView = loadBitmapFromView(myFragment.backgroundMap, windowWidth, windowHeight)
         countryBackColors = mapOf(
             "174176169" to "colombia",
             "0247255" to "peru",
             "551115" to "brazil",
-            "000" to "chile",
+            "9120255" to "chile",
             "1387324" to "argentina",
             "25543189" to "uruguay",
             "132084" to "sahara",
@@ -77,13 +82,9 @@ class MapViewModel : MyViewModel() {
         setCurrentRoundText()
         setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
-        //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
-        //        if (windowWidthHeightRelation > 1.8F)
-        //            println("formato 18:9")
-        //        else
-        //            println("formato 16:9")
-        var widthRelation: Float = windowWidth / 800F
-        var heightRelation: Float = windowHeight / 480F
+
+        var heightRelation: Float = windowHeight.toFloat() / 480F
+        var widthRelation: Float = myFragment.baseLayout.layoutParams.width.toFloat() / 800F
         var xRelation: Float = widthRelation
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
@@ -119,20 +120,6 @@ class MapViewModel : MyViewModel() {
         myFragment.textCurrentPlayer.text = "Turno de " + currentPlayer.toUpperCase()
     }
 
-    /*    fun updateData(data: JSONArray) { //EN DESUSO
-          for (i in 0 until data.length()) {
-              val item = data.getJSONObject(i)
-              Log.i("país", item.getString("country"))
-              Log.i("color", item.getString("owner"))
-              Log.i("number", item.getString("armies"))
-              val countryImage = countryObjects[item.getString("country")]!!["image"] as ImageView
-              val countryNumber = countryObjects[item.getString("country")]!!["number"] as TextView
-              countryImage.setColorFilter(playerColors[item.getString("owner")]!!)
-              countryNumber.setText(item.getString("armies"))
-
-          }
-      }*/
-
     /**
      * setea el color y la cantidad de ejércitos que tiene cada país
      */
@@ -141,13 +128,11 @@ class MapViewModel : MyViewModel() {
         //América del sur y Africa
         val countryTexts = listOf("chile", "brazil", "uruguay", "argentina", "colombia", "peru", "sahara", "zaire", "madagascar", "ethiopia", "southafrica", "egypt")
 
-        myFragment.getCountryImages().zip(countryTexts).forEach {
-                (img, text) ->
+        myFragment.getCountryImages().zip(countryTexts).forEach { (img, text) ->
             img.setColorFilter(playerColors[countriesData.getJSONObject(text).getString("owner")]!!)
         }
 
-        myFragment.getCountryNumbers().zip(countryTexts).forEach {
-            (numb , text) ->
+        myFragment.getCountryNumbers().zip(countryTexts).forEach { (numb, text) ->
             numb.text = countriesData.getJSONObject(text).getString("armies")
         }
 
@@ -170,14 +155,14 @@ class MapViewModel : MyViewModel() {
         myFragment.imagePeru.layoutParams.height = (46F * heightRelation).toInt()
         myFragment.imageBrazil.layoutParams.width = (102F * widthRelation).toInt()
         myFragment.imageBrazil.layoutParams.height = (89F * heightRelation).toInt()
-        myFragment.imageChile.layoutParams.width = (23F * widthRelation).toInt()
+        myFragment.imageChile.layoutParams.width = (24F * widthRelation).toInt()
         myFragment.imageChile.layoutParams.height = (87F * heightRelation).toInt()
         myFragment.imageArgentina.layoutParams.width = (50F * widthRelation).toInt()
         myFragment.imageArgentina.layoutParams.height = (92F * heightRelation).toInt()
         myFragment.imageUruguay.layoutParams.width = (52F * widthRelation).toInt()
         myFragment.imageUruguay.layoutParams.height = (44F * heightRelation).toInt()
         //Ubicación de los países
-        myFragment.imageColombia.x = 217F * xRelation      //217
+        myFragment.imageColombia.x = 217F * xRelation     //217
         myFragment.imageColombia.y = 243F * yRelation     //243
         myFragment.numberColombia.x = myFragment.imageColombia.x + (myFragment.imageColombia.layoutParams.width / 2) - (myFragment.numberColombia.layoutParams.width / 2)
         myFragment.numberColombia.y = myFragment.imageColombia.y + (myFragment.imageColombia.layoutParams.height / 2) - (myFragment.numberColombia.layoutParams.height / 2)
@@ -195,7 +180,7 @@ class MapViewModel : MyViewModel() {
         myFragment.numberBrazil.y = myFragment.imageBrazil.y + (myFragment.imageBrazil.layoutParams.height / 2) - (myFragment.numberBrazil.layoutParams.height / 2)
         myFragment.textNameBrazil.x = myFragment.numberBrazil.x - 10
         myFragment.textNameBrazil.y = myFragment.numberBrazil.y + 30
-        myFragment.imageChile.x = 238F * xRelation     //238
+        myFragment.imageChile.x = 237F * xRelation     //238
         myFragment.imageChile.y = 321F * yRelation
         myFragment.numberChile.x = myFragment.imageChile.x + (myFragment.imageChile.layoutParams.width / 2) - (myFragment.numberChile.layoutParams.width / 2)
         myFragment.numberChile.y = myFragment.imageChile.y + (myFragment.imageChile.layoutParams.height / 2) - (myFragment.numberChile.layoutParams.height / 2)
@@ -208,7 +193,7 @@ class MapViewModel : MyViewModel() {
         myFragment.textNameArgentina.x = myFragment.numberArgentina.x - 20
         myFragment.textNameArgentina.y = myFragment.numberArgentina.y + 30
         myFragment.imageUruguay.x = 285F * xRelation   //285
-        myFragment.imageUruguay.y = 322F * yRelation   //322
+        myFragment.imageUruguay.y = 321F * yRelation   //321
         myFragment.numberUruguay.x = myFragment.imageUruguay.x + (myFragment.imageUruguay.layoutParams.width / 2) - (myFragment.numberUruguay.layoutParams.width / 2)
         myFragment.numberUruguay.y = myFragment.imageUruguay.y + (myFragment.imageUruguay.layoutParams.height / 2) - (myFragment.numberUruguay.layoutParams.height / 2)
         myFragment.textNameUruguay.x = myFragment.numberUruguay.x + 30
@@ -220,7 +205,7 @@ class MapViewModel : MyViewModel() {
         myFragment.imageSahara.layoutParams.width = (90 * widthRelation).toInt()
         myFragment.imageSahara.layoutParams.height = (80 * heightRelation).toInt()
         myFragment.imageEgypt.layoutParams.width = (126 * widthRelation).toInt()  //126
-        myFragment.imageEgypt.layoutParams.height = (58 * heightRelation).toInt() //58
+        myFragment.imageEgypt.layoutParams.height = (59 * heightRelation).toInt() //58
         myFragment.imageEthiopia.layoutParams.width = (93 * widthRelation).toInt()
         myFragment.imageEthiopia.layoutParams.height = (54 * heightRelation).toInt()
         myFragment.imageZaire.layoutParams.width = (126 * widthRelation).toInt()
@@ -293,6 +278,8 @@ class MapViewModel : MyViewModel() {
         val redValue = Color.red(touchColor)
         val blueValue = Color.blue(touchColor)
         val greenValue = Color.green(touchColor)
+        println("color tocado: " + redValue + blueValue + greenValue)
+        println("país tocado: " + countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()])
         return countryBackColors[redValue.toString() + blueValue.toString() + greenValue.toString()]
     }
 
