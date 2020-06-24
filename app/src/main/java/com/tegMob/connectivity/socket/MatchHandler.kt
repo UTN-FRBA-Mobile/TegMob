@@ -9,8 +9,9 @@ import io.socket.emitter.Emitter
 import java.lang.Appendable
 
 object MatchHandler {
-    private val URL = "http://192.168.1.110:4000/"
+    private val URL = "http://192.168.1.23:4000/"
     private var mSocket: Socket? = null
+    private var matchId = ""
 
     private fun connect() {
         try {
@@ -35,7 +36,11 @@ object MatchHandler {
     }
 
     fun startMatch(matchId: String) {
-       mSocket!!.emit("MATCH_INIT", matchId)
+        mSocket!!.emit("MATCH_INIT", matchId)
+    }
+
+    fun tryAttack(attackerCountry: String, defenderCountry: String, matchId: String) {
+        mSocket!!.emit("TRY_ATTACK", attackerCountry, defenderCountry, matchId)
     }
 
 }

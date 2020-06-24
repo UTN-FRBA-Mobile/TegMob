@@ -54,8 +54,6 @@ class MapViewModel : MyViewModel() {
             "971330" to "madagascar"
         )
 
-
-        eventSubscriptions()
         setCurrentRoundText()
         setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
@@ -67,33 +65,6 @@ class MapViewModel : MyViewModel() {
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
 
     }
-
-    private fun hideWaitingImage() {
-        myFragment.logoTegWait.visibility = View.GONE
-        myFragment.waitingBackground.visibility = View.GONE
-        myFragment.waitingText.visibility = View.GONE
-    }
-
-    private fun showMap() {
-        val mapFieldsToShow = myFragment.getCountryImages() + myFragment.getCountryImages() + listOf(myFragment.backgroundMap, myFragment.textCurrentPlayer, myFragment.textCurrentRound)
-        show(mapFieldsToShow)
-    }
-
-    private fun show(items: List<View>) = items.forEach { it.visibility = View.VISIBLE }
-
-    private val onMatchStart = Emitter.Listener {
-        //val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
-        val countries = JsonParser().parse(it[0].toString())
-        Log.d("MAP_DATA", countries.toString())
-        Log.d("RECEIVE", "MATCH START EVENT ARRIVED FROM SERVER")
-        hideWaitingImage()
-        showMap()
-    }
-
-    private fun eventSubscriptions() {
-        MatchHandler.getSocket()!!.on("MATCH_START", onMatchStart)
-    }
-
     /**
      * escribe la ronda del juego actual
      * incorporar|atacar|....
@@ -133,7 +104,7 @@ class MapViewModel : MyViewModel() {
 
     private fun setCountriesData() {
         //América del sur y Africa
-        val countryTexts = listOf("chile", "brazil", "uruguay", "argentina", "colombia", "peru", "sahara", "zaire", "madagascar", "ethiopia", "southafrica", "egypt")
+        val countryTexts = myFragment.getCountryTexts()
 
         myFragment.getCountryImages().zip(countryTexts).forEach {
                 (img, text) ->

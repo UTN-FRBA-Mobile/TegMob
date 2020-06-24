@@ -258,6 +258,6 @@ class CreateNewGameViewModel : MyViewModel() {
     fun startNewGame() {
         MatchHandler.connectToServerAndDoHandShake(userId)
         MatchHandler.startMatch(matchId)
-        myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
+        myListener?.showFragment(MapFragment(matchId), TAG_MAP_FRAGMENT)
     }
 }
