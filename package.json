@@ -23,6 +23,8 @@
     },
     "scripts": {
         "start": "node server.js",
-        "test": "mocha --recursive tests --exit"
+        "test": "mocha --recursive tests --exit",
+        "clean": "rm -Rf node_modules",
+        "stage": "npm run clean && npm install --production && npm run build"
     }
 }
