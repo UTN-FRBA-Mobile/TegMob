@@ -3,7 +3,6 @@ package com.tegMob.viewModel
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.media.AsyncPlayer
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.JsonReader
@@ -17,9 +16,9 @@ import android.widget.Toast
 import com.google.gson.JsonParser
 import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyViewModel
+import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
-import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.random.Random
 
@@ -57,7 +56,7 @@ class MapViewModel : MyViewModel() {
         }
 
         countriesData = initMapData.getJSONObject("countries")
-        currentRound = initMapData.getString("currentRound")
+        //currentRound = initMapData.getString("currentRound")
         myFragment.baseLayout.layoutParams.width = (windowHeight * 800F / 480F).toInt()
         myFragment.backgroundMap.layoutParams.width = myFragment.baseLayout.layoutParams.width
 
@@ -77,10 +76,8 @@ class MapViewModel : MyViewModel() {
             "971330" to "madagascar"
         )
 
-
-        eventSubscriptions()
-        setCurrentRoundText()
-        setCurrentPlayerText(initMapData.getString("currentPlayer"))
+        //setCurrentRoundText()
+        //setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
 
         var heightRelation: Float = windowHeight.toFloat() / 480F
@@ -89,18 +86,6 @@ class MapViewModel : MyViewModel() {
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
     }
-
-    private val onMatchStart = Emitter.Listener {
-        //val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
-        val countries = JsonParser().parse(it[0].toString())
-        Log.d("MAP_DATA", countries.toString())
-        Log.d("RECEIVE", "MATCH START EVENT ARRIVED FROM SERVER")
-    }
-
-    private fun eventSubscriptions() {
-        MatchHandler.getSocket()!!.on("MATCH_START", onMatchStart)
-    }
-
     /**
      * escribe la ronda del juego actual
      * incorporar|atacar|....
@@ -126,7 +111,7 @@ class MapViewModel : MyViewModel() {
 
     private fun setCountriesData() {
         //América del sur y Africa
-        val countryTexts = listOf("chile", "brazil", "uruguay", "argentina", "colombia", "peru", "sahara", "zaire", "madagascar", "ethiopia", "southafrica", "egypt")
+        val countryTexts = myFragment.getCountryTexts()
 
         myFragment.getCountryImages().zip(countryTexts).forEach { (img, text) ->
             img.setColorFilter(playerColors[countriesData.getJSONObject(text).getString("owner")]!!)

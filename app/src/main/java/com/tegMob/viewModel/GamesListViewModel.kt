@@ -2,6 +2,7 @@ package com.tegMob.viewModel
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.TegMobClient
 import com.tegMob.connectivity.dtos.MatchDTOs
@@ -10,6 +11,7 @@ import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.GamesAdapter
 import com.tegMob.view.MapFragment
+import com.tegMob.view.WaitingFragment
 import kotlinx.android.synthetic.main.games_list_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,13 +22,9 @@ class GamesListViewModel : MyViewModel() {
     var imageURI = ""
     var userId = ""
     var userName = ""
-    private val TAG_MAP_FRAGMENT = "map_fragment"
     private var gamesAdapter: GamesAdapter = GamesAdapter(listOf(), this)
     private val matchesClient = TegMobClient.buildService(MatchesRouter::class.java)
-
-    override fun setDataToPass(): Bundle {
-        TODO("Not yet implemented")
-    }
+    private var matchId: String = ""
 
     /*fun loadDummyGameList() {
         gamesAdapter = GamesAdapter(
@@ -77,13 +75,20 @@ class GamesListViewModel : MyViewModel() {
 
     fun search(newText: String?)= gamesAdapter.search(newText)
 
+    override fun setDataToPass(): Bundle = bundleOf(
+        "matchId" to matchId,
+        "userId" to userId
+    )
+
     fun joinMatch(game: MatchDTOs.MatchListItemDTO) {
         val call = matchesClient.addPlayer(game.id, MatchDTOs.MatchPlayerAddDTO(userId))
         call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful && response.code() == 200){
-                    MatchHandler.connectToServer()
-                    myFragment.listener!!.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
+                    MatchHandler.connectToServerAndDoHandShake(userId)
+                    matchId = game.id
+                    setDataToPass()
+                    myFragment.listener!!.showFragment(WaitingFragment())
                 } else {
                     Toast.makeText(myContext, "Hubo un error al intentar unirse a la partida", Toast.LENGTH_SHORT).show()
                 }

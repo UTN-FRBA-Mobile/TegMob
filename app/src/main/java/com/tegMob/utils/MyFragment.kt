@@ -1,8 +1,10 @@
 package com.tegMob.utils
 
 import android.content.Context
+import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 
 abstract class MyFragment : Fragment() {
@@ -33,6 +35,8 @@ abstract class MyFragment : Fragment() {
 
     abstract fun getPassedData()
     abstract fun initViewModel()
+
     open fun getCountryImages(): List<ImageView> = listOf()
     open fun getCountryNumbers(): List<TextView> = listOf()
+    open fun getCountryTexts(): List<String> = listOf()
 }

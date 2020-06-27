@@ -1,13 +1,15 @@
 package com.tegMob.connectivity.socket
 
 import android.util.Log
-import com.tegMob.viewModel.CreateNewGameViewModel
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import java.lang.Appendable
 
 object MatchHandler {
-    private val URL = "http://tegmobapp.eba-2psmvpsn.us-east-1.elasticbeanstalk.com:8000/"
+    private val URL = "http://10.0.2.2:4000/"
     private var mSocket: Socket? = null
 
     private fun connect() {
@@ -25,12 +27,19 @@ object MatchHandler {
         return mSocket
     }
 
-    fun connectToServer() {
+    private fun iam(userId: String) = Emitter.Listener { mSocket!!.emit("IAM", userId) }
+
+    fun connectToServerAndDoHandShake(userId: String) {
         connect()
+        mSocket!!.on("WHORU", iam(userId))
     }
 
-    fun startMatch(matchId: String): Emitter.Listener? {
-       return Emitter.Listener { mSocket!!.emit("MATCH_INIT", matchId) }
+    fun startMatch(matchId: String) {
+        mSocket!!.emit("MATCH_INIT", matchId)
+    }
+
+    fun tryAttack(attackerCountry: String, defenderCountry: String, matchId: String) {
+        mSocket!!.emit("TRY_ATTACK", attackerCountry, defenderCountry, matchId)
     }
 
 }

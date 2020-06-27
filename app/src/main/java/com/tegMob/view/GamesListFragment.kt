@@ -41,6 +41,7 @@ class GamesListFragment : MyFragment() {
         viewModel.userName = arguments?.getString("user").toString()
     }
 
+
     override fun initViewModel() {
         viewModel = GamesListViewModel()
         context?.let { viewModel.init(this, listener, it) }    }
