@@ -148,5 +148,5 @@ async function start(id) {
 
 async function getCurrentTurn(id){
    let partida = await getById(id)
-   return {'id': id, 'turn': partida.turn, 'currentPlayer': partida.players[partida.turn % partida.players.length]}
+   return {'id': id, 'turn': partida.turn, 'currentColor': partida.players[partida.turn % partida.players.length].color, 'players': partida.players}
 }

@@ -55,25 +55,28 @@ socket_server.on("connection", (socket) => {
 			.catch(e => console.log(e))
 		games.getCurrentTurn(match_id)
 			.then(v => {
-				sendMultipleMessage([v.currentPlayer], 'START_TURN', v.currentPlayer.color)
+				sendMultipleMessage(v.players, 'START_TURN', v.currentColor)
 			})
 			.catch(e => console.log(e))
 	})
 
 	socket.on('TRY_ATTACK', (attack) => {
+		console.log('Recibido try attack, me enviaste: ' + attack)
+		if( typeof attack === 'string' || attack instanceof String )
+			attack = JSON.parse(attack)
 		games.tryAttack(conectados[this_conn].id_user, attack)
 			.then(resp =>{
 				sendMultipleMessage(resp.start_turn.players, 'MAP_CHANGE', resp.map_change)
 				games.getCurrentTurn(resp.start_turn.id_match).then(proximo_turno =>{
-					sendMultipleMessage([proximo_turno.currentPlayer], 'START_TURN', proximo_turno.currentPlayer.color)
+					sendMultipleMessage(proximo_turno.players, 'START_TURN', proximo_turno.currentColor)
 				})
 			})
 			.catch(e => console.log(e))
 	})
 
     socket.on("disconnect", () => {
-		console.log("Jugador desconectado");
 		conectados.splice(this_conn, 1)
+		console.log("Jugador desconectado. Identificados solo: " + conectados.length)
 	});
 	
 	/*	
