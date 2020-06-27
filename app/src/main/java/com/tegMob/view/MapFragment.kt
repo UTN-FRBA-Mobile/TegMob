@@ -18,6 +18,7 @@ import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 
 class MapFragment : MyFragment() {
@@ -30,7 +31,7 @@ class MapFragment : MyFragment() {
     private lateinit var dice6: AnimationDrawable
     private lateinit var countryObjects: Map<String, Map<String, Any>>
     private lateinit var countriesStateArray: JSONArray
-    lateinit var currentPlayer: String
+    private lateinit var currentPlayerColor: String
     private var windowHeight: Int = 0
     private var windowWidth: Int = 0
     private val displayMetrics = DisplayMetrics()
@@ -297,27 +298,7 @@ class MapFragment : MyFragment() {
         }
 
         changePlayerIcon.setOnClickListener() {
-            when (currentPlayer) {
-                "cyan" -> {
-                    currentPlayer = "magenta"
-                }
-                "magenta" -> {
-                    currentPlayer = "red"
-                }
-                "red" -> {
-                    currentPlayer = "black"
-                }
-                "black" -> {
-                    currentPlayer = "yellow"
-                }
-                "yellow" -> {
-                    currentPlayer = "green"
-                }
-                "green" -> {
-                    currentPlayer = "cyan"
-                }
-            }
-            viewModel.setCurrentPlayerText(currentPlayer)
+            currentPlayerColorSwitch()
         }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -334,6 +315,30 @@ class MapFragment : MyFragment() {
                     xRelation = windowWidth / 810F
                 }*/
 
+    }
+
+    private fun currentPlayerColorSwitch() {
+        when (currentPlayerColor) {
+            "cyan" -> {
+                currentPlayerColor = "magenta"
+            }
+            "magenta" -> {
+                currentPlayerColor = "red"
+            }
+            "red" -> {
+                currentPlayerColor = "black"
+            }
+            "black" -> {
+                currentPlayerColor = "yellow"
+            }
+            "yellow" -> {
+                currentPlayerColor = "green"
+            }
+            "green" -> {
+                currentPlayerColor = "cyan"
+            }
+        }
+        viewModel.setCurrentPlayerText(currentPlayerColor)
     }
 
     private fun showDices(attackerArmiesNumber: Int, defenderArmiesNumber: Int) {
@@ -408,7 +413,7 @@ class MapFragment : MyFragment() {
         val touchedCountry = countryObjects[touchedCountryName]!!["image"] as ImageView
         val attackerCountryLocal = attackerCountry  //variable local para evitar error: Smart cast to 'Type' is impossible, because 'variable' is a mutable property that could have been changed by this time
         if (attackerCountryLocal === null) {    //elige el país desde el cual ataca
-            if (countriesOwners[touchedCountry] != currentPlayer) {
+            if (countriesOwners[touchedCountry] != currentPlayerColor) {
                 errorNoOwnCountry.visibility = View.VISIBLE
                 return false
             }
@@ -422,7 +427,7 @@ class MapFragment : MyFragment() {
             attacker.text = touchedCountry?.contentDescription.toString()
             attacker.visibility = View.VISIBLE
         } else if (defenderCountry === null) {
-            if (countriesOwners.get(touchedCountry) == currentPlayer) {
+            if (countriesOwners.get(touchedCountry) == currentPlayerColor) {
                 errorAttackingOwnCountry.visibility = View.VISIBLE
                 return false
             }
@@ -461,8 +466,8 @@ class MapFragment : MyFragment() {
         countriesOwners.set(imageEgypt, countriesData.getJSONObject("egypt").getString("owner"))
         countriesOwners.set(imageMadagascar, countriesData.getJSONObject("madagascar").getString("owner"))
 
-        currentPlayer = jsonObjData.getString("currentPlayer")
-
+        currentPlayerColor = jsonObjData.getString("currentPlayerColor")
+        viewModel.setCurrentPlayerText(currentPlayerColor)
         return jsonObjData
     }
 

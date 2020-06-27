@@ -27,7 +27,7 @@ object MatchHandler {
         return mSocket
     }
 
-    fun iam(userId: String) = Emitter.Listener { mSocket!!.emit("IAM", userId) }
+    private fun iam(userId: String) = Emitter.Listener { mSocket!!.emit("IAM", userId) }
 
     fun connectToServerAndDoHandShake(userId: String) {
         connect()

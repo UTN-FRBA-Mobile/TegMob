@@ -358,8 +358,7 @@
             android:textSize="20dp"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
             app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/textCurrentRound"
@@ -367,7 +366,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/primaryDarkColor"
-            android:text="@string/currentRound"
+            android:text="@string/my_turn"
             android:textColor="@color/primaryTextColor"
             android:textSize="20dp"
             app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
