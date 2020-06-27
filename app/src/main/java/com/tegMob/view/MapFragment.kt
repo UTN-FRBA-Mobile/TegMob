@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -21,9 +20,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 
-class MapFragment(private val matchId: String) : MyFragment() {
+class MapFragment : MyFragment() {
     private lateinit var viewModel: MapViewModel
-    private lateinit var initMapData: JSONObject
     private lateinit var dice1: AnimationDrawable
     private lateinit var dice2: AnimationDrawable
     private lateinit var dice3: AnimationDrawable
@@ -38,6 +36,8 @@ class MapFragment(private val matchId: String) : MyFragment() {
     private val displayMetrics = DisplayMetrics()
     private var attackerCountry: String? = null
     private var defenderCountry: String? = null
+    private var matchId: String = ""
+    private var initMapData: String = ""
 
     private var countriesOwners: MutableMap<ImageView, String?> = mutableMapOf(
         imageArgentina to null,
@@ -70,34 +70,17 @@ class MapFragment(private val matchId: String) : MyFragment() {
     }
 
     private fun eventSubscriptions() {
-        MatchHandler.getSocket()!!.on("MATCH_START", initMap)
         MatchHandler.getSocket()!!.on("MAP_CHANGE", onMapChange)
         //MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
     }
 
-    private val initMap = Emitter.Listener {
-        initMapData(it[0].toString())
-        Log.d("MAP_DATA", it[0].toString())
-        Log.d("RECEIVE", "MATCH START EVENT ARRIVED FROM SERVER")
-        hideWaitingImage()
-        showMap()
-    }
-
     private fun show(items: List<View>) = items.forEach { it.visibility = View.VISIBLE }
-
-    private fun hideWaitingImage() {
-        logoTegWait.visibility = View.GONE
-        waitingBackground.visibility = View.GONE
-        waitingText.visibility = View.GONE
-    }
-
-    private fun showMap() {
-        val mapFieldsToShow = getCountryImages() + getCountryImages() + listOf(backgroundMap, textCurrentPlayer, textCurrentRound)
-        show(mapFieldsToShow)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        matchId = arguments!!.getString("matchId").toString()
+        initMapData = arguments!!.getString("initMapData").toString()
         dice1 = movingDicesAttacker1.background as AnimationDrawable
         dice2 = movingDicesAttacker2.background as AnimationDrawable
         dice3 = movingDicesAttacker3.background as AnimationDrawable
@@ -209,6 +192,7 @@ class MapFragment(private val matchId: String) : MyFragment() {
             val defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
             val defenderArmiesNumber = Integer.parseInt(defenderArmies.text.toString())
 
+            //TODO TEST THIS
             MatchHandler.tryAttack(attackerCountry!!, defenderCountry!!, matchId)
             showDices(attackerArmiesNumber, defenderArmiesNumber)
 
@@ -340,7 +324,7 @@ class MapFragment(private val matchId: String) : MyFragment() {
         windowWidth = displayMetrics.widthPixels
         windowHeight = displayMetrics.heightPixels
 
-        viewModel.run { Map(view, windowWidth, windowHeight, initMapData) }
+        viewModel.run { Map(view, windowWidth, windowHeight, initMapData(initMapData)) }
         /*        windowWidth = mapaBack.layoutParams.width
                 windowHeight = mapaBack.layoutParams.height
 
@@ -386,7 +370,8 @@ class MapFragment(private val matchId: String) : MyFragment() {
         val jsonObjData = JSONObject(attackResult)
         val affectedCountriesData = jsonObjData.getJSONObject("attack_result").getJSONObject("map_change")
         val countries = getCountryImages().zip(getCountryTexts())
-        val affectedCountries = countries.filter { (_,c) -> c == attackerCountry!! || c == defenderCountry!!  }
+        val affectedCountries = countries.filter {
+                (_,c) -> c == attackerCountry!! || c == defenderCountry!!  }
 
         affectedCountries.forEach { (img, country) ->
             countriesOwners[img] = affectedCountriesData.getJSONObject(country).getString("owner")
@@ -588,5 +573,13 @@ class MapFragment(private val matchId: String) : MyFragment() {
         jsonReturn += "]"
         jsonReturn += "}"   //cierre del objeto global
         return jsonReturn
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(args: Bundle) =
+            MapFragment().apply {
+                arguments = args
+            }
     }
 }

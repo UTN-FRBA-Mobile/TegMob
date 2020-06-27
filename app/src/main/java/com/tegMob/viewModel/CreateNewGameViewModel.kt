@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tegMob.connectivity.TegMobClient
@@ -16,6 +17,7 @@ import com.tegMob.models.Player
 import com.tegMob.utils.MyViewModel
 import com.tegMob.utils.adapters.PlayersAdapter
 import com.tegMob.view.MapFragment
+import com.tegMob.view.WaitingFragment
 import kotlinx.android.synthetic.main.new_game_fragment.*
 import kotlinx.coroutines.delay
 import retrofit2.Call
@@ -31,11 +33,10 @@ class CreateNewGameViewModel : MyViewModel() {
     private var playersAdapter: PlayersAdapter = PlayersAdapter(listOf(), this)
     private val matchesClient = TegMobClient.buildService(MatchesRouter::class.java)
     private val usersClient = TegMobClient.buildService(UsersRouter::class.java)
-    private val TAG_MAP_FRAGMENT = "map_fragment"
 
-    override fun setDataToPass(): Bundle {
-        TODO("Not yet implemented")
-    }
+    override fun setDataToPass(): Bundle = bundleOf(
+            "matchId" to matchId
+        )
 
     private fun createMatch() {
         val call = matchesClient.createMatch(
@@ -55,6 +56,7 @@ class CreateNewGameViewModel : MyViewModel() {
                     myFragment.tableNameTextFinal.text = tableName
                     myFragment.addPlayerButton.visibility = View.VISIBLE
                     matchId = response.body()!!.id
+                    setDataToPass()
                     hideTableCreation()
                     //Get players
                     startPlayersPoll()
@@ -258,6 +260,6 @@ class CreateNewGameViewModel : MyViewModel() {
     fun startNewGame() {
         MatchHandler.connectToServerAndDoHandShake(userId)
         MatchHandler.startMatch(matchId)
-        myListener?.showFragment(MapFragment(matchId), TAG_MAP_FRAGMENT)
+        buttonClick(WaitingFragment())
     }
 }

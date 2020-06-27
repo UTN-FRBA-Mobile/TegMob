@@ -37,7 +37,7 @@ class MapViewModel : MyViewModel() {
 
     fun Map(view: View, windowWidth: Int, windowHeight: Int, initMapData: JSONObject) {
         countriesData = initMapData.getJSONObject("countries")
-        currentRound = initMapData.getString("currentRound")
+        //currentRound = initMapData.getString("currentRound")
         bitMapFullView = loadBitmapFromView(myFragment.backgroundMap, windowWidth, windowHeight)
         countryBackColors = mapOf(
             "174176169" to "colombia",
@@ -54,8 +54,8 @@ class MapViewModel : MyViewModel() {
             "971330" to "madagascar"
         )
 
-        setCurrentRoundText()
-        setCurrentPlayerText(initMapData.getString("currentPlayer"))
+        //setCurrentRoundText()
+        //setCurrentPlayerText(initMapData.getString("currentPlayer"))
         setCountriesData()
         //        val windowWidthHeightRelation = windowWidth.toFloat() / windowHeight.toFloat()
         var widthRelation: Float = windowWidth / 800F

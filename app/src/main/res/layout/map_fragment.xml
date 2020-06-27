@@ -9,36 +9,10 @@
     tools:context=".view.MapFragment">
 
     <ImageView
-        android:id="@+id/waitingBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="@android:color/black"
-        android:visibility="visible"/>
-
-    <ImageView
-        android:id="@+id/logoTegWait"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/teg"
-        android:src="@drawable/teg_logo1"
-        android:foregroundGravity="center" />
-
-    <TextView
-        android:id="@+id/waitingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/waiting_match_start"
-        android:textColor="@android:color/white"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="18sp"/>
-
-    <ImageView
         android:id="@+id/backgroundMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/mapa_back"
-        android:visibility="invisible"/>
+        android:background="@drawable/mapa_back"/>
 
 
     <!-- América del Sur -->
@@ -47,8 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/colombia_name"
-        android:src="@drawable/colombia_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/colombia_white"/>
 
     <TextView
         android:id="@+id/numberColombia"
@@ -60,8 +33,7 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imagePeru"
@@ -81,16 +53,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageBrazil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/brazil_name"
-        android:src="@drawable/brazil_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/brazil_white"/>
 
     <TextView
         android:id="@+id/numberBrazil"
@@ -102,16 +72,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageArgentina"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/argentina_name"
-        android:src="@drawable/argentina_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/argentina_white"/>
 
     <TextView
         android:id="@+id/numberArgentina"
@@ -123,16 +91,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageChile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/chile_name"
-        android:src="@drawable/chile_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/chile_white"/>
 
     <TextView
         android:id="@+id/numberChile"
@@ -144,16 +110,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageUruguay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/uruguay_name"
-        android:src="@drawable/uruguay_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/uruguay_white"/>
 
     <TextView
         android:id="@+id/numberUruguay"
@@ -165,16 +129,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
     <!-- África -->
     <ImageView
         android:id="@+id/imageSouthafrica"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/southafrica_name"
-        android:src="@drawable/southafrica_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/southafrica_white"/>
 
     <TextView
         android:id="@+id/numberSouthafrica"
@@ -186,16 +148,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageSahara"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/sahara_name"
-        android:src="@drawable/sahara_white"
-        android:visibility="invisible"  />
+        android:src="@drawable/sahara_white" />
 
     <TextView
         android:id="@+id/numberSahara"
@@ -207,16 +167,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageEgypt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/egypt_name"
-        android:src="@drawable/egypt_white"
-        android:visibility="invisible"  />
+        android:src="@drawable/egypt_white"  />
 
     <TextView
         android:id="@+id/numberEgypt"
@@ -228,16 +186,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"  />
+        android:textSize="8sp"  />
 
     <ImageView
         android:id="@+id/imageEthiopia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/ethiopia_name"
-        android:src="@drawable/ethiopia_white"
-        android:visibility="invisible"  />
+        android:src="@drawable/ethiopia_white" />
 
     <TextView
         android:id="@+id/numberEthiopia"
@@ -249,16 +205,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"  />
+        android:textSize="8sp"  />
 
     <ImageView
         android:id="@+id/imageZaire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/zaire_name"
-        android:src="@drawable/zaire_white"
-        android:visibility="invisible"  />
+        android:src="@drawable/zaire_white" />
 
     <TextView
         android:id="@+id/numberZaire"
@@ -270,16 +224,14 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
     <ImageView
         android:id="@+id/imageMadagascar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/madagascar_name"
-        android:src="@drawable/madagascar_white"
-        android:visibility="invisible" />
+        android:src="@drawable/madagascar_white"/>
 
     <TextView
         android:id="@+id/numberMadagascar"
@@ -291,8 +243,7 @@
         android:background="@drawable/circle_white"
         android:gravity="center"
         android:textColor="@color/armiesNumberColor"
-        android:textSize="8sp"
-        android:visibility="invisible"/>
+        android:textSize="8sp"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

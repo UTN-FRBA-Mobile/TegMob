@@ -48,9 +48,7 @@ class SignUpFragment : MyFragment() {
             .all { it.isNotBlank() }
     }
 
-    override fun getPassedData() {
-        TODO("Not yet implemented")
-    }
+    override fun getPassedData() {}
 
     companion object {
         @JvmStatic

@@ -3,7 +3,7 @@ package com.tegMob.connectivity
 import retrofit2.converter.gson.GsonConverterFactory
 
 object TegMobClient {
-    private const val tegMobUrl = "http://tegmobapp.eba-2psmvpsn.us-east-1.elasticbeanstalk.com/"
+    private const val tegMobUrl = "http://novoa.com.ar/api/"
 
     fun <T> buildService(service: Class<T>): T {
         return retrofit2.Retrofit.Builder()

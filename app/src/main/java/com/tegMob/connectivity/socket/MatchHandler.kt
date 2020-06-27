@@ -11,7 +11,6 @@ import java.lang.Appendable
 object MatchHandler {
     private val URL = "http://192.168.1.23:4000/"
     private var mSocket: Socket? = null
-    private var matchId = ""
 
     private fun connect() {
         try {
