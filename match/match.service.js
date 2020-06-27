@@ -132,7 +132,7 @@ async function start(id) {
 
     var colores = paises.getNColoresPosibles(match.players.length)
     var p_temp = [] // si no lo actualizas por completo no escribe
-    for( var i = 0; i < match.players.length; i++ ){
+    for(let i = 0; i < match.players.length ; i++ ){
         p_temp[i] = {'color': colores[i], 'user': match.players[i].user, 'armies': match.players[i].armies}
     };
     match.players = p_temp

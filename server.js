@@ -21,7 +21,7 @@ const io = require('socket.io');
 
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 var socket_server = io.listen(port);
-console.log('Servidor de websockets escuchando en: http://<ip>:' + port)
+console.log('Servidor de websockets escuchando en: http://localhost:' + port)
 
 app.get('/', (req, res) => {
 	res.sendFile(`${__dirname}/public/index.html`);
@@ -49,7 +49,7 @@ socket_server.on("connection", (socket) => {
 	socket.on('MATCH_INIT', (match_id) => {
 		games.startMatch(match_id)
 			.then(v =>{
-				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries})
+				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries, 'currentPlayerColor': v.players[1].color, 'players': v.players})
 				console.log('MATCH START ENVIADO')
 			})
 			.catch(e => console.log(e))
