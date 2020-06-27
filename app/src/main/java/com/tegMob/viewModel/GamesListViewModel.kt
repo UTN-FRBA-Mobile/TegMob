@@ -76,7 +76,8 @@ class GamesListViewModel : MyViewModel() {
     fun search(newText: String?)= gamesAdapter.search(newText)
 
     override fun setDataToPass(): Bundle = bundleOf(
-        "matchId" to matchId
+        "matchId" to matchId,
+        "userId" to userId
     )
 
     fun joinMatch(game: MatchDTOs.MatchListItemDTO) {

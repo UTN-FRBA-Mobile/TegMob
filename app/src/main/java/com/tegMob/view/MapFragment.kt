@@ -39,6 +39,8 @@ class MapFragment : MyFragment() {
     private var defenderCountry: String? = null
     private var matchId: String = ""
     private var initMapData: String = ""
+    private var userId: String = ""
+    private var myColor: String = ""
 
     private var countriesOwners: MutableMap<ImageView, String?> = mutableMapOf(
         imageArgentina to null,
@@ -82,6 +84,7 @@ class MapFragment : MyFragment() {
 
         matchId = arguments!!.getString("matchId").toString()
         initMapData = arguments!!.getString("initMapData").toString()
+        userId = arguments!!.getString("userId").toString()
         dice1 = movingDicesAttacker1.background as AnimationDrawable
         dice2 = movingDicesAttacker2.background as AnimationDrawable
         dice3 = movingDicesAttacker3.background as AnimationDrawable
@@ -468,6 +471,7 @@ class MapFragment : MyFragment() {
 
         currentPlayerColor = jsonObjData.getString("currentPlayerColor")
         viewModel.setCurrentPlayerText(currentPlayerColor)
+        //myColor = jsonObjData.getString("players")
         return jsonObjData
     }
 

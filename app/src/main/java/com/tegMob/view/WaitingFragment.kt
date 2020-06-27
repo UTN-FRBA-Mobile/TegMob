@@ -15,6 +15,7 @@ class WaitingFragment : MyFragment() {
     private val TAG_MAP_FRAGMENT = "map_fragment"
     private var matchId: String = ""
     private var initMapData: String = ""
+    private var userId: String = ""
     private val bundle = Bundle()
 
     override fun onCreateView(
@@ -37,6 +38,7 @@ class WaitingFragment : MyFragment() {
     private fun setDataToPass() {
         bundle.putString("matchId", matchId)
         bundle.putString("initMapData", initMapData)
+        bundle.putString("userId", userId)
     }
 
     private val initMapFragment = Emitter.Listener {
@@ -49,6 +51,7 @@ class WaitingFragment : MyFragment() {
 
     override fun getPassedData() {
         matchId = arguments?.getString("matchId").toString()
+        userId = arguments?.getString("userId").toString()
     }
 
     override fun initViewModel() {

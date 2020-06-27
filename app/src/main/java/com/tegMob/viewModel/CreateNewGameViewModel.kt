@@ -35,7 +35,8 @@ class CreateNewGameViewModel : MyViewModel() {
     private val usersClient = TegMobClient.buildService(UsersRouter::class.java)
 
     override fun setDataToPass(): Bundle = bundleOf(
-            "matchId" to matchId
+            "matchId" to matchId,
+            "userId" to userId
         )
 
     private fun createMatch() {
