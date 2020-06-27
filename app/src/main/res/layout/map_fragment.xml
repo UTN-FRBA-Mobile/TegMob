@@ -40,8 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/peru_name"
-        android:src="@drawable/peru_white"
-        android:visibility="invisible"/>
+        android:src="@drawable/peru_white"/>
 
     <TextView
         android:id="@+id/numberPeru"
