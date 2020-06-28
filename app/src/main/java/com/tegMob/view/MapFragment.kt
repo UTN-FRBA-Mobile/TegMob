@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.abs
-import java.util.*
 
 
 class MapFragment : MyFragment(), SensorEventListener {
@@ -268,49 +267,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         context?.let { viewModel.init(this, listener, it) }
     }
 
-    /* ************ acelerómetro ******************/
-    //    override fun onResume() {
-    //        super.onResume()
-    //        mySensorManager.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_UI)
-    //    }
-    //
-    //    override fun onPause() {
-    //        super.onPause()
-    //        mySensorManager.unregisterListener(this)
-    //    }
-
-    val alpha: Float = 0.1F;
-    var gravity: FloatArray = floatArrayOf(0F, 0F, 0F)
-    var linearAcceleration: FloatArray = floatArrayOf(0F, 0F, 0F)
-    var sensorReadingsQuant: Int = 0
-
-    override fun onSensorChanged(event: SensorEvent?) {
-        gravity[0] = alpha * gravity[0] + (1F - alpha) * event!!.values[0];
-        gravity[1] = alpha * gravity[1] + (1F - alpha) * event!!.values[1];
-        gravity[2] = alpha * gravity[2] + (1F - alpha) * event!!.values[2];
-
-        linearAcceleration[0] = event!!.values[0] - gravity[0];
-        linearAcceleration[1] = event!!.values[1] - gravity[1];
-        linearAcceleration[2] = event!!.values[2] - gravity[2];
-
-        val accelSensitivity = 1F
-        sensorReadingsQuant++
-        if (sensorReadingsQuant > 10 && (abs(linearAcceleration[0]) > accelSensitivity || abs(linearAcceleration[1]) > accelSensitivity || abs(linearAcceleration[2]) > accelSensitivity))
-            startMovingDices()
-    }
-
-    fun turnOffDicesSensor() {
-        mySensorManager.unregisterListener(this)
-        sensorReadingsQuant = 0
-    }
-
-    fun turnOnDicesSensor() {
-        mySensorManager.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL) //habilita el acelerómetro para lanzar los dados
-    }
-    /* ************ acelerómetro ******************/
-
-
-    fun startMovingDices() {
+    private fun startMovingDices() {
         turnOffDicesSensor()
         attackInCourse = true
         val attackerArmies = countryObjects[attackerCountry]?.get("number") as TextView
@@ -318,78 +275,50 @@ class MapFragment : MyFragment(), SensorEventListener {
         var defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
         val defenderArmiesNumber = Integer.parseInt(defenderArmies.text.toString())
 
-            //TODO TEST THIS
-            MatchHandler.tryAttack(attackerCountry!!, defenderCountry!!, matchId)
-            showDices(attackerArmiesNumber, defenderArmiesNumber)
+        //TODO TEST THIS
+        MatchHandler.tryAttack(attackerCountry!!, defenderCountry!!, matchId)
+        showDices(attackerArmiesNumber, defenderArmiesNumber)
 
         btnAttack.visibility = View.INVISIBLE
         btnStop.visibility = View.VISIBLE
     }
 
-    fun showDicesResult() {
+    private fun showDicesResult() {
         val resultAttackString = getAttackResults()   //datos que van a venir del backend
         val resultAttack = JSONObject(resultAttackString)
         val attackerDicesArray = resultAttack.getJSONArray("attackerDices")
         val defenderDicesArray = resultAttack.getJSONArray("defenderDices")
+        val movingDicesImages = listOf(
+            movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3,
+            movingDicesDefender1, movingDicesDefender2, movingDicesDefender3
+        )
+        val resultDicesAttacker = listOf(resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3)
+        val resultDicesDefender = listOf(resultDicesDefender1, resultDicesDefender2, resultDicesDefender3)
+
         countriesStateArray = resultAttack.getJSONArray("countries")
 
-            val dicesImages = listOf(null, R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6)
-            hide(listOf(movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3,
-                movingDicesDefender1, movingDicesDefender2, movingDicesDefender3))
+        hide(movingDicesImages)
 
-            when (attackerDicesArray.length()) {
-                1 -> {
-                    resultDicesAttacker1.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(0).toString())]!!)
-                    resultDicesAttacker1.visibility = View.VISIBLE
-                }
-                2 -> {
-                    resultDicesAttacker1.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(0).toString())]!!)
-                    resultDicesAttacker2.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(1).toString())]!!)
-                    resultDicesAttacker1.visibility = View.VISIBLE
-                    resultDicesAttacker2.visibility = View.VISIBLE
-                }
-                3 -> {
-                    resultDicesAttacker1.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(0).toString())]!!)
-                    resultDicesAttacker2.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(1).toString())]!!)
-                    resultDicesAttacker3.setImageResource(dicesImages[Integer.parseInt(attackerDicesArray.get(2).toString())]!!)
-                    show(listOf(resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3))
-                }
-            }
-            when (defenderDicesArray.length()) {
-                1 -> {
-                    resultDicesDefender1.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(0).toString())]!!)
-                    resultDicesDefender1.visibility = View.VISIBLE
-                }
-                2 -> {
-                    resultDicesDefender1.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(0).toString())]!!)
-                    resultDicesDefender2.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(1).toString())]!!)
-                    show(listOf(resultDicesDefender1, resultDicesDefender2))
-                }
-                3 -> {
-                    resultDicesDefender1.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(0).toString())]!!)
-                    resultDicesDefender2.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(1).toString())]!!)
-                    resultDicesDefender3.setImageResource(dicesImages[Integer.parseInt(defenderDicesArray.get(2).toString())]!!)
-                    show(listOf(resultDicesDefender1, resultDicesDefender2, resultDicesDefender3))
-                }
-            }
+        setDicesImagesSource(resultDicesAttacker, attackerDicesArray)
+        setDicesImagesSource(resultDicesDefender, defenderDicesArray)
 
-        val dice1 = movingDicesAttacker1.background as AnimationDrawable
-        dice1.stop()
-        val dice2 = movingDicesAttacker2.background as AnimationDrawable
-        dice2.stop()
-        val dice3 = movingDicesAttacker3.background as AnimationDrawable
-        dice3.stop()
-        val dice4 = movingDicesDefender1.background as AnimationDrawable
-        dice4.stop()
-        val dice5 = movingDicesDefender2.background as AnimationDrawable
-        dice5.stop()
-        val dice6 = movingDicesDefender3.background as AnimationDrawable
-        dice6.stop()
+        movingDicesImages.forEach { img -> (img.background as AnimationDrawable).stop() }
+
         btnAccept.visibility = View.VISIBLE
         btnStop.visibility = View.INVISIBLE
     }
 
-    fun acceptAttackResult() {
+    private fun setDicesImagesSource(resultDices: List<ImageView>, dicesArray: JSONArray) {
+        val dicesImages = listOf(null, R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6)
+        val resultDicesToShow = resultDices.take(dicesArray.length()).zip(listOf(0,1,2).take(dicesArray.length()))
+
+        resultDicesToShow.forEach { (resultDice, index) ->
+            resultDice.setImageResource(dicesImages[Integer.parseInt(dicesArray.get(index).toString())]!!)
+            resultDice.visibility = View.VISIBLE
+        }
+    }
+
+    private fun acceptAttackResult() {
         resetAttack()
         val updateData = JSONObject(mockupCountriesDataUpdate())
         //            val updateData = JSONObject(mockupCountriesDataUpdate())
@@ -407,30 +336,6 @@ class MapFragment : MyFragment(), SensorEventListener {
             countriesOwners[countryImage] = item.getString("owner")
         }
         //            viewModel.updateData(updateData.getJSONArray("countries"))
-    }
-
-    private fun currentPlayerColorSwitch() {
-        when (currentPlayerColor) {
-            "cyan" -> {
-                currentPlayerColor = "magenta"
-            }
-            "magenta" -> {
-                currentPlayerColor = "red"
-            }
-            "red" -> {
-                currentPlayerColor = "black"
-            }
-            "black" -> {
-                currentPlayerColor = "yellow"
-            }
-            "yellow" -> {
-                currentPlayerColor = "green"
-            }
-            "green" -> {
-                currentPlayerColor = "cyan"
-            }
-        }
-        viewModel.setCurrentPlayerText(currentPlayerColor)
     }
 
     private fun showDices(attackerArmiesNumber: Int, defenderArmiesNumber: Int) {
@@ -554,18 +459,9 @@ class MapFragment : MyFragment(), SensorEventListener {
         val jsonObjData = JSONObject(receivedData)
         val countriesData = jsonObjData.getJSONObject("countries")
 
-        countriesOwners.set(imageArgentina, countriesData.getJSONObject("argentina").getString("owner"))
-        countriesOwners.set(imageBrazil, countriesData.getJSONObject("brazil").getString("owner"))
-        countriesOwners.set(imageChile, countriesData.getJSONObject("chile").getString("owner"))
-        countriesOwners.set(imageColombia, countriesData.getJSONObject("colombia").getString("owner"))
-        countriesOwners.set(imagePeru, countriesData.getJSONObject("peru").getString("owner"))
-        countriesOwners.set(imageUruguay, countriesData.getJSONObject("uruguay").getString("owner"))
-        countriesOwners.set(imageSahara, countriesData.getJSONObject("sahara").getString("owner"))
-        countriesOwners.set(imageZaire, countriesData.getJSONObject("zaire").getString("owner"))
-        countriesOwners.set(imageSouthafrica, countriesData.getJSONObject("southafrica").getString("owner"))
-        countriesOwners.set(imageEthiopia, countriesData.getJSONObject("ethiopia").getString("owner"))
-        countriesOwners.set(imageEgypt, countriesData.getJSONObject("egypt").getString("owner"))
-        countriesOwners.set(imageMadagascar, countriesData.getJSONObject("madagascar").getString("owner"))
+        getCountryImages().zip(getCountryTexts()).forEach { (img, country) ->
+            countriesOwners[img] = countriesData.getJSONObject(country).getString("owner")
+        }
 
         currentPlayerColor = jsonObjData.getString("currentPlayerColor")
         viewModel.setCurrentPlayerText(currentPlayerColor)
@@ -576,32 +472,6 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     override fun getPassedData() {
         TODO("Not yet implemented")
-    }
-
-
-    /**
-     * simulador de backend
-     */
-    private fun mockupDataInit(): String {
-        return "{" +
-                "\"countries\":" +
-                "{" +
-                "\"brazil\":{\"owner\":\"cyan\",\"armies\": \"5\"}," +
-                "\"colombia\":{\"owner\":\"magenta\",\"armies\": \"6\"}," +
-                "\"chile\":{\"owner\":\"black\",\"armies\": \"1\"}," +
-                "\"peru\":{\"owner\":\"green\",\"armies\": \"3\"}," +
-                "\"argentina\":{\"owner\":\"cyan\",\"armies\": \"3\"}," +
-                "\"uruguay\":{\"owner\":\"red\",\"armies\": \"6\"}," +
-                "\"egypt\":{\"owner\":\"cyan\",\"armies\": \"1\"}," +
-                "\"ethiopia\":{\"owner\":\"yellow\",\"armies\": \"2\"}," +
-                "\"zaire\":{\"owner\":\"black\",\"armies\": \"3\"}," +
-                "\"madagascar\":{\"owner\":\"yellow\",\"armies\": \"5\"}," +
-                "\"southafrica\":{\"owner\":\"cyan\",\"armies\": \"2\"}," +
-                "\"sahara\":{\"owner\":\"red\",\"armies\": \"4\"}" +
-                "}," +
-                "\"currentPlayer\":\"cyan\"," +
-                "\"currentRound\":\"attack\"" +
-                "}"
     }
 
     /**
@@ -686,15 +556,40 @@ class MapFragment : MyFragment(), SensorEventListener {
         return jsonReturn
     }
 
+    /****************
+     * ACCELEROMETER
+     ****************/
+
+    val alpha: Float = 0.1F;
+    var gravity: FloatArray = floatArrayOf(0F, 0F, 0F)
+    var linearAcceleration: FloatArray = floatArrayOf(0F, 0F, 0F)
+    var sensorReadingsQuant: Int = 0
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        gravity[0] = alpha * gravity[0] + (1F - alpha) * event!!.values[0];
+        gravity[1] = alpha * gravity[1] + (1F - alpha) * event!!.values[1];
+        gravity[2] = alpha * gravity[2] + (1F - alpha) * event!!.values[2];
+
+        linearAcceleration[0] = event!!.values[0] - gravity[0];
+        linearAcceleration[1] = event!!.values[1] - gravity[1];
+        linearAcceleration[2] = event!!.values[2] - gravity[2];
+
+        val accelSensitivity = 1F
+        sensorReadingsQuant++
+        if (sensorReadingsQuant > 10 && (abs(linearAcceleration[0]) > accelSensitivity || abs(linearAcceleration[1]) > accelSensitivity || abs(linearAcceleration[2]) > accelSensitivity))
+            startMovingDices()
+    }
+
+    fun turnOffDicesSensor() {
+        mySensorManager.unregisterListener(this)
+        sensorReadingsQuant = 0
+    }
+
+    fun turnOnDicesSensor() {
+        mySensorManager.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL) //habilita el acelerómetro para lanzar los dados
+    }
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
 
     }
-
-    /* fun startNewGame() {
-         MatchHandler.connectToServer()
-         MatchHandler.startMatch(tableName)
-         myListener?.showFragment(MapFragment(), TAG_MAP_FRAGMENT)
-     }*/
-
-
 }
