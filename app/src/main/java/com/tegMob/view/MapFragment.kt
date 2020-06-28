@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.tegMob.MainActivity
 import com.tegMob.R
+import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.MapViewModel
@@ -211,6 +212,16 @@ class MapFragment : MyFragment(), SensorEventListener {
 
         btnAttack.setOnClickListener {
             startMovingDices()
+
+            MatchHandler.getSocket()?.emit("TRY_ATTACK", MatchDTOs.MatchTryAttack(
+                attacker = attackerCountry!!,
+                defender = defenderCountry!!,
+                id_match = matchId
+            )
+            )
+
+            MatchHandler.getSocket()?.on("MAP_CHANGE", onMapChange)
+
         }
 
         /*
