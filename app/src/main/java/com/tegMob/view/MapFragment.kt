@@ -9,9 +9,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.gson.Gson
 import com.tegMob.MainActivity
 import com.tegMob.R
 import com.tegMob.connectivity.dtos.MatchDTOs
@@ -213,14 +215,6 @@ class MapFragment : MyFragment(), SensorEventListener {
         btnAttack.setOnClickListener {
             startMovingDices()
 
-            MatchHandler.getSocket()?.emit("TRY_ATTACK", MatchDTOs.MatchTryAttack(
-                attacker = attackerCountry!!,
-                defender = defenderCountry!!,
-                id_match = matchId
-            )
-            )
-
-            MatchHandler.getSocket()?.on("MAP_CHANGE", onMapChange)
 
         }
 
@@ -281,13 +275,29 @@ class MapFragment : MyFragment(), SensorEventListener {
     private fun startMovingDices() {
         turnOffDicesSensor()
         attackInCourse = true
+
         val attackerArmies = countryObjects[attackerCountry]?.get("number") as TextView
         val attackerArmiesNumber = Integer.parseInt(attackerArmies.text.toString())
-        var defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
+        val defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
         val defenderArmiesNumber = Integer.parseInt(defenderArmies.text.toString())
 
         //TODO TEST THIS
-        MatchHandler.tryAttack(attackerCountry!!, defenderCountry!!, matchId)
+
+        Log.i("try_attack",
+            Gson().toJson(MatchDTOs.MatchTryAttack(
+            attacker = attackerCountry!!,
+            defender = defenderCountry!!,
+            id_match = matchId
+        )))
+
+        MatchHandler.getSocket()?.emit("TRY_ATTACK", MatchDTOs.MatchTryAttack(
+            attacker = attackerCountry!!,
+            defender = defenderCountry!!,
+            id_match = matchId
+        )
+        )
+
+
         showDices(attackerArmiesNumber, defenderArmiesNumber)
 
         btnAttack.visibility = View.INVISIBLE

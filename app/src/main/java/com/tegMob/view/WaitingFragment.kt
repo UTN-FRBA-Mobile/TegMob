@@ -57,7 +57,4 @@ class WaitingFragment : MyFragment() {
     override fun initViewModel() {
         TODO("Not yet implemented")
     }
-
-
-
 }

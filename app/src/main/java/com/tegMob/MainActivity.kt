@@ -2,14 +2,19 @@ package com.tegMob
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.gson.Gson
+import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.utils.MyFragment
+import com.tegMob.view.CreateNewGameFragment
 import com.tegMob.view.InitialFragment
 import com.tegMob.view.MapFragment
+import com.tegMob.view.WaitingFragment
 import kotlinx.coroutines.delay
 import java.sql.Time
 
@@ -28,6 +33,14 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             InitialFragment()
         }
 
+        Log.i("try_attack",
+            Gson().toJson(
+                MatchDTOs.MatchTryAttack(
+                attacker = "attackerCountry!!",
+                defender = "defenderCountry!!",
+                id_match = "matchId"
+            )))
+
         supportFragmentManager.popBackStack(
             BACK_STACK_ROOT_TAG,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -37,8 +50,9 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
         //                    .replace(R.id.container, MapFragment.newInstance())
         //                    .commitNow()
         supportFragmentManager.beginTransaction()
+
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(BACK_STACK_ROOT_TAG)
+            //.addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
 
     }

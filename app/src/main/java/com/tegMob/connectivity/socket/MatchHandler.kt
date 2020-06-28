@@ -38,8 +38,8 @@ object MatchHandler {
         mSocket!!.emit("MATCH_INIT", matchId)
     }
 
-    fun tryAttack(attackerCountry: String, defenderCountry: String, matchId: String) {
-        mSocket!!.emit("TRY_ATTACK", attackerCountry, defenderCountry, matchId)
-    }
+//    fun tryAttack(attackerCountry: String, defenderCountry: String, matchId: String) {
+//        mSocket!!.emit("TRY_ATTACK", attackerCountry, defenderCountry, matchId)
+//    }
 
 }
