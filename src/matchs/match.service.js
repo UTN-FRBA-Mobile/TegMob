@@ -1,9 +1,7 @@
-const db = require('_helpers/db');
+const db = require('../_helpers/db');
 const Match = db.Match;
-const users = require('users/user.service');
-const utils = require('_helpers/utils');
-const { addListener } = require('../users/user.model');
-const paises = require('funciones/paises')
+const users = require('../users/user.service');
+const paises = require('../funciones/paises')
 
 module.exports = {
     getAll,
@@ -23,7 +21,7 @@ async function getAll() {
 }
 
 async function getByUser(id) {
-    var consulta = { "players.user": id}
+    var consulta = { "players.user": id }
     return await Match.find(consulta);
 }
 
@@ -41,10 +39,10 @@ async function create(matchParam) {
     }
 
     const user = await users.getById(matchParam.owner);
-    
+
     if (!user) throw 'Invalid Owner'
 
-    matchParam.players = [ { color: "black", user: matchParam.owner, armies: 0 } ]
+    matchParam.players = [{ color: "black", user: matchParam.owner, armies: 0 }]
     const match = new Match(matchParam);
 
     await match.save();
@@ -62,7 +60,7 @@ async function join(id, matchParam) {
     if (match.players.length === match.size) throw 'Match full';
 
     const user = await users.getById(matchParam.userToAdd);
-    
+
     if (!user) throw 'Invalid User';
 
     if (match.players.some(p => p.user === matchParam.userToAdd)) throw 'User already in match';
@@ -98,7 +96,7 @@ async function leave(id, matchParam) {
     if (match.stage !== "CREATED") throw 'Match already started'
 
     const user = await users.getById(matchParam.userToRemove);
-    
+
     if (!user) throw 'Invalid User';
 
     if (matchParam.userToRemove === match.owner) throw "Owner can't leave match"
@@ -132,8 +130,8 @@ async function start(id) {
 
     var colores = paises.getNColoresPosibles(match.players.length)
     var p_temp = [] // si no lo actualizas por completo no escribe
-    for(let i = 0; i < match.players.length ; i++ ){
-        p_temp[i] = {'color': colores[i], 'user': match.players[i].user, 'armies': match.players[i].armies}
+    for (let i = 0; i < match.players.length; i++) {
+        p_temp[i] = { 'color': colores[i], 'user': match.players[i].user, 'armies': match.players[i].armies }
     };
     match.players = p_temp
     match.countries = paises.getMapaInicial(colores)
@@ -146,7 +144,7 @@ async function start(id) {
     return match;
 }
 
-async function getCurrentTurn(id){
-   let partida = await getById(id)
-   return {'id': id, 'turn': partida.turn, 'currentColor': partida.players[partida.turn % partida.players.length].color, 'players': partida.players}
+async function getCurrentTurn(id) {
+    let partida = await getById(id)
+    return {'id': id, 'turn': partida.turn, 'currentColor': partida.players[partida.turn % partida.players.length].color, 'players': partida.players}
 }

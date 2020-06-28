@@ -6,9 +6,10 @@ const schema = new Schema({
     owner: { type: String, required: true },
     size: { type: String, required: true },
     players: { type: Array, required: true },
-    stage: { type: String, default: "CREATED"},
+    stage: { type: String, default: "CREATED" },
     createdDate: { type: Date, default: Date.now },
-    countries: {type: Object, default: {
+    countries: {
+        type: Object, default: {
             brazil: { owner: null, armies: 1 },
             colombia: { owner: null, armies: 1 },
             chile: { owner: null, armies: 1 },

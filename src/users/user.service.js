@@ -1,4 +1,4 @@
-const db = require('_helpers/db');
+const db = require('../_helpers/db');
 const User = db.User;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -14,7 +14,7 @@ module.exports = {
     setSocket
 };
 
-async function setSocket(id_user, socket){
+async function setSocket(id_user, socket) {
     var xuser = await User.findById(id_user)
     xuser.socket = socket
     // no funciona, hay q tocar el objeto socket

@@ -1,54 +1,47 @@
 require('rootpath')();
 require('dotenv').config();
-const app = require('express')();
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const jwt = require('_helpers/jwt');
-const errorHandler = require('_helpers/error-handler');
-const games = require('game/service');
+const app = require('express')(),
+	cors = require('cors'),
+	bodyParser = require('body-parser'),
+	jwt = require('src/_helpers/jwt'),
+	errorHandler = require('src/_helpers/error-handler'),
+	games = require('src/game/service');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors());
-//app.use(jwt());
+app.use(bodyParser.urlencoded({ extended: false })).use(bodyParser.json());
+app.use(cors()); //.use(jwt());
+
+app.use('/api/users', require('src/users/user.controller'));
+app.use('/api/matchs', require('src/matchs/match.controller'));
+
 app.use(errorHandler);
 
-app.use('/users', require('./users/user.controller'));
-app.use('/match', require('./match/match.controller'));
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
-const server = require('http').createServer(app);
-const io = require('socket.io');
-
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
-var socket_server = io.listen(port);
-console.log('Servidor de websockets escuchando en: http://localhost:' + port)
+var port = (process.env.NODE_ENV === 'production') ? 80 : 3000;
 
 app.get('/', (req, res) => {
 	res.sendFile(`${__dirname}/public/index.html`);
-  });
+});
+
+http.listen(port, () => { console.log(`Server started on port ${port}`); });
 
 var conectados = [] //[{'id_user': 'da87s7', 'socket': {}}]
 
-class User {
-	constructor(userid) {
-		this.userid = userid
-	}
-}
-
-socket_server.on("connection", (socket) => {
+io.on("connection", (socket) => {
 	var this_conn = null
 
 	console.log("Jugador conectado");
 	socket.emit('WHORU');
-	
+
 	socket.on('IAM', (userid) => {
-		this_conn =	conectados.push({'id_user': userid, 'socket': socket}) - 1
+		this_conn = conectados.push({ 'id_user': userid, 'socket': socket }) - 1
 		console.log('Jugador identificado')
 	})
 
 	socket.on('MATCH_INIT', (match_id) => {
 		games.startMatch(match_id)
-			.then(v =>{
+			.then(v => {
 				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries, 'currentPlayerColor': v.players[1].color, 'players': v.players})
 				console.log('MATCH START ENVIADO')
 			})
@@ -65,20 +58,21 @@ socket_server.on("connection", (socket) => {
 		if( typeof attack === 'string' || attack instanceof String )
 			attack = JSON.parse(attack)
 		games.tryAttack(conectados[this_conn].id_user, attack)
-			.then(resp =>{
+			.then(resp => {
 				sendMultipleMessage(resp.start_turn.players, 'MAP_CHANGE', resp.map_change)
-				games.getCurrentTurn(resp.start_turn.id_match).then(proximo_turno =>{
+				games.getCurrentTurn(resp.start_turn.id_match).then(proximo_turno => {
 					sendMultipleMessage(proximo_turno.players, 'START_TURN', proximo_turno.currentColor)
 				})
 			})
 			.catch(e => console.log(e))
 	})
 
-    socket.on("disconnect", () => {
+	socket.on("disconnect", () => {
+		console.log("Jugador desconectado");
 		conectados.splice(this_conn, 1)
 		console.log("Jugador desconectado. Identificados solo: " + conectados.length)
 	});
-	
+
 	/*	
 	io.on('connection', (socket) => {
 		console.log(socket);
@@ -96,7 +90,7 @@ socket_server.on("connection", (socket) => {
 	*/
 
 	/***
-	 * Objeto de Conexión
+	 * Objeto de Conexi�n
 	 * {
 	 *  userid: userid
 	 * }
@@ -141,12 +135,12 @@ socket_server.on("connection", (socket) => {
 });
 
 // id_users: es el campo players del match sacado de la BD
-function sendMultipleMessage( id_users, subject, body){
-	var match_players = id_users.map(function(x){
+function sendMultipleMessage(id_users, subject, body) {
+	var match_players = id_users.map(function (x) {
 		return x.user
 	});
 	conectados.forEach(conectado => {
-		if(match_players.includes(conectado.id_user))
+		if (match_players.includes(conectado.id_user))
 			conectado.socket.emit(subject, body)
 	});
 }
