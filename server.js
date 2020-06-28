@@ -21,7 +21,7 @@ const io = require('socket.io');
 
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 var socket_server = io.listen(port);
-console.log('Servidor de websockets escuchando en: http://<ip>:' + port)
+console.log('Servidor de websockets escuchando en: http://localhost:' + port)
 
 app.get('/', (req, res) => {
 	res.sendFile(`${__dirname}/public/index.html`);
@@ -49,31 +49,34 @@ socket_server.on("connection", (socket) => {
 	socket.on('MATCH_INIT', (match_id) => {
 		games.startMatch(match_id)
 			.then(v =>{
-				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries})
+				sendMultipleMessage(v.players, 'MATCH_START', {'countries': v.countries, 'currentPlayerColor': v.players[1].color, 'players': v.players})
 				console.log('MATCH START ENVIADO')
 			})
 			.catch(e => console.log(e))
 		games.getCurrentTurn(match_id)
 			.then(v => {
-				sendMultipleMessage([v.currentPlayer], 'START_TURN', v.currentPlayer.color)
+				sendMultipleMessage(v.players, 'START_TURN', v.currentColor)
 			})
 			.catch(e => console.log(e))
 	})
 
 	socket.on('TRY_ATTACK', (attack) => {
+		console.log('Recibido try attack, me enviaste: ' + attack)
+		if( typeof attack === 'string' || attack instanceof String )
+			attack = JSON.parse(attack)
 		games.tryAttack(conectados[this_conn].id_user, attack)
 			.then(resp =>{
 				sendMultipleMessage(resp.start_turn.players, 'MAP_CHANGE', resp.map_change)
 				games.getCurrentTurn(resp.start_turn.id_match).then(proximo_turno =>{
-					sendMultipleMessage([proximo_turno.currentPlayer], 'START_TURN', proximo_turno.currentPlayer.color)
+					sendMultipleMessage(proximo_turno.players, 'START_TURN', proximo_turno.currentColor)
 				})
 			})
 			.catch(e => console.log(e))
 	})
 
     socket.on("disconnect", () => {
-		console.log("Jugador desconectado");
 		conectados.splice(this_conn, 1)
+		console.log("Jugador desconectado. Identificados solo: " + conectados.length)
 	});
 	
 	/*	

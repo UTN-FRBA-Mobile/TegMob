@@ -132,7 +132,7 @@ async function start(id) {
 
     var colores = paises.getNColoresPosibles(match.players.length)
     var p_temp = [] // si no lo actualizas por completo no escribe
-    for( var i = 0; i < match.players.length; i++ ){
+    for(let i = 0; i < match.players.length ; i++ ){
         p_temp[i] = {'color': colores[i], 'user': match.players[i].user, 'armies': match.players[i].armies}
     };
     match.players = p_temp
@@ -148,5 +148,5 @@ async function start(id) {
 
 async function getCurrentTurn(id){
    let partida = await getById(id)
-   return {'id': id, 'turn': partida.turn, 'currentPlayer': partida.players[partida.turn % partida.players.length]}
+   return {'id': id, 'turn': partida.turn, 'currentColor': partida.players[partida.turn % partida.players.length].color, 'players': partida.players}
 }
