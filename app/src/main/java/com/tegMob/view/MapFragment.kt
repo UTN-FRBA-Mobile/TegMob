@@ -48,7 +48,9 @@ class MapFragment : MyFragment(), SensorEventListener {
     private var matchId: String = ""
     private var initMapData: String = ""
     private var userId: String = ""
-    private var myColor: String = ""
+
+    //    private var myColor: String = ""
+    private var currentTurn: String = "cyan"
 
     private var countriesOwners: MutableMap<ImageView, String?> = mutableMapOf(
         imageArgentina to null,
@@ -72,9 +74,15 @@ class MapFragment : MyFragment(), SensorEventListener {
             arguments = args
         }
     }
-    override fun getCountryImages() = listOf<ImageView>(imageChile, imageBrazil, imageUruguay, imageArgentina, imageColombia, imagePeru, imageSahara, imageZaire, imageMadagascar, imageEthiopia, imageSouthafrica, imageEgypt)
-    override fun getCountryNumbers() = listOf<TextView>(numberChile, numberBrazil, numberUruguay, numberArgentina, numberColombia, numberPeru, numberSahara, numberZaire, numberMadagascar, numberEthiopia, numberSouthafrica, numberEgypt)
-    override fun getCountryTexts() = listOf("chile", "brazil", "uruguay", "argentina", "colombia", "peru", "sahara", "zaire", "madagascar", "ethiopia", "southafrica", "egypt")
+
+    override fun getCountryImages() =
+        listOf<ImageView>(imageChile, imageBrazil, imageUruguay, imageArgentina, imageColombia, imagePeru, imageSahara, imageZaire, imageMadagascar, imageEthiopia, imageSouthafrica, imageEgypt)
+
+    override fun getCountryNumbers() =
+        listOf<TextView>(numberChile, numberBrazil, numberUruguay, numberArgentina, numberColombia, numberPeru, numberSahara, numberZaire, numberMadagascar, numberEthiopia, numberSouthafrica, numberEgypt)
+
+    override fun getCountryTexts() =
+        listOf("chile", "brazil", "uruguay", "argentina", "colombia", "peru", "sahara", "zaire", "madagascar", "ethiopia", "southafrica", "egypt")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +102,7 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     private fun eventSubscriptions() {
         MatchHandler.getSocket()!!.on("MAP_CHANGE", onMapChange)
-        //MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
+        MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
     }
 
     private fun show(items: List<View>) = items.forEach { it.visibility = View.VISIBLE }
@@ -207,7 +215,8 @@ class MapFragment : MyFragment(), SensorEventListener {
         initViewModel()
         view.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                screenTouched(v, event)
+                if (currentPlayerColor == currentTurn)
+                    screenTouched(v, event)
             }
             true
         }
@@ -236,36 +245,46 @@ class MapFragment : MyFragment(), SensorEventListener {
                 countryNames.visibility = View.VISIBLE
         }
 
-        changePlayerIcon.setOnClickListener() {
-            when (currentPlayerColor) {
-                "cyan" -> {
-                    currentPlayerColor = "magenta"
-                }
-                "magenta" -> {
-                    currentPlayerColor = "red"
-                }
-                "red" -> {
-                    currentPlayerColor = "black"
-                }
-                "black" -> {
-                    currentPlayerColor = "yellow"
-                }
-                "yellow" -> {
-                    currentPlayerColor = "green"
-                }
-                "green" -> {
-                    currentPlayerColor = "cyan"
-                }
-            }
-            viewModel.setCurrentPlayerText(currentPlayerColor)
-        }
+//        changePlayerIcon.setOnClickListener() {
+//            if (currentPlayerColor == currentTurn) {
+//                changeTurn()
+//            }
+//        }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         viewModel.run { Map(view, displayMetrics, initMapData(initMapData)) }
     }
 
-
+    /**
+     * cambia el turno del jugador
+     */
+//    private fun changeTurn() {
+//        when (currentPlayerColor) {
+//            "cyan" -> {
+//                currentPlayerColor = "magenta"
+//            }
+//            "magenta" -> {
+//                currentPlayerColor = "red"
+//            }
+//            "red" -> {
+//                currentPlayerColor = "black"
+//            }
+//            "black" -> {
+//                currentPlayerColor = "yellow"
+//            }
+//            "yellow" -> {
+//                currentPlayerColor = "green"
+//            }
+//            "green" -> {
+//                currentPlayerColor = "cyan"
+//            }
+//        }
+//        viewModel.setCurrentPlayerText(currentPlayerColor)
+////        changePlayerIcon.visibility = View.INVISIBLE
+////        MatchHandler.changeTurn(currentPlayerColor,matchId)
+//
+//    }
 
     override fun initViewModel() {
         viewModel = MapViewModel()
@@ -331,7 +350,7 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     private fun setDicesImagesSource(resultDices: List<ImageView>, dicesArray: JSONArray) {
         val dicesImages = listOf(null, R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6)
-        val resultDicesToShow = resultDices.take(dicesArray.length()).zip(listOf(0,1,2).take(dicesArray.length()))
+        val resultDicesToShow = resultDices.take(dicesArray.length()).zip(listOf(0, 1, 2).take(dicesArray.length()))
 
         resultDicesToShow.forEach { (resultDice, index) ->
             resultDice.setImageResource(dicesImages[Integer.parseInt(dicesArray.get(index).toString())]!!)
@@ -345,8 +364,12 @@ class MapFragment : MyFragment(), SensorEventListener {
         //            val updateData = JSONObject(mockupCountriesDataUpdate())
         //            val countriesData = updateData.getJSONArray("countries")
         val countriesData = countriesStateArray
-        hide(listOf(resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3,
-            resultDicesDefender1, resultDicesDefender2, resultDicesDefender3))
+        hide(
+            listOf(
+                resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3,
+                resultDicesDefender1, resultDicesDefender2, resultDicesDefender3
+            )
+        )
 
         for (i in 0 until countriesData.length()) {
             val item = countriesData.getJSONObject(i)
@@ -388,19 +411,25 @@ class MapFragment : MyFragment(), SensorEventListener {
     }
 
     //TODO test this logic
-    private val onMapChange = Emitter.Listener{
+    private val onMapChange = Emitter.Listener {
         val attackResult = it[0].toString()
         val jsonObjData = JSONObject(attackResult)
         val affectedCountriesData = jsonObjData.getJSONObject("attack_result").getJSONObject("map_change")
         val countries = getCountryImages().zip(getCountryTexts())
-        val affectedCountries = countries.filter {
-                (_,c) -> c == attackerCountry!! || c == defenderCountry!!  }
+        val affectedCountries = countries.filter { (_, c) -> c == attackerCountry!! || c == defenderCountry!! }
 
         affectedCountries.forEach { (img, country) ->
             countriesOwners[img] = affectedCountriesData.getJSONObject(country).getString("owner")
         }
         //TODO ver que tengo que mostrar en los dados
         //if (jsonObjData.getJSONObject("attacker_id"))
+    }
+
+    private val onStartTurn = Emitter.Listener {
+        val stringData = it[0].toString()
+        val jsonObjData = JSONObject(stringData)
+        currentTurn = jsonObjData.getString("turno")
+//        changePlayerIcon.visibility = View.VISIBLE
     }
 
     private fun hide(items: List<View>) = items.forEach { it.visibility = View.INVISIBLE }
