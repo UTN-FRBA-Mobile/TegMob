@@ -49,8 +49,7 @@ class MapFragment : MyFragment(), SensorEventListener {
     private var initMapData: String = ""
     private var userId: String = ""
 
-    //    private var myColor: String = ""
-    private var currentTurn: String = "cyan"
+    private lateinit var myColor: String
 
     private var countriesOwners: MutableMap<ImageView, String?> = mutableMapOf(
         imageArgentina to null,
@@ -72,6 +71,9 @@ class MapFragment : MyFragment(), SensorEventListener {
     companion object {
         fun newInstance(args: Bundle) = MapFragment().apply {
             arguments = args
+            //            println("arguments: "+arguments);
+            //            MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
+
         }
     }
 
@@ -101,8 +103,10 @@ class MapFragment : MyFragment(), SensorEventListener {
     }
 
     private fun eventSubscriptions() {
+        println("event suscriptions begin")
         MatchHandler.getSocket()!!.on("MAP_CHANGE", onMapChange)
         MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
+        println("event suscriptions fin")
     }
 
     private fun show(items: List<View>) = items.forEach { it.visibility = View.VISIBLE }
@@ -215,7 +219,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         initViewModel()
         view.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                if (currentPlayerColor == currentTurn)
+                if (currentPlayerColor == myColor)
                     screenTouched(v, event)
             }
             true
@@ -237,7 +241,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
 
         //        changePlayerIcon.setOnClickListener() {
-        //            if (currentPlayerColor == currentTurn) {
+        //            if (currentPlayerColor == myColor) {
         //                changeTurn()
         //            }
         //        }
@@ -460,7 +464,8 @@ class MapFragment : MyFragment(), SensorEventListener {
     private val onStartTurn = Emitter.Listener {
         val stringData = it[0].toString()
         val jsonObjData = JSONObject(stringData)
-        currentTurn = jsonObjData.getString("turno")
+        currentPlayerColor = jsonObjData.getString("turno")
+        println("turno actual: " + currentPlayerColor)
         //        changePlayerIcon.visibility = View.VISIBLE
     }
 
@@ -547,7 +552,20 @@ class MapFragment : MyFragment(), SensorEventListener {
 
         currentPlayerColor = jsonObjData.getString("currentPlayerColor")
         viewModel.setCurrentPlayerText(currentPlayerColor)
-        //myColor = jsonObjData.getString("players")
+        val colorPlayers = jsonObjData.getJSONArray("players")
+        /*
+        [{"color":"green","user":"5ee6ab47a6d2090f2c96c18f","armies":0},{"color":"yellow","user":"5ef8f9fdb3f6eedd0aaf7037","armies":0}]
+         */
+        println("colorPlayers: " + colorPlayers)
+        println("userId: " + userId)
+        for (i in 0 until colorPlayers.length()) {
+            val player = colorPlayers.getJSONObject(i)
+
+            if (userId == player.getString("user"))
+                myColor = player.getString("color")
+            // Your code here
+        }
+
         return jsonObjData
     }
 
