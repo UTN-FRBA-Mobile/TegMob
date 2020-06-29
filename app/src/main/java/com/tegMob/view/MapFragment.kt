@@ -36,7 +36,7 @@ class MapFragment : MyFragment(), SensorEventListener {
     private lateinit var dice5: AnimationDrawable
     private lateinit var dice6: AnimationDrawable
     private lateinit var countryObjects: Map<String, Map<String, Any>>
-    private lateinit var countriesStateArray: JSONArray
+    private lateinit var attackResult: JSONObject
     lateinit var currentPlayerColor: String
     private val displayMetrics = DisplayMetrics()
     private var attackerCountry: String? = null
@@ -222,16 +222,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
 
         btnAttack.setOnClickListener {
-            startMovingDices()
-
-
-        }
-
-        /*
-        reemplazar el listener del botón por el socket que manda el resultado del ataque
-         */
-        btnStop.setOnClickListener {
-            showDicesResult()
+            initAttack()
         }
 
         btnAccept.setOnClickListener {
@@ -245,53 +236,18 @@ class MapFragment : MyFragment(), SensorEventListener {
                 countryNames.visibility = View.VISIBLE
         }
 
-//        changePlayerIcon.setOnClickListener() {
-//            if (currentPlayerColor == currentTurn) {
-//                changeTurn()
-//            }
-//        }
+        //        changePlayerIcon.setOnClickListener() {
+        //            if (currentPlayerColor == currentTurn) {
+        //                changeTurn()
+        //            }
+        //        }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
 
         viewModel.run { Map(view, displayMetrics, initMapData(initMapData)) }
     }
 
-    /**
-     * cambia el turno del jugador
-     */
-//    private fun changeTurn() {
-//        when (currentPlayerColor) {
-//            "cyan" -> {
-//                currentPlayerColor = "magenta"
-//            }
-//            "magenta" -> {
-//                currentPlayerColor = "red"
-//            }
-//            "red" -> {
-//                currentPlayerColor = "black"
-//            }
-//            "black" -> {
-//                currentPlayerColor = "yellow"
-//            }
-//            "yellow" -> {
-//                currentPlayerColor = "green"
-//            }
-//            "green" -> {
-//                currentPlayerColor = "cyan"
-//            }
-//        }
-//        viewModel.setCurrentPlayerText(currentPlayerColor)
-////        changePlayerIcon.visibility = View.INVISIBLE
-////        MatchHandler.changeTurn(currentPlayerColor,matchId)
-//
-//    }
-
-    override fun initViewModel() {
-        viewModel = MapViewModel()
-        context?.let { viewModel.init(this, listener, it) }
-    }
-
-    private fun startMovingDices() {
+    private fun initAttack() {
         turnOffDicesSensor()
         attackInCourse = true
 
@@ -300,34 +256,100 @@ class MapFragment : MyFragment(), SensorEventListener {
         val defenderArmies = countryObjects[defenderCountry]?.get("number") as TextView
         val defenderArmiesNumber = Integer.parseInt(defenderArmies.text.toString())
 
-        //TODO TEST THIS
-
-        Log.i("try_attack",
-            Gson().toJson(MatchDTOs.MatchTryAttack(
-            attacker = attackerCountry!!,
-            defender = defenderCountry!!,
-            id_match = matchId
-        )))
-
-        MatchHandler.getSocket()?.emit("TRY_ATTACK", MatchDTOs.MatchTryAttack(
-            attacker = attackerCountry!!,
-            defender = defenderCountry!!,
-            id_match = matchId
-        )
-        )
-
-
         showDices(attackerArmiesNumber, defenderArmiesNumber)
 
         btnAttack.visibility = View.INVISIBLE
-        btnStop.visibility = View.VISIBLE
+        //        btnStop.visibility = View.VISIBLE
+
+        //TODO TEST THIS
+        Log.i(
+            "try_attack",
+            Gson().toJson(
+                MatchDTOs.MatchTryAttack(
+                    attacker = attackerCountry!!,
+                    defender = defenderCountry!!,
+                    id_match = matchId
+                )
+            )
+        )
+
+        MatchHandler.getSocket()?.emit(
+            "TRY_ATTACK", MatchDTOs.MatchTryAttack(
+                attacker = attackerCountry!!,
+                defender = defenderCountry!!,
+                id_match = matchId
+            )
+        )
+
     }
 
-    private fun showDicesResult() {
-        val resultAttackString = getAttackResults()   //datos que van a venir del backend
-        val resultAttack = JSONObject(resultAttackString)
-        val attackerDicesArray = resultAttack.getJSONArray("attackerDices")
-        val defenderDicesArray = resultAttack.getJSONArray("defenderDices")
+
+    /**
+     * cambia el turno del jugador
+     */
+    //    private fun changeTurn() {
+    //        when (currentPlayerColor) {
+    //            "cyan" -> {
+    //                currentPlayerColor = "magenta"
+    //            }
+    //            "magenta" -> {
+    //                currentPlayerColor = "red"
+    //            }
+    //            "red" -> {
+    //                currentPlayerColor = "black"
+    //            }
+    //            "black" -> {
+    //                currentPlayerColor = "yellow"
+    //            }
+    //            "yellow" -> {
+    //                currentPlayerColor = "green"
+    //            }
+    //            "green" -> {
+    //                currentPlayerColor = "cyan"
+    //            }
+    //        }
+    //        viewModel.setCurrentPlayerText(currentPlayerColor)
+    ////        changePlayerIcon.visibility = View.INVISIBLE
+    ////        MatchHandler.changeTurn(currentPlayerColor,matchId)
+    //
+    //    }
+
+    override fun initViewModel() {
+        viewModel = MapViewModel()
+        context?.let { viewModel.init(this, listener, it) }
+    }
+
+
+    /**
+     * muestra el resultado de los dados y setea la variable global con el resultado
+     * queda mostrando los dados hasta que se toca el boton "aceptar resultado"
+     * resultAttack:
+     * {
+     *  "attacker_id":"5eea7cbfa6d2090f2c96c192",
+     *  "defender_id":"5eea7cf2a6d2090f2c96c193",
+     *  "attack_result":{
+     *       "dados":{
+     *           "attacker":[5,5,4],
+     *           "defender":[4,3,2]
+     *       },
+     *       "map_change":{
+     *           "argentina":{
+     *               "owner":"yellow","armies":1
+     *          },
+     *           "brazil":{
+     *               "owner":"yellow","armies":4
+     *           }
+     *       },
+     *       "message":"Jugador yellow a ocupado brazil"
+     *       }
+     * }
+     */
+    private fun showDicesResult(resultAttack: JSONObject) {
+        //        val resultAttackString = getAttackResults()   //datos que van a venir del backend
+        //        val resultAttack = JSONObject(resultAttackString)
+
+        val attackerDicesArray = resultAttack.getJSONObject("attack_result").getJSONObject("dados").getJSONArray("attacker")
+        val defenderDicesArray = resultAttack.getJSONObject("attack_result").getJSONObject("dados").getJSONArray("defender")
         val movingDicesImages = listOf(
             movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3,
             movingDicesDefender1, movingDicesDefender2, movingDicesDefender3
@@ -335,7 +357,8 @@ class MapFragment : MyFragment(), SensorEventListener {
         val resultDicesAttacker = listOf(resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3)
         val resultDicesDefender = listOf(resultDicesDefender1, resultDicesDefender2, resultDicesDefender3)
 
-        countriesStateArray = resultAttack.getJSONArray("countries")
+
+        attackResult = resultAttack.getJSONObject("attack_result")
 
         hide(movingDicesImages)
 
@@ -345,7 +368,6 @@ class MapFragment : MyFragment(), SensorEventListener {
         movingDicesImages.forEach { img -> (img.background as AnimationDrawable).stop() }
 
         btnAccept.visibility = View.VISIBLE
-        btnStop.visibility = View.INVISIBLE
     }
 
     private fun setDicesImagesSource(resultDices: List<ImageView>, dicesArray: JSONArray) {
@@ -358,12 +380,12 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
     }
 
+    /**
+     * oculta los dados y cambia los datos en el mapa
+     * colores y cantidad de ejércitos en los países
+     */
     private fun acceptAttackResult() {
         resetAttack()
-        val updateData = JSONObject(mockupCountriesDataUpdate())
-        //            val updateData = JSONObject(mockupCountriesDataUpdate())
-        //            val countriesData = updateData.getJSONArray("countries")
-        val countriesData = countriesStateArray
         hide(
             listOf(
                 resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3,
@@ -371,17 +393,25 @@ class MapFragment : MyFragment(), SensorEventListener {
             )
         )
 
-        for (i in 0 until countriesData.length()) {
-            val item = countriesData.getJSONObject(i)
-            val countryImage = countryObjects[item.getString("country")]!!["image"] as ImageView
-            val countryNumber = countryObjects[item.getString("country")]!!["number"] as TextView
-            countryImage.setColorFilter(viewModel.playerColors[item.getString("owner")]!!)
-            countryNumber.setText(item.getString("armies"))
-            countriesOwners[countryImage] = item.getString("owner")
+        val mapChange = attackResult.getJSONObject("map_change")
+        val countries = getCountryImages().zip(getCountryTexts())
+        val affectedCountries = countries.filter { (_, c) -> c == attackerCountry!! || c == defenderCountry!! }
+
+        affectedCountries.forEach { (countryImage, countryName) ->
+            //            val countryImage = countryObjects[countryName]!!["image"] as ImageView
+
+            val countryNumber = countryObjects[countryName]!!["number"] as TextView
+            countryNumber.setText(mapChange.getJSONObject(countryName).getString("armies"))
+
+            countryImage.setColorFilter(viewModel.playerColors[mapChange.getJSONObject(countryName).getString("owner")]!!)
+            countriesOwners[countryImage] = mapChange.getJSONObject(countryName).getString("owner")
         }
-        //            viewModel.updateData(updateData.getJSONArray("countries"))
+
     }
 
+    /**
+     * determina la cantidad de dados a mostrar para cada jugador e inicia las animaciones
+     */
     private fun showDices(attackerArmiesNumber: Int, defenderArmiesNumber: Int) {
         if (attackerArmiesNumber >= 2) {
             dice1.start()
@@ -412,15 +442,17 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     //TODO test this logic
     private val onMapChange = Emitter.Listener {
-        val attackResult = it[0].toString()
-        val jsonObjData = JSONObject(attackResult)
-        val affectedCountriesData = jsonObjData.getJSONObject("attack_result").getJSONObject("map_change")
-        val countries = getCountryImages().zip(getCountryTexts())
-        val affectedCountries = countries.filter { (_, c) -> c == attackerCountry!! || c == defenderCountry!! }
+        showDicesResult(JSONObject(it[0].toString()))
 
-        affectedCountries.forEach { (img, country) ->
-            countriesOwners[img] = affectedCountriesData.getJSONObject(country).getString("owner")
-        }
+        //        val attackResult = it[0].toString()
+        //        val jsonObjData = JSONObject(attackResult)
+        //        val affectedCountriesData = jsonObjData.getJSONObject("attack_result").getJSONObject("map_change")
+        //        val countries = getCountryImages().zip(getCountryTexts())
+        //        val affectedCountries = countries.filter { (_, c) -> c == attackerCountry!! || c == defenderCountry!! }
+
+        //        affectedCountries.forEach { (img, country) ->
+        //            countriesOwners[img] = affectedCountriesData.getJSONObject(country).getString("owner")
+        //        }
         //TODO ver que tengo que mostrar en los dados
         //if (jsonObjData.getJSONObject("attacker_id"))
     }
@@ -429,7 +461,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         val stringData = it[0].toString()
         val jsonObjData = JSONObject(stringData)
         currentTurn = jsonObjData.getString("turno")
-//        changePlayerIcon.visibility = View.VISIBLE
+        //        changePlayerIcon.visibility = View.VISIBLE
     }
 
     private fun hide(items: List<View>) = items.forEach { it.visibility = View.INVISIBLE }
@@ -524,88 +556,6 @@ class MapFragment : MyFragment(), SensorEventListener {
         TODO("Not yet implemented")
     }
 
-    /**
-     * simulador de backend
-     */
-    private fun mockupCountriesDataUpdate(): String {
-        return "{" +
-                "\"countries\":" +
-                "[" +
-                "{\"country\":\"brazil\",\"owner\":\"cyan\",\"armies\": \"2\"}," +
-                "{\"country\":\"colombia\",\"owner\":\"cyan\",\"armies\": \"3\"}" +
-                "]" +
-                "}"
-    }
-
-    /**
-     * simulador de backend
-     */
-    private fun getAttackResults(): String {
-        var jsonReturn: String = "{"
-        val imageAttacker = countryObjects[attackerCountry]?.get("image") as ImageView
-        val imageDefender = countryObjects[defenderCountry]?.get("image") as ImageView
-        val armiesAttacker = countryObjects[attackerCountry]?.get("number") as TextView
-        val armiesDefender = countryObjects[defenderCountry]?.get("number") as TextView
-        var attackerArmiesDices = if (Integer.parseInt(armiesAttacker.text.toString()) > 4) 3 else (Integer.parseInt(armiesAttacker.text.toString()) - 1)
-        var defenderArmiesDices = if (Integer.parseInt(armiesDefender.text.toString()) > 3) 3 else Integer.parseInt(armiesDefender.text.toString())
-        var attackerDicesResults = mutableListOf<Int>()
-        var defenderDicesResults = mutableListOf<Int>()
-        println("cantidad de ejercitos atacante: " + attackerArmiesDices)
-        println("cantidad de ejercitos defensor: " + defenderArmiesDices)
-        for (i in 0 until attackerArmiesDices) {
-            attackerDicesResults.add((1..6).random())
-        }
-        for (i in 0 until defenderArmiesDices) {
-            defenderDicesResults.add((1..6).random())
-        }
-        attackerDicesResults.sortDescending()
-        defenderDicesResults.sortDescending()
-
-        jsonReturn += "\"attackerDices\":["
-        var iterator = attackerDicesResults.listIterator()
-        iterator.forEach {
-            jsonReturn += "\"" + it.toString() + "\","
-            //            println("valor del dado atacante: " + it)
-        }
-        jsonReturn = jsonReturn.trimEnd(',')
-        jsonReturn += "]"
-        jsonReturn += ",\"defenderDices\":["
-        iterator = defenderDicesResults.listIterator()
-        iterator.forEach {
-            jsonReturn += "\"" + it.toString() + "\","
-            //            println("valor del dado defensor: " + it)
-        }
-        jsonReturn = jsonReturn.trimEnd(',')
-        jsonReturn += "]"
-
-
-        val significativeDices = if (attackerDicesResults.size <= defenderDicesResults.size) attackerDicesResults.size else defenderDicesResults.size
-        var armiesAttackerQuant = Integer.parseInt(armiesAttacker.text.toString())
-        var armiesDefenderQuant = Integer.parseInt(armiesDefender.text.toString())
-        println("ejércitos del atacante: " + armiesAttackerQuant)
-        println("ejércitos del defensor: " + armiesDefenderQuant)
-        for (i in 0 until significativeDices) {
-            if (attackerDicesResults.get(i) > defenderDicesResults.get(i))
-                armiesDefenderQuant--
-            else
-                armiesAttackerQuant--
-        }
-        println("ejércitos del atacante: " + armiesAttackerQuant)
-        println("ejércitos del defensor: " + armiesDefenderQuant)
-
-        jsonReturn += ",\"countries\":["
-        if (armiesDefenderQuant > 0) {  //NO conquistó país
-            jsonReturn += "{\"country\":\"" + attackerCountry + "\",\"owner\":\"" + countriesOwners[imageAttacker] + "\",\"armies\": \"" + armiesAttackerQuant.toString() + "\"}," +
-                    "{\"country\":\"" + defenderCountry + "\",\"owner\":\"" + countriesOwners[imageDefender] + "\",\"armies\": \"" + armiesDefenderQuant.toString() + "\"}"
-        } else {    //conquistó país
-            jsonReturn += "{\"country\":\"" + attackerCountry + "\",\"owner\":\"" + countriesOwners[imageAttacker] + "\",\"armies\": \"" + (armiesAttackerQuant - 1).toString() + "\"}," +
-                    "{\"country\":\"" + defenderCountry + "\",\"owner\":\"" + countriesOwners[imageAttacker] + "\",\"armies\": \"1\"}"
-        }
-        jsonReturn += "]"
-        jsonReturn += "}"   //cierre del objeto global
-        return jsonReturn
-    }
-
     /****************
      * ACCELEROMETER
      ****************/
@@ -627,7 +577,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         val accelSensitivity = 1F
         sensorReadingsQuant++
         if (sensorReadingsQuant > 10 && (abs(linearAcceleration[0]) > accelSensitivity || abs(linearAcceleration[1]) > accelSensitivity || abs(linearAcceleration[2]) > accelSensitivity))
-            startMovingDices()
+            initAttack()
     }
 
     fun turnOffDicesSensor() {
