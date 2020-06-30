@@ -53,11 +53,9 @@ io.on("connection", (socket) => {
 			.catch(e => console.log(e))
 	})
 
-	socket.on('TRY_ATTACK', (attack) => {
-		console.log('Recibido try attack, me enviaste: ' + attack)
-		if( typeof attack === 'string' || attack instanceof String )
-			attack = JSON.parse(attack)
-		games.tryAttack(conectados[this_conn].id_user, attack)
+	socket.on('TRY_ATTACK', (attacker, defender, matchId) => {
+		console.log('Recibido try attack, me enviaste: ', attacker, defender, matchId)
+		games.tryAttack(conectados[this_conn].id_user, attacker, defender, matchId)
 			.then(resp => {
 				sendMultipleMessage(resp.start_turn.players, 'MAP_CHANGE', resp.map_change)
 				games.getCurrentTurn(resp.start_turn.id_match).then(proximo_turno => {

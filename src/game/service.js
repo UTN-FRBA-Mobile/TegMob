@@ -27,8 +27,8 @@ async function removePlayerSocket(_socket) {
     return await users.update(id, { socket: null });
 }
 
-async function tryAttack(id_user, attack) {
-    let juego = await matchs.getById(attack.id_match)
+async function tryAttack(id_user, attacker, defender, matchId) {
+    let juego = await matchs.getById(matchId)
     const index_turno = juego.turn % juego.players.length
     const posibles_ataques = acciones.getPosiblesAtaques(juego.players[index_turno].color, juego.countries)
     var res_atk = {
@@ -40,40 +40,40 @@ async function tryAttack(id_user, attack) {
                 'defender': []
             },
             'map_change': {},
-            'message': attack.atacante + ' ataca ' + attack.defensor
+            'message': attacker + ' ataca ' + defender
         }
     }
 
     juego.players.forEach(jugador => {
-        if (jugador.color == juego.countries[attack.defensor].owner)
+        if (jugador.color == juego.countries[defender].owner)
             res_atk.defender_id = jugador.user.slice()
     });
     if (juego.stage != 'STARTED') throw ('Intentan atacar en un juego no empezado');
     if (id_user != juego.players[index_turno].user) throw ('Jugador intenta atacar y no es su turno');
-    if (posibles_ataques.some(pb => { return pb.atacante == attack.atacante && pb.defensor == attack.defensor })) {
+    if (posibles_ataques.some(pb => { return pb.atacante == attacker && pb.defensor == defender })) {
         //generamos los dados, siempre al maximo
-        if (juego.countries[attack.atacante].armies - 1 > 2)
+        if (juego.countries[attacker].armies - 1 > 2)
             res_atk.attack_result.dados.attacker = acciones.generarNDadosOrdenados(3)
         else
-            res_atk.attack_result.dados.attacker = acciones.generarNDadosOrdenados(juego.countries[attack.atacante].armies - 1)
-        if (juego.countries[attack.defensor].armies > 2)
+            res_atk.attack_result.dados.attacker = acciones.generarNDadosOrdenados(juego.countries[attacker].armies - 1)
+        if (juego.countries[defender].armies > 2)
             res_atk.attack_result.dados.defender = acciones.generarNDadosOrdenados(3)
         else
-            res_atk.attack_result.dados.defender = acciones.generarNDadosOrdenados(juego.countries[attack.defensor].armies)
+            res_atk.attack_result.dados.defender = acciones.generarNDadosOrdenados(juego.countries[defender].armies)
         // Se da la batalla
         const res_batalla = acciones.getResultadoBatalla(res_atk.attack_result.dados.attacker, res_atk.attack_result.dados.defender)
         // rearmar el mapa
         var map_novedad = res_atk.attack_result.map_change
-        map_novedad[attack.atacante] = juego.countries[attack.atacante]
-        map_novedad[attack.defensor] = juego.countries[attack.defensor]
-        map_novedad[attack.atacante].armies -= res_batalla.perdidaAtacante
-        map_novedad[attack.defensor].armies -= res_batalla.perdidaDefensor
+        map_novedad[attacker] = juego.countries[attacker]
+        map_novedad[defender] = juego.countries[defender]
+        map_novedad[attacker].armies -= res_batalla.perdidaAtacante
+        map_novedad[defender].armies -= res_batalla.perdidaDefensor
         // Ocupacion
-        if (map_novedad[attack.defensor].armies < 1) {
-            map_novedad[attack.defensor].owner = map_novedad[attack.atacante].owner
-            map_novedad[attack.defensor].armies = map_novedad[attack.atacante].armies - 1
-            map_novedad[attack.atacante].armies = 1
-            res_atk.attack_result.message = 'Jugador ' + map_novedad[attack.atacante].owner + ' a ocupado ' + attack.defensor
+        if (map_novedad[defender].armies < 1) {
+            map_novedad[defender].owner = map_novedad[attacker].owner
+            map_novedad[defender].armies = map_novedad[attacker].armies - 1
+            map_novedad[attacker].armies = 1
+            res_atk.attack_result.message = 'Jugador ' + map_novedad[attacker].owner + ' a ocupado ' + defender
         }
     } else {
         throw ('no es posible el ataque')
