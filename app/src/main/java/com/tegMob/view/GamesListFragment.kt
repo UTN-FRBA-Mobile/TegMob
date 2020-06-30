@@ -29,22 +29,23 @@ class GamesListFragment : MyFragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         getPassedData()
-        gamesList.visibility = View.GONE
-        progressBar.visibility = View.VISIBLE
+        gamesList.visibility = GONE
+        progressBar.visibility = VISIBLE
         fetchGames()
         initSearchBar()
     }
 
     override fun getPassedData() {
         viewModel.imageURI = arguments?.getString("imageURI").toString()
-        viewModel.userId = arguments?.getString("userId")!!
+        viewModel.userId = arguments?.getString("userId").toString()
         viewModel.userName = arguments?.getString("user").toString()
     }
 
 
     override fun initViewModel() {
         viewModel = GamesListViewModel()
-        context?.let { viewModel.init(this, listener, it) }    }
+        context?.let { viewModel.init(this, listener, it) }
+    }
 
     private fun initSearchBar(){
         game_search.setOnQueryTextListener(object: SearchView.OnQueryTextListener{

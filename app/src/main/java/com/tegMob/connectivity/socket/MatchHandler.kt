@@ -9,7 +9,7 @@ import io.socket.emitter.Emitter
 import java.lang.Appendable
 
 object MatchHandler {
-    private val URL = "http://10.0.2.2:4000/"
+    private val URL = "http://10.0.2.2:3000/"
     private var mSocket: Socket? = null
 
     private fun connect() {

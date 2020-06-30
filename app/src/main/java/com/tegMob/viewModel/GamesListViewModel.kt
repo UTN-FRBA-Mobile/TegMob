@@ -87,8 +87,7 @@ class GamesListViewModel : MyViewModel() {
                 if (response.isSuccessful && response.code() == 200){
                     MatchHandler.connectToServerAndDoHandShake(userId)
                     matchId = game.id
-                    setDataToPass()
-                    myFragment.listener!!.showFragment(WaitingFragment())
+                    buttonClick(WaitingFragment())
                 } else {
                     Toast.makeText(myContext, "Hubo un error al intentar unirse a la partida", Toast.LENGTH_SHORT).show()
                 }
