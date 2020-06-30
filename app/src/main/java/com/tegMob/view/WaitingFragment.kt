@@ -42,7 +42,6 @@ class WaitingFragment : MyFragment() {
     }
 
     private val initMapFragment = Emitter.Listener {
-        //TODO test this
         val map = it[0].toString()
         initMapData = map
         setDataToPass()
