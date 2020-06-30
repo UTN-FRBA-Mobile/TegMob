@@ -277,13 +277,7 @@ class MapFragment : MyFragment(), SensorEventListener {
             )
         )
 
-        MatchHandler.getSocket()?.emit(
-            "TRY_ATTACK", MatchDTOs.MatchTryAttack(
-                attacker = attackerCountry!!,
-                defender = defenderCountry!!,
-                id_match = matchId
-            )
-        )
+        MatchHandler.getSocket()?.emit("TRY_ATTACK", attackerCountry!!, defenderCountry!!, matchId)
 
     }
 
