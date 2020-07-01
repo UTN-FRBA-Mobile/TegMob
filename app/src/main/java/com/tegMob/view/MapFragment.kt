@@ -326,13 +326,17 @@ class MapFragment : MyFragment(), SensorEventListener {
         println("on map change: " + it[0].toString())
         if (attackInCourse) {
             activity?.runOnUiThread(Runnable() {
-                run() {
+                run {
                     showDicesResult(JSONObject(it[0].toString()))
                 }
             })
         } else {
             attackResult = JSONObject(it[0].toString()).getJSONObject("attack_result")
-            acceptAttackResult()
+            activity?.runOnUiThread(Runnable() {
+                run {
+                    acceptAttackResult()
+                }
+            })
         }
     }
 
@@ -447,6 +451,7 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
 
         MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
+        MatchHandler.getSocket()!!.on("MAP_CHANGE", onMapChange)
 
         return jsonObjData
     }
@@ -576,12 +581,12 @@ class MapFragment : MyFragment(), SensorEventListener {
             initAttack()
     }
 
-    fun turnOffDicesSensor() {
+    private fun turnOffDicesSensor() {
         mySensorManager.unregisterListener(this)
         sensorReadingsQuant = 0
     }
 
-    fun turnOnDicesSensor() {
+    private fun turnOnDicesSensor() {
         mySensorManager.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL) //habilita el acelerómetro para lanzar los dados
     }
 
