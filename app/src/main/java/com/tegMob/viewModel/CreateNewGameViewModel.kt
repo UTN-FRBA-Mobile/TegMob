@@ -184,6 +184,7 @@ class CreateNewGameViewModel : MyViewModel() {
     fun createNewGame() {
         refreshData()
         if (completeFields()) createMatch()
+        MatchHandler.connectToServerAndDoHandShake(userId)
     }
 
     private fun hideTableCreation() {
@@ -260,7 +261,6 @@ class CreateNewGameViewModel : MyViewModel() {
     }
 
     fun startNewGame() {
-        MatchHandler.connectToServerAndDoHandShake(userId)
         MatchHandler.startMatch(matchId)
         buttonClick(WaitingFragment())
     }
