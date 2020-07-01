@@ -247,7 +247,6 @@ class MapFragment : MyFragment(), SensorEventListener {
         //        }
 
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-
         viewModel.run { Map(view, displayMetrics, initMapData(initMapData)) }
     }
 
@@ -440,6 +439,7 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     //TODO test this logic
     private val onMapChange = Emitter.Listener {
+        println("on map change: "+it[0].toString())
         showDicesResult(JSONObject(it[0].toString()))
 
         //        val attackResult = it[0].toString()
@@ -456,9 +456,10 @@ class MapFragment : MyFragment(), SensorEventListener {
     }
 
     private val onStartTurn = Emitter.Listener {
-        val stringData = it[0].toString()
-        val jsonObjData = JSONObject(stringData)
-        currentPlayerColor = jsonObjData.getString("turno")
+        //        val stringData = it[0].toString()
+        //        val jsonObjData = JSONObject(stringData)
+        //        currentPlayerColor = jsonObjData.getString("turno")
+        currentPlayerColor = it[0].toString()
         println("turno actual: " + currentPlayerColor)
         //        changePlayerIcon.visibility = View.VISIBLE
     }
@@ -555,8 +556,10 @@ class MapFragment : MyFragment(), SensorEventListener {
         for (i in 0 until colorPlayers.length()) {
             val player = colorPlayers.getJSONObject(i)
 
-            if (userId == player.getString("user"))
+            if (userId == player.getString("user")) {
                 myColor = player.getString("color")
+                viewModel.myColor = myColor
+            }
             // Your code here
         }
 

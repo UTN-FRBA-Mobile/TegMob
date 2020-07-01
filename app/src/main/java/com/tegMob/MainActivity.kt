@@ -45,12 +45,7 @@ class MainActivity : AppCompatActivity(), MyFragment.OnFragmentInteractionListen
             BACK_STACK_ROOT_TAG,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         );
-        //        DESCOMENTO ESTO PARA INICIAR EL PARTIDO SIN LAS PANTALLAS PREVIAS CADA VEZ QUE QUIERO PROBAR (Guille)
-        //                supportFragmentManager.beginTransaction()
-        //                    .replace(R.id.container, MapFragment.newInstance())
-        //                    .commitNow()
         supportFragmentManager.beginTransaction()
-
             .replace(R.id.fragment_container, fragment)
             //.addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()

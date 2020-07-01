@@ -42,9 +42,11 @@ class MapViewModel : MyViewModel() {
     private lateinit var countriesData: JSONObject
     private lateinit var currentRound: String
     private var densityDpi: Int = 160
+    lateinit var myColor: String
     //    private lateinit var sensorMovements: FloatArray
 
     fun Map(view: View, displayMetrics: DisplayMetrics, initMapData: JSONObject) {
+        myFragment.textOwnColorPlayer.text = "Jugador " + myColor.toUpperCase()
 
         densityDpi = displayMetrics.densityDpi
         var windowWidth = displayMetrics.widthPixels
@@ -86,6 +88,7 @@ class MapViewModel : MyViewModel() {
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
     }
+
     /**
      * escribe la ronda del juego actual
      * incorporar|atacar|....

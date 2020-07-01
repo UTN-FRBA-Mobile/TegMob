@@ -15,6 +15,7 @@
         android:id="@+id/baseLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/sea_back"
         >
 
 
@@ -361,7 +362,7 @@
                 android:visibility="invisible"/>
 
             <TextView
-                android:id="@+id/textCurrentPlayer"
+                android:id="@+id/textOwnColorPlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -372,6 +373,18 @@
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
                 app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textCurrentPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/primaryDarkColor"
+                android:text=""
+                android:textColor="@color/primaryTextColor"
+                android:textSize="20dp"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+                app:layout_constraintTop_toBottomOf="@id/textOwnColorPlayer" />
 
             <TextView
                 android:id="@+id/textCurrentRound"
@@ -384,7 +397,8 @@
                 android:textSize="20dp"
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toBottomOf="@id/textCurrentPlayer" />
+                app:layout_constraintTop_toBottomOf="@id/textCurrentPlayer"
+                android:visibility="invisible"/>
 
             <LinearLayout
                 android:id="@+id/movingDicesAttacker"
