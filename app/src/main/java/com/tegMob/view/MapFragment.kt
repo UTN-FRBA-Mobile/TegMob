@@ -23,6 +23,7 @@ import com.tegMob.viewModel.MapViewModel
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import kotlin.math.abs
 
@@ -71,9 +72,6 @@ class MapFragment : MyFragment(), SensorEventListener {
     companion object {
         fun newInstance(args: Bundle) = MapFragment().apply {
             arguments = args
-            //            println("arguments: "+arguments);
-            //            MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
-
         }
     }
 
@@ -240,12 +238,6 @@ class MapFragment : MyFragment(), SensorEventListener {
                 countryNames.visibility = View.VISIBLE
         }
 
-        //        changePlayerIcon.setOnClickListener() {
-        //            if (currentPlayerColor == myColor) {
-        //                changeTurn()
-        //            }
-        //        }
-
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel.run { Map(view, displayMetrics, initMapData(initMapData)) }
     }
@@ -302,12 +294,6 @@ class MapFragment : MyFragment(), SensorEventListener {
     private fun showDicesResult(resultAttack: JSONObject) {
         val attackerDicesArray = resultAttack.getJSONObject("attack_result").getJSONObject("dados").getJSONArray("attacker")
         val defenderDicesArray = resultAttack.getJSONObject("attack_result").getJSONObject("dados").getJSONArray("defender")
-        val movingDicesImages = listOf(
-            movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3,
-            movingDicesDefender1, movingDicesDefender2, movingDicesDefender3
-        )
-        val resultDicesAttacker = listOf(resultDicesAttacker1, resultDicesAttacker2, resultDicesAttacker3)
-        val resultDicesDefender = listOf(resultDicesDefender1, resultDicesDefender2, resultDicesDefender3)
 
         attackResult = resultAttack.getJSONObject("attack_result")
 
@@ -374,16 +360,24 @@ class MapFragment : MyFragment(), SensorEventListener {
     private fun acceptAttackResult() {
         val mapChange = attackResult.getJSONObject("map_change")
         val countries = getCountryImages().zip(getCountryTexts())
-        val affectedCountries = countries.filter { (_, c) -> c == attackerCountry!! || c == defenderCountry!! }
+
+        val affectedCountries = countries.filter { (_, country) ->
+            try {
+                mapChange.getJSONObject(country).getString("owner")
+                true
+            } catch (e: JSONException) {
+                false
+            }
+        }
 
         affectedCountries.forEach { (countryImage, countryName) ->
-            //            val countryImage = countryObjects[countryName]!!["image"] as ImageView
 
             val countryNumber = countryObjects[countryName]!!["number"] as TextView
-            countryNumber.setText(mapChange.getJSONObject(countryName).getString("armies"))
+            countryNumber.text = mapChange.getJSONObject(countryName).getString("armies")
+
+            countriesOwners[countryImage] = mapChange.getJSONObject(countryName).getString("owner")
 
             countryImage.setColorFilter(viewModel.playerColors[mapChange.getJSONObject(countryName).getString("owner")]!!)
-            countriesOwners[countryImage] = mapChange.getJSONObject(countryName).getString("owner")
         }
         resetAttack()
     }
@@ -419,33 +413,22 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
     }
 
-    //TODO test this logic
     private val onMapChange = Emitter.Listener {
         println("on map change: " + it[0].toString())
-        if (attackInCourse)
-        activity?.runOnUiThread(Runnable() {
-            run() {
-                showDicesResult(JSONObject(it[0].toString()))
-            }
-        })
-       /* val attackResult = it[0].toString()
-        val jsonObjData = JSONObject(attackResult)
-        val affectedCountriesData =
-            jsonObjData.getJSONObject("attack_result").getJSONObject("map_change")
-        val countries = getCountryImages().zip(getCountryTexts())
-        val affectedCountries =
-            countries.filter { (_, c) -> c == attackerCountry!! || c == defenderCountry!! }
-
-        affectedCountries.forEach { (img, country) ->
-            countriesOwners[img] = affectedCountriesData.getJSONObject(country).getString("owner")
-        }*/
-        //TODO ver que tengo que mostrar en los dados
-        //if (jsonObjData.getJSONObject("attacker_id"))
+        if (attackInCourse) {
+            activity?.runOnUiThread(Runnable() {
+                run() {
+                    showDicesResult(JSONObject(it[0].toString()))
+                }
+            })
+        } else {
+            attackResult = JSONObject(it[0].toString()).getJSONObject("attack_result")
+            acceptAttackResult()
+        }
     }
 
     private val onStartTurn = Emitter.Listener {
         currentPlayerColor = it[0].toString()
-        println("turno actual: " + currentPlayerColor)
     }
 
     private fun hide(items: List<View>) = items.forEach { it.visibility = View.INVISIBLE }
