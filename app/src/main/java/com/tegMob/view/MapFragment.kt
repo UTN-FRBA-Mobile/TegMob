@@ -114,97 +114,9 @@ class MapFragment : MyFragment(), SensorEventListener {
         dice5 = movingDicesDefender2.background as AnimationDrawable
         dice6 = movingDicesDefender3.background as AnimationDrawable
 
-        countriesNeighbours = mapOf(
-            imageArgentina to listOf<ImageView>(
-                imageUruguay, imageBrazil, imageChile, imagePeru
-            ),
-            imageChile to listOf<ImageView>(
-                imagePeru, imageArgentina, imageMadagascar
-            ),
-            imagePeru to listOf<ImageView>(
-                imageArgentina, imageChile, imageColombia, imageBrazil
-            ),
-            imageBrazil to listOf<ImageView>(
-                imageUruguay, imageArgentina, imagePeru, imageColombia, imageSahara
-            ),
-            imageUruguay to listOf<ImageView>(
-                imageBrazil, imageArgentina
-            ),
-            imageColombia to listOf<ImageView>(
-                imagePeru, imageBrazil, imageEgypt
-            ),
-            imageSahara to listOf<ImageView>(
-                imageBrazil, imageEgypt, imageEthiopia, imageZaire
-            ),
-            imageZaire to listOf<ImageView>(
-                imageSahara, imageSouthafrica, imageEthiopia
-            ),
-            imageEthiopia to listOf<ImageView>(
-                imageSahara, imageZaire, imageSouthafrica, imageEgypt
-            ),
-            imageEgypt to listOf<ImageView>(
-                imageColombia, imageSahara, imageEthiopia, imageMadagascar
-            ),
-            imageSouthafrica to listOf<ImageView>(
-                imageZaire, imageEthiopia, imageMadagascar
-            ),
-            imageMadagascar to listOf<ImageView>(
-                imageChile, imageZaire, imageEgypt, imageSouthafrica
-            )
-        )
+        countriesNeighbours = initCountryNeighbours()
 
-        countryObjects = mapOf(
-            "colombia" to mapOf(
-                "image" to imageColombia,
-                "number" to numberColombia
-            ),
-            "peru" to mapOf(
-                "image" to imagePeru,
-                "number" to numberPeru
-            ),
-            "argentina" to mapOf(
-                "image" to imageArgentina,
-                "number" to numberArgentina
-            ),
-            "brazil" to mapOf(
-                "image" to imageBrazil,
-                "number" to numberBrazil
-            ),
-            "chile" to mapOf(
-                "image" to imageChile,
-                "number" to numberChile
-            ),
-            "uruguay" to mapOf(
-                "image" to imageUruguay,
-                "number" to numberUruguay
-            ),
-            "zaire" to mapOf(
-                "image" to imageZaire,
-                "number" to numberZaire
-            ),
-            "sahara" to mapOf(
-                "image" to imageSahara,
-                "number" to numberSahara
-            ),
-            "egypt" to mapOf(
-                "image" to imageEgypt,
-                "number" to numberEgypt
-            ),
-            "southafrica" to mapOf(
-                "image" to imageSouthafrica,
-                "number" to numberSouthafrica
-            ),
-            "madagascar" to mapOf(
-                "image" to imageMadagascar,
-                "number" to numberMadagascar
-            ),
-            "ethiopia" to mapOf(
-                "image" to imageEthiopia,
-                "number" to numberEthiopia
-            )
-
-
-        )
+        countryObjects = initCountryObjects()
 
         initViewModel()
         view.setOnTouchListener { v, event ->
@@ -531,6 +443,102 @@ class MapFragment : MyFragment(), SensorEventListener {
         }
 
         return jsonObjData
+    }
+
+    private fun initCountryObjects(): Map<String, Map<String, View>> {
+        return mapOf(
+            "colombia" to mapOf(
+                "image" to imageColombia,
+                "number" to numberColombia
+            ),
+            "peru" to mapOf(
+                "image" to imagePeru,
+                "number" to numberPeru
+            ),
+            "argentina" to mapOf(
+                "image" to imageArgentina,
+                "number" to numberArgentina
+            ),
+            "brazil" to mapOf(
+                "image" to imageBrazil,
+                "number" to numberBrazil
+            ),
+            "chile" to mapOf(
+                "image" to imageChile,
+                "number" to numberChile
+            ),
+            "uruguay" to mapOf(
+                "image" to imageUruguay,
+                "number" to numberUruguay
+            ),
+            "zaire" to mapOf(
+                "image" to imageZaire,
+                "number" to numberZaire
+            ),
+            "sahara" to mapOf(
+                "image" to imageSahara,
+                "number" to numberSahara
+            ),
+            "egypt" to mapOf(
+                "image" to imageEgypt,
+                "number" to numberEgypt
+            ),
+            "southafrica" to mapOf(
+                "image" to imageSouthafrica,
+                "number" to numberSouthafrica
+            ),
+            "madagascar" to mapOf(
+                "image" to imageMadagascar,
+                "number" to numberMadagascar
+            ),
+            "ethiopia" to mapOf(
+                "image" to imageEthiopia,
+                "number" to numberEthiopia
+            )
+
+
+        )
+    }
+
+    private fun initCountryNeighbours(): Map<ImageView, List<ImageView>> {
+        return mapOf(
+            imageArgentina to listOf<ImageView>(
+                imageUruguay, imageBrazil, imageChile, imagePeru
+            ),
+            imageChile to listOf<ImageView>(
+                imagePeru, imageArgentina, imageMadagascar
+            ),
+            imagePeru to listOf<ImageView>(
+                imageArgentina, imageChile, imageColombia, imageBrazil
+            ),
+            imageBrazil to listOf<ImageView>(
+                imageUruguay, imageArgentina, imagePeru, imageColombia, imageSahara
+            ),
+            imageUruguay to listOf<ImageView>(
+                imageBrazil, imageArgentina
+            ),
+            imageColombia to listOf<ImageView>(
+                imagePeru, imageBrazil, imageEgypt
+            ),
+            imageSahara to listOf<ImageView>(
+                imageBrazil, imageEgypt, imageEthiopia, imageZaire
+            ),
+            imageZaire to listOf<ImageView>(
+                imageSahara, imageSouthafrica, imageEthiopia
+            ),
+            imageEthiopia to listOf<ImageView>(
+                imageSahara, imageZaire, imageSouthafrica, imageEgypt
+            ),
+            imageEgypt to listOf<ImageView>(
+                imageColombia, imageSahara, imageEthiopia, imageMadagascar
+            ),
+            imageSouthafrica to listOf<ImageView>(
+                imageZaire, imageEthiopia, imageMadagascar
+            ),
+            imageMadagascar to listOf<ImageView>(
+                imageChile, imageZaire, imageEgypt, imageSouthafrica
+            )
+        )
     }
 
 
