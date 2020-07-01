@@ -65,6 +65,7 @@ class GamesListViewModel : MyViewModel() {
         gamesToAdd.forEach { game ->
             gamesAdapter.filteredGames = gamesAdapter.filteredGames.plus(game)
             gamesAdapter.games = gamesAdapter.filteredGames
+            if (myFragment.isVisible)
             myFragment.gamesList.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = gamesAdapter
