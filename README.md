@@ -35,5 +35,6 @@ Emanuel Andrada
 - Juego local
 
 ----
-## ![Screenshots](screenshots.md)
-## ![Game demo](demo)
+### ![Screenshots](screenshots.md)
+
+### ![Game demo](demo)
