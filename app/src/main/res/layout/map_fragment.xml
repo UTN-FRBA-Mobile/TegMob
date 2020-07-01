@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".view.MapFragment"
-    android:background="#ffffff"
+    android:background="@drawable/sea_back"
     android:gravity="center"
     >
 
@@ -15,7 +15,6 @@
         android:id="@+id/baseLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sea_back"
         >
 
 
