@@ -9,20 +9,19 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.gson.Gson
 import com.tegMob.MainActivity
 import com.tegMob.R
-import com.tegMob.connectivity.dtos.MatchDTOs
 import com.tegMob.connectivity.socket.MatchHandler
 import com.tegMob.utils.MyFragment
 import com.tegMob.viewModel.MapViewModel
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import kotlin.math.abs
@@ -126,8 +125,6 @@ class MapFragment : MyFragment(), SensorEventListener {
             }
             true
         }
-
-        MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
 
         btnAttack.setOnClickListener {
             initAttack()
@@ -341,6 +338,15 @@ class MapFragment : MyFragment(), SensorEventListener {
 
     private val onStartTurn = Emitter.Listener {
         currentPlayerColor = it[0].toString()
+        updatePlayerText()
+    }
+
+    private fun updatePlayerText() {
+        activity?.runOnUiThread(Runnable() {
+            run {
+                viewModel.setCurrentPlayerText(currentPlayerColor)
+            }
+        })
     }
 
     private fun hide(items: List<View>) = items.forEach { it.visibility = View.INVISIBLE }
@@ -416,7 +422,6 @@ class MapFragment : MyFragment(), SensorEventListener {
      * Busca la data inicial de los países, jugadores que posee y cantidad de ejércitos de cada uno de ellos
      */
     private fun initMapData(receivedData: String): JSONObject {
-        //        val receivedObj = JSONObject(receivedData)
         val jsonObjData = JSONObject(receivedData)
         val countriesData = jsonObjData.getJSONObject("countries")
 
@@ -439,8 +444,9 @@ class MapFragment : MyFragment(), SensorEventListener {
                 myColor = player.getString("color")
                 viewModel.myColor = myColor
             }
-            // Your code here
         }
+
+        MatchHandler.getSocket()!!.on("START_TURN", onStartTurn)
 
         return jsonObjData
     }
