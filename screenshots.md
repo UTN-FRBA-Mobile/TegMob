@@ -21,4 +21,6 @@
 
 
 ### Game
-<img src="screenshots/Teg-Home.png" height="500">
+<img src="screenshots/Teg-Map1.png" height="300">
+
+<img src="screenshots/Teg-MapAttack.png" height="300">    <img src="screenshots/Teg-Map-Attack2.png" height="300">
