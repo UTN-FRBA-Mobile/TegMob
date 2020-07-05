@@ -9,18 +9,6 @@
     android:id="@+id/new_game_fragment"
     tools:context="view.CreateNewGameFragment">
 
-    <ImageButton
-        android:id="@+id/addPlayerButton"
-        android:layout_width="36dp"
-        android:layout_height="35dp"
-        android:background="@drawable/plus"
-        android:contentDescription="@string/teg"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/playersList"
-        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-        app:layout_constraintTop_toBottomOf="@id/createGameButton"
-        app:layout_constraintVertical_chainStyle="spread" />
-
     <TextView
         android:id="@+id/tableNameText"
         android:layout_width="wrap_content"
@@ -100,7 +88,7 @@
         android:textColorHint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@id/playersList"
         app:layout_constraintLeft_toRightOf="@id/playersText"
-        app:layout_constraintRight_toLeftOf="@id/addPlayerButton"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toBottomOf="@id/createGameButton"
         app:layout_constraintVertical_chainStyle="spread" />
 

@@ -29,7 +29,6 @@ class LoggedUserMainFragment : MyFragment() {
     }
 
     private fun initButtons(){
-        //myProfileButton.setOnClickListener{viewModel.myProfileButtonClick()}
         newGameButton.setOnClickListener{viewModel.newGameButtonClick()}
         joinGameButton.setOnClickListener{viewModel.joinGameButtonClick()}
     }

@@ -36,31 +36,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/myProfileButton"
-        android:layout_width="114dp"
-        android:layout_height="51dp"
-        android:background="@drawable/search_rounded"
-        android:backgroundTint="@color/primaryButtonColor"
-        android:text="@string/myProfile"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintRight_toLeftOf="@id/profileIconButton"
-        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:layout_constraintBottom_toTopOf="@id/newGameButton"
-        app:layout_constraintVertical_chainStyle="spread" />
-
-    <ImageButton
-        android:id="@+id/profileIconButton"
-        android:layout_width="45dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/settings"
-        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-        app:layout_constraintLeft_toRightOf="@id/myProfileButton"
-        app:layout_constraintBottom_toBottomOf="@id/myProfileButton" />
-
-    <Button
         android:id="@+id/newGameButton"
         android:layout_width="172dp"
         android:layout_height="50dp"
@@ -71,7 +46,7 @@
         android:textSize="20sp"
         app:layout_constraintRight_toLeftOf="@id/new_flag"
         app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-        app:layout_constraintTop_toBottomOf="@+id/myProfileButton"
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
         app:layout_constraintBottom_toTopOf="@id/joinGameButton"
         app:layout_constraintVertical_chainStyle="spread"   />
 

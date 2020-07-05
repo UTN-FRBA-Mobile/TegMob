@@ -55,7 +55,6 @@ class CreateNewGameViewModel : MyViewModel() {
                 if (response.isSuccessful && response.code() == 200) {
                     myFragment.tableNameTextFinal.visibility = View.VISIBLE
                     myFragment.tableNameTextFinal.text = tableName
-                    myFragment.addPlayerButton.visibility = View.VISIBLE
                     matchId = response.body()!!.id
                     setDataToPass()
                     hideTableCreation()
@@ -194,15 +193,10 @@ class CreateNewGameViewModel : MyViewModel() {
         myFragment.numberOfPlayers.visibility = View.INVISIBLE
     }
 
-    private fun getFakePlayerFromServer(): Player {
-        return Player("1", "Machine", "Skynet", null)
-    }
-
-
-    fun addNewPlayer(player: Player? = null) {
+    fun addNewPlayer(player: Player) {
         if (playersAdapter.players.size <= matchPlayersSize.toInt() - 1) {
             playersAdapter.players =
-                playersAdapter.players.plus(player ?: getFakePlayerFromServer())
+                playersAdapter.players.plus(player)
             refreshPlayersList()
         } else {
             Toast.makeText(
