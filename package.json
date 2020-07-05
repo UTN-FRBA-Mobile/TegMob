@@ -25,6 +25,6 @@
         "start": "node server.js",
         "test": "echo Ok && exit 0",
         "clean": "rm -Rf node_modules",
-        "stage": "npm run clean && npm install --production && npm run build"
+        "stage": "npm run clean && npm install --production && npm build"
     }
 }
