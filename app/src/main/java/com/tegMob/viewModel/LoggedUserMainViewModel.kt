@@ -13,11 +13,6 @@ class LoggedUserMainViewModel : MyViewModel(){
     var userId : String = ""
     var username : String = ""
 
-    fun myProfileButtonClick(){
-        TODO("TO DO: create MyProfile layout, view and viewModel")
-        //myListener.showFragment()
-    }
-
     fun newGameButtonClick() = buttonClick(CreateNewGameFragment())
 
     fun joinGameButtonClick() = buttonClick(GamesListFragment())
