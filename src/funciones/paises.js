@@ -35,9 +35,9 @@ module.exports = {
 		this.shuffleArray(paises_usados_por_nosotros).slice().forEach(pais => {
 			mapa_ini[pais] = { 'owner': colores.pop() }
 			if (rondas_extra > 0) // paises con mas ejercito para atacar
-				mapa_ini[pais].armies = 5;
+				mapa_ini[pais].armies = 6;
 			else
-				mapa_ini[pais].armies = 1;
+				mapa_ini[pais].armies = 2;
 			if (colores.length < 1) {
 				colores = c_list.slice()
 				rondas_extra -= 1
