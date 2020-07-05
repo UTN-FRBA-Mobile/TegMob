@@ -33,6 +33,14 @@ class MapViewModel : MyViewModel() {
         "yellow" to Color.YELLOW,
         "black" to Color.BLACK
     )
+    val colorTranslations = mapOf(
+        "green" to "verde",
+        "red" to "rojo",
+        "cyan" to "celeste",
+        "magenta" to "magenta",
+        "yellow" to "amarillo",
+        "black" to "negro"
+    )
     private lateinit var bitMapFullView: Bitmap
     private lateinit var countriesData: JSONObject
     private lateinit var currentRound: String
@@ -42,7 +50,7 @@ class MapViewModel : MyViewModel() {
 
     @SuppressLint("WrongConstant")
     fun Map(view: View, displayMetrics: DisplayMetrics, initMapData: JSONObject) {
-        myFragment.textOwnColorPlayer.text = myColor.toUpperCase()
+        myFragment.textOwnColorPlayer.text = colorTranslations[myColor]!!.toUpperCase()
 
         densityDpi = displayMetrics.densityDpi
         var windowWidth = displayMetrics.widthPixels
@@ -105,7 +113,7 @@ class MapViewModel : MyViewModel() {
      * escribe el jugador que tiene el turno
      */
     fun setCurrentPlayerText(currentPlayer: String) {
-        myFragment.textCurrentPlayer.text = currentPlayer.toUpperCase()
+        myFragment.textCurrentPlayer.text = colorTranslations[currentPlayer]!!.toUpperCase()
     }
 
     /**

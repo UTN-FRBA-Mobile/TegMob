@@ -309,12 +309,12 @@
                 app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
                 app:layout_constraintTop_toBottomOf="@id/attacker" />
 
-            <Button
+            <ImageView
                 android:id="@+id/btnAttack"
-                android:layout_width="80dp"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/attackVerb"
+                android:src="@drawable/soldier"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
@@ -329,12 +329,12 @@
                 app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
                 app:layout_constraintTop_toBottomOf="@id/defender" />
 
-            <Button
+            <ImageView
                 android:id="@+id/btnAccept"
-                android:layout_width="80dp"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/accept"
+                android:src="@drawable/change_player"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
