@@ -1,26 +1,21 @@
 package com.tegMob.viewModel
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.JsonReader
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import com.google.gson.JsonParser
-import com.tegMob.connectivity.socket.MatchHandler
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import com.tegMob.utils.MyViewModel
-import io.socket.client.Socket.EVENT_CONNECT
-import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.json.JSONObject
-import kotlin.random.Random
+
 
 /*
 colores de países
@@ -45,8 +40,9 @@ class MapViewModel : MyViewModel() {
     lateinit var myColor: String
     //    private lateinit var sensorMovements: FloatArray
 
+    @SuppressLint("WrongConstant")
     fun Map(view: View, displayMetrics: DisplayMetrics, initMapData: JSONObject) {
-        myFragment.textOwnColorPlayer.text = "Jugador " + myColor.toUpperCase()
+        myFragment.textOwnColorPlayer.text = myColor.toUpperCase()
 
         densityDpi = displayMetrics.densityDpi
         var windowWidth = displayMetrics.widthPixels
@@ -87,7 +83,11 @@ class MapViewModel : MyViewModel() {
         var xRelation: Float = widthRelation
         var yRelation: Float = heightRelation
         drawCountries(widthRelation, heightRelation, xRelation, yRelation)
+
+
+        //myFragment.imageBrazil.stopAn
     }
+
 
     /**
      * escribe la ronda del juego actual
@@ -105,7 +105,7 @@ class MapViewModel : MyViewModel() {
      * escribe el jugador que tiene el turno
      */
     fun setCurrentPlayerText(currentPlayer: String) {
-        myFragment.textCurrentPlayer.text = "Turno de " + currentPlayer.toUpperCase()
+        myFragment.textCurrentPlayer.text = currentPlayer.toUpperCase()
     }
 
     /**

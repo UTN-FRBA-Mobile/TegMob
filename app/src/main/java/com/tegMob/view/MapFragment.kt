@@ -2,6 +2,7 @@ package com.tegMob.view
 
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -13,6 +14,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import com.tegMob.MainActivity
@@ -42,7 +46,7 @@ class MapFragment : MyFragment(), SensorEventListener {
     private var attackerCountry: String? = null
     private var defenderCountry: String? = null
     private var attackInCourse: Boolean = false
-
+    private lateinit var animationBlink: Animation
     private lateinit var mySensorManager: SensorManager
     private lateinit var mySensor: Sensor
     private var matchId: String = ""
@@ -147,6 +151,8 @@ class MapFragment : MyFragment(), SensorEventListener {
                 countryNames.visibility = View.VISIBLE
         }
 
+//        createAnimationBlink()
+
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         viewModel.run { Map(view, displayMetrics, initMapData(initMapData)) }
     }
@@ -207,8 +213,12 @@ class MapFragment : MyFragment(), SensorEventListener {
         attackResult = resultAttack.getJSONObject("attack_result")
 
         val dicesImages = listOf(null, R.drawable.dice_1, R.drawable.dice_2, R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6)
-        hide(listOf(movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3,
-            movingDicesDefender1, movingDicesDefender2, movingDicesDefender3))
+        hide(
+            listOf(
+                movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3,
+                movingDicesDefender1, movingDicesDefender2, movingDicesDefender3
+            )
+        )
 
         when (attackerDicesArray.length()) {
             1 -> {
@@ -365,6 +375,9 @@ class MapFragment : MyFragment(), SensorEventListener {
         defenderCountry = null
         val attackItems = listOf(attacker, defender, attackTitle, movingDicesAttacker1, movingDicesAttacker2, movingDicesAttacker3, movingDicesDefender1, movingDicesDefender2, movingDicesDefender3, btnAccept, btnAttack, btnStop)
         hide(attackItems)
+        getCountryImages().forEach { img ->
+            img.setColorFilter(viewModel.playerColors[countriesOwners[img]]!!)
+        }
     }
 
     /**
@@ -372,7 +385,9 @@ class MapFragment : MyFragment(), SensorEventListener {
      */
     private fun screenTouched(view: View, event: MotionEvent): Boolean {
         (activity as MainActivity).hideSystemUI()
-
+//        getCountryImages().forEach { img ->
+//            img.startAnimation(animationBlink)
+//        }
         turnOffDicesSensor()
         if (attackInCourse)    //si hay una ataque en curso no se deja hacer nada al tocar la pantalla
             return false
@@ -399,9 +414,10 @@ class MapFragment : MyFragment(), SensorEventListener {
                 return false
             }
             attackerCountry = touchedCountryName
-            attackTitle.visibility = View.VISIBLE
-            attacker.text = touchedCountry?.contentDescription.toString()
-            attacker.visibility = View.VISIBLE
+//            attackTitle.visibility = View.VISIBLE
+//            attacker.text = touchedCountry?.contentDescription.toString()
+//            attacker.visibility = View.VISIBLE
+            touchedCountry.setColorFilter(Color.WHITE)
         } else if (defenderCountry === null) {
             if (countriesOwners.get(touchedCountry) == currentPlayerColor) {
                 errorAttackingOwnCountry.visibility = View.VISIBLE
@@ -413,10 +429,11 @@ class MapFragment : MyFragment(), SensorEventListener {
             }
 
             defenderCountry = touchedCountryName
-            defender.text = touchedCountry?.contentDescription.toString()
-            defender.visibility = View.VISIBLE
+//            defender.text = touchedCountry?.contentDescription.toString()
+//            defender.visibility = View.VISIBLE
             btnAttack.visibility = View.VISIBLE
             turnOnDicesSensor()
+            touchedCountry.setColorFilter(Color.GRAY)
         }
 
         return true
@@ -557,6 +574,14 @@ class MapFragment : MyFragment(), SensorEventListener {
         TODO("Not yet implemented")
     }
 
+
+//    private fun createAnimationBlink() {
+//        animationBlink = AlphaAnimation(1F, 0F) //to change visibility from visible to invisible
+//        animationBlink.duration = 100 //1 second duration for each animation cycle
+//        animationBlink.interpolator = LinearInterpolator()
+//        animationBlink.repeatCount = Animation.INFINITE //repeating indefinitely
+//        animationBlink.repeatMode = Animation.REVERSE //animation will start from end point once ended.
+//    }
     /****************
      * ACCELEROMETER
      ****************/

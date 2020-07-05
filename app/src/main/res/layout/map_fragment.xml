@@ -5,17 +5,15 @@
     android:id="@+id/map_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".view.MapFragment"
     android:background="@drawable/sea_back"
     android:gravity="center"
-    >
+    android:orientation="horizontal"
+    tools:context=".view.MapFragment">
 
     <RelativeLayout
         android:id="@+id/baseLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
         <ImageView
@@ -50,8 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/peru_name"
-            android:src="@drawable/peru_white"
-            />
+            android:src="@drawable/peru_white" />
 
         <TextView
             android:id="@+id/numberPeru"
@@ -70,8 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/brazil_name"
-            android:src="@drawable/brazil_white"
-            />
+            android:src="@drawable/brazil_white" />
 
         <TextView
             android:id="@+id/numberBrazil"
@@ -259,7 +255,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            >
 
 
             <androidx.constraintlayout.widget.Guideline
@@ -315,10 +313,12 @@
                 android:id="@+id/btnAttack"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/attackVerb"
                 android:visibility="invisible"
-                app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
-                app:layout_constraintTop_toBottomOf="@id/defender" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
 
             <Button
                 android:id="@+id/btnStop"
@@ -333,10 +333,12 @@
                 android:id="@+id/btnAccept"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/accept"
                 android:visibility="invisible"
-                app:layout_constraintLeft_toLeftOf="@id/guidelineVerticalLeft"
-                app:layout_constraintTop_toBottomOf="@id/defender" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
 
 
             <ImageView
@@ -346,6 +348,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/location_icon"
+                app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -356,48 +359,100 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/change_player"
+                android:visibility="invisible"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toBottomOf="@id/locationIcon"
-                android:visibility="invisible"/>
+                app:layout_constraintTop_toBottomOf="@id/locationIcon" />
 
-            <TextView
-                android:id="@+id/textOwnColorPlayer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/leftBanner"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/primaryDarkColor"
-                android:text=""
-                android:textColor="@color/primaryTextColor"
-                android:textSize="20dp"
+                android:background="@drawable/marco"
+                android:gravity="center"
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/textCurrentPlayer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/primaryDarkColor"
-                android:text=""
-                android:textColor="@color/primaryTextColor"
-                android:textSize="20dp"
-                app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
-                app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toBottomOf="@id/textOwnColorPlayer" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textCurrentRound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/titleOwnColorPlayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jugador"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="20dp"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintRight_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/textOwnColorPlayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="20dp"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintRight_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleOwnColorPlayer"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rightBanner"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/primaryDarkColor"
-                android:text="@string/currentRound"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="20dp"
-                app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+                android:background="@drawable/marco"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toBottomOf="@id/textCurrentPlayer"
-                android:visibility="invisible"/>
+
+                app:layout_constraintTop_toTopOf="parent"
+
+                >
+
+                <TextView
+                    android:id="@+id/titleCurrentPlayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Turno"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintRight_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/textCurrentPlayer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="20dp"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintRight_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/titleCurrentPlayer"
+                    />
+
+                <TextView
+                    android:id="@+id/textCurrentRound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/primaryDarkColor"
+                    android:text="Ronda de ataque"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="20dp"
+                    android:visibility="invisible"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintRight_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/textCurrentPlayer"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/movingDicesAttacker"
@@ -406,7 +461,7 @@
                 android:layout_marginTop="50dp"
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toBottomOf="@id/textCurrentRound">
+                app:layout_constraintTop_toBottomOf="@id/rightBanner">
 
                 <ImageView
                     android:id="@+id/movingDicesAttacker1"
@@ -470,7 +525,7 @@
                 android:layout_marginTop="50dp"
                 app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
                 app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
-                app:layout_constraintTop_toBottomOf="@id/textCurrentRound">
+                app:layout_constraintTop_toBottomOf="@id/locationIcon">
 
                 <ImageView
                     android:id="@+id/resultDicesAttacker1"
