@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryColor"
+    android:orientation="vertical"
+    android:id="@+id/new_game_fragment"
+    tools:context="view.CreateNewGameFragment">
+
+    <TextView
+        android:id="@+id/tableNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/table_name"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/tableName"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintTop_toTopOf="@id/guidelineTopNG"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <EditText
+        android:id="@+id/tableName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:backgroundTint="@android:color/white"
+        android:hint="@string/table_name"
+        android:inputType="text"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/createGameButton"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintTop_toBottomOf="@+id/tableNameText"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/tableNameTextFinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/table_name"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintBottom_toTopOf="@+id/playersText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/createGameButton"
+        android:layout_width="165dp"
+        android:layout_height="32dp"
+        android:background="@drawable/search_rounded"
+        android:backgroundTint="@color/primaryButtonColor"
+        android:text="@string/create_game"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/playersText"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintTop_toBottomOf="@id/tableName"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <TextView
+        android:id="@+id/playersText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/players"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/playersList"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintTop_toBottomOf="@+id/createGameButton"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <EditText
+        android:id="@+id/numberOfPlayers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="2 a 6"
+        android:backgroundTint="@android:color/white"
+        android:hint="@string/match_size"
+        android:textAlignment="center"
+        android:inputType="number"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/playersList"
+        app:layout_constraintLeft_toRightOf="@id/playersText"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+        app:layout_constraintTop_toBottomOf="@id/createGameButton"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playersList"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        app:layout_constraintBottom_toTopOf="@+id/startGameButton"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight"
+        app:layout_constraintTop_toBottomOf="@id/playersText"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tooltipText="Esperando jugadores"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/guidelineBottomNG"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
+
+    <Button
+        android:id="@+id/startGameButton"
+        android:layout_width="151dp"
+        android:layout_height="50dp"
+        android:background="@drawable/search_rounded"
+        android:backgroundTint="@color/primaryButtonColor"
+        android:text="@string/start_game"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/guidelineBottomNG"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintLeft_toRightOf="@id/guidelineVerticalLeft"
+        app:layout_constraintRight_toLeftOf="@id/guidelineVerticalRight" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopNG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottomNG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"
+        app:layout_constraintTop_toBottomOf="@id/startGameButton" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTopNG2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.09" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.91" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">TegMob</string>
+    <string name="signIn">Iniciar sesión</string>
+    <string name="signUp">Registrarse</string>
+    <string name="finish">FINALIZAR</string>
+    <string name="playerName">Jugador</string>
+    <string name="myProfile">Mi perfil</string>
+    <string name="newGame">Crear partida</string>
+    <string name="joinGame">Unirse a una partida</string>
+    <string name="gameName">Nombre de la partida</string>
+    <string name="gameDescription">Descripción de la partida</string>
+    <string name="user_name">Nombre de usuario</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="teg">Teg</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="registro_de_usuario">Registro de usuario</string>
+    <string name="email">Email</string>
+    <string name="table_name">Nombre de la mesa</string>
+    <string name="players">Jugadores</string>
+    <string name="create_game">CREAR MESA</string>
+    <string name="start_game">Iniciar partida</string>
+    <string name="information">information</string>
+    <string name="player_profile_picture">Player profile picture</string>
+    <string name="delete_player">Eliminar</string>
+    <string name="game_search_query_hint">Buscar mesa</string>
+    <string name="game_list_title">Mesas disponibles</string>
+    <string name="match_size">Cantidad</string>
+
+    <!-- Country names -->
+    <string name="chile_name">Chile</string>
+    <string name="brazil_name">Brasil</string>
+    <string name="argentina_name">Argentina</string>
+    <string name="peru_name">Perú</string>
+    <string name="colombia_name">Colombia</string>
+    <string name="uruguay_name">Uruguay</string>
+    <string name="sahara_name">Sahara</string>
+    <string name="ethiopia_name">Etiopía</string>
+    <string name="madagascar_name">Madagascar</string>
+    <string name="egypt_name">Egipto</string>
+    <string name="southafrica_name">Sudáfrica</string>
+    <string name="zaire_name">Zaire</string>
+
+    <!-- Mapa -->
+    <string name="attackVerb">Atacar</string>
+    <string name="attackNoun">Atacar</string>
+    <string name="accept">OK</string>
+    <string name="currentPlayer">Turno de</string>
+    <string name="currentRound">Ronda de</string>
+    <string name="noOwnCountryError">País no propio</string>
+    <string name="noNeighbourCountryError">País no limítrofe</string>
+    <string name="errorAttackingOwnCountry">No puede atacar a un país suyo</string>
+    <string name="errorNotEnoughArmies">No se puede atacar con 1 ejército</string>
+    <string name="waiting_match_start">ESPERANDO QUE COMIENCE LA PARTIDA</string>
+    <string name="my_turn">TU TURNO</string>
+
+</resources>
