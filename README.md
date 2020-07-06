@@ -37,4 +37,4 @@ Emanuel Andrada
 ----
 ### - [Screenshots](screenshots.md)
 
-### - [Game demo](screenshots/greenPlayer.gif)
+### - [Game demo](mobile/screenshots/greenPlayer.gif)
