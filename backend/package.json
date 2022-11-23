@@ -14,7 +14,7 @@
         "mongodb": "^3.5.9",
         "mongoose": "^5.9.20",
         "rootpath": "^0.1.2",
-        "socket.io": "^2.3.0"
+        "socket.io": "^2.5.0"
     },
     "devDependencies": {
         "mocha": "5.0.0",
